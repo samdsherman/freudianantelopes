@@ -4,9 +4,9 @@
 
 ## Team
 
-  - __Product Owner__: teamMember
-  - __Scrum Master__: teamMember
-  - __Development Team Members__: teamMember, teamMember
+  - __Product Owner__: Sam Sherman
+  - __Scrum Master__: Clark Downer
+  - __Development Team Members__: Ker Moua, Will Stockman
 
 ## Table of Contents
 
