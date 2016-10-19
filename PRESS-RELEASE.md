@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > Warrior Feed
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > Follow your favorite groups of people on social media!
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > Create different groups of people to follow on social media. You can have all the relevant people to follow in one place using our app.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > It's annoying to have to go to different social media platforms to see all the news you want to get.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > Put all the social media in one place for easy viewing.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "I'm skeptical of this whole operation." -- Sam Sherman, 2016
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Just make an account, and add some people to follow!
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "This is literally the greatest app I've ever used in my life." -- everyone
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Click >here< to get started!
