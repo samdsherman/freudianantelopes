@@ -22,21 +22,29 @@ module.exports = {
 
   users: {
     post: function(req, res) {
-      console.log('users post called');
-      //select
       if (req.body.newUser === true) {
-
-      } else {
-        db.dbConnection.query( "SELECT id FROM users WHERE username = '" + req.username + "' &&  password = '" + req.password + "';", function(err, rows, fields) {
-        // db.dbConnection.query( "SELECT id FROM users WHERE username = 'clark' && password = 'hello';", function(err, rows, fields) {
-
+        db.dbConnection.query("INSERT INTO users SET ?", { username: req.body.username, password: req.body.password }, function(err, res) {
           if (err) {
             res.writeHead(404, headers);
             res.end();
+          } else {
+            console.log('user added');
+            res.writeHead(200, headers);
+            res.end();
           }
-          res.writeHead(200, headers);
-          console.log('inside users.post, here is the JSON being returned in rows: ', JSON.stringify(rows));
-          res.end(JSON.stringify(rows));
+        })
+
+      } else {
+        db.dbConnection.query("SELECT id FROM users WHERE username = '" + req.username + "' &&  password = '" + req.password + "';", function(err, rows, fields) {
+        // db.dbConnection.query( "SELECT id FROM users WHERE username = 'clark' && password = 'hello';", function(err, rows, fields) {
+          if (err) {
+            res.writeHead(404, headers);
+            res.end();
+          } else {
+            res.writeHead(200, headers);
+            res.end();
+            // send back cookie or token?
+          }
         });
       }
     }
