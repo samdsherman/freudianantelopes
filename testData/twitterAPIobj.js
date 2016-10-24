@@ -716,7 +716,7 @@ var responseParser = function(apiResponse) {
     parsedResponses[i].profilePic = apiResponse[i].user.profile_image_url_https;
     parsedResponses[i].postContent = apiResponse[i].text;
     parsedResponses[i].contentType;
-    parsedResponses[i].groupMemberName; // user defined name for group member
+    parsedResponses[i].groupMemberName = '<user defined name for group member>';
     parsedResponses[i].timeStamp = apiResponse[i].created_at;
     parsedResponses[i].service = 'Twitter';
     parsedResponses[i].linkToPost = 'https://twitter.com/' + apiResponse[i].user.screen_name + '/status/' + apiResponse[i].id_str;
