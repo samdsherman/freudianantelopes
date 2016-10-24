@@ -3210,12 +3210,13 @@ var parseObj = {
 };
 
 
+console.log(parseObj.data[1]);
 
-var keyLister = function(obj) {
-   for (key in obj) {
-      console.log(key);
-   }
-}
+// var keyLister = function(obj) {
+//    for (key in obj) {
+//       console.log(key);
+//    }
+// }
 
 // responseObj.profilePic = singleObj.user.profile_image_url_https;
 // responseObj.postContent = singleObj.text;
