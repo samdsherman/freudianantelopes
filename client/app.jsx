@@ -1,0 +1,1 @@
+ReactDOM.render(<Feed posts={[1, 2, 3]} />, document.getElementById('app'));

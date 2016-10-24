@@ -8,3 +8,5 @@ var Post = props => (
     <div className='post-content'>I am a really cool person. I love lamp.</div>
   </div>
 );
+
+window.Post = Post;
