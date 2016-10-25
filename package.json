@@ -6,6 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "scripts": {
+    "start": "nodemon ./server/index.js && mysql.server start && mysql -u root -p"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/clarkdowner/freudianantelopes.git"
@@ -21,6 +24,7 @@
     "express": "^4.14.0",
     "mysql": "^2.11.1",
     "nodemon": "^1.11.0",
-    "sequelize": "^3.24.5"
+    "sequelize": "^3.24.5",
+    "sqlite3": "^3.1.7"
   }
 }
