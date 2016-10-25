@@ -18,7 +18,7 @@ app.post('/pages*', controller.pages.post);
 
 app.put('/pages*', controller.pages.put);
 
-app.get('/users*', controller.users.post); //update to POST for front-end integration
+app.post('/users*', controller.users.post); //update to POST for front-end integration
 
 
 app.listen(3000, function() {

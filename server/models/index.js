@@ -13,7 +13,12 @@ module.exports = {
       
     },
     post: function(req, res) {
-      
+      // findUserId
+        // insertIntoGroups
+          // pass along group_id
+        // insertIntoMembers
+          // pass along member_id
+        // addToJoinTable  
     },
     put: function(req, res) {
       
@@ -23,7 +28,7 @@ module.exports = {
   users: {
     post: function(req, res) {
       if (req.body.newUser === true) {
-        db.dbConnection.query("INSERT INTO users SET ?", { username: req.body.username, password: req.body.password }, function(err, res) {
+        db.dbConnection.query("INSERT INTO users SET ?", { username: req.body.username, password: req.body.password }, function(err) {
           if (err) {
             res.writeHead(404, headers);
             res.end();
@@ -33,9 +38,10 @@ module.exports = {
             res.end();
           }
         })
+        
 
       } else {
-        db.dbConnection.query("SELECT id FROM users WHERE username = '" + req.username + "' &&  password = '" + req.password + "';", function(err, rows, fields) {
+        db.dbConnection.query("SELECT id FROM users WHERE username = '" + req.username + "' &&  password = '" + req.password + "';", function(err) {
         // db.dbConnection.query( "SELECT id FROM users WHERE username = 'clark' && password = 'hello';", function(err, rows, fields) {
           if (err) {
             res.writeHead(404, headers);
