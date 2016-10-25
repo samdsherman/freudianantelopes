@@ -16,11 +16,11 @@ describe('Persistent database and server communication', () => {
     });
     dbConnection.connect();
 
-    var tablename = 'users';
-
-    // done();
     /* Empty database before each test */
-    dbConnection.query('truncate ' + tablename, done);
+    dbConnection.query('truncate users');
+    dbConnection.query('truncate members');
+    dbConnection.query('truncate groups');
+    dbConnection.query('truncate groups_members', done);
   });
 
   afterEach(() => {
@@ -28,7 +28,6 @@ describe('Persistent database and server communication', () => {
   });
 
   it('Should insert users into the users table', (done) => {
-    // Post a user to user table
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/users/clark',
@@ -49,7 +48,6 @@ describe('Persistent database and server communication', () => {
   });
 
   it('Should not insert duplicate usernames into the users table', (done) => {
-    // Post a user to user table
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/users/clark',
@@ -75,7 +73,6 @@ describe('Persistent database and server communication', () => {
   });
 
   it('Should respond with userId when username and password match on login', (done) => {
-    // Post a user to user table
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/users/clark',
@@ -93,7 +90,6 @@ describe('Persistent database and server communication', () => {
   });
 
   it('Should respond with 404 when username and password do not match', (done) => {
-    // Post a user to user table
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/users/clark',
@@ -110,7 +106,37 @@ describe('Persistent database and server communication', () => {
       });
     });
   });
+  
+  it('Should write groups to db for a given user', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/pages/warriors',
+        json: { 
+              username: 'Clark', 
+              groupName: 'warriors', 
+              members: {
+                            'Stephen Curry': {
+                                                twitter: '@StephenCurry30', 
+                                                facebook: 'StephenCurryOfficial', 
+                                                instagram: 'stephencurry30'}
+                                              }
+                          }
+      }, () => {
+        var queryString = 'SELECT * FROM groups';
 
+        dbConnection.query(queryString, (err, results) => {
+          // Should have one result
+          expect(results.length).to.equal(1);
 
+          done();  
+        });  
+      });
+    })
+    });
 
 });
