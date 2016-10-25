@@ -1,3 +1,8 @@
+var decorateObject = function(fieldName, targetObject, value) {
+  targetObject[fieldName] = value;
+  return targetObject;
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -7,14 +12,32 @@ class App extends React.Component {
   }
 
   getPosts() {
-    return [this.state.currentGroup, 'potato'];
+    // GET /pages/this.props.user/this.state.currentGroup
+    var group = fakeData[this.state.currentGroup];
+
+    if (!group) { // the group doesn't exist
+      return [];
+    }
+    
+    var posts = [];
+
+    group.members.forEach(member => { // collect up all the posts and decorate them with the poster's name. TODO: still need to deal with timestamps later.
+      posts = posts.concat((member.twitter || []).map(post => decorateObject('name', post, member.name)))
+                   .concat((member.facebook || []).map(post => decorateObject('name', post, member.name)))
+                   .concat((member.instagram || []).map(post => decorateObject('name', post, member.name)));
+    });
+
+    return posts;
+
   }
+
+
 
   getGroups() {
     if (!this.props.user) {
       return [];
     }
-    return ['Warriors', 'Lakers', 'Trolls'];
+    return fakeData.groups; // replace with GET /users/this.props.user
   }
 
   setCurrentGroup(group) {
