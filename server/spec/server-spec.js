@@ -48,6 +48,69 @@ describe('Persistent database and server communication', () => {
     });
   });
 
-  
+  it('Should not insert duplicate usernames into the users table', (done) => {
+    // Post a user to user table
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/users/clark',
+        json: { username: 'Clark', password: 'insecure', newUser: true }
+      }, () => {
+        var queryString = 'SELECT * FROM users';
+
+        dbConnection.query(queryString, (err, results) => {
+          // Should have one result
+          expect(results.length).to.equal(1);
+          // Expect username to be Clark
+          expect(results[0].username).to.equal('Clark');
+
+          done();  
+        });
+      });
+    });
+  });
+
+  it('Should respond with userId when username and password match on login', (done) => {
+    // Post a user to user table
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/users/clark',
+        json: { username: 'Clark', password: 'secure', newUser: false }
+      }, (err, res) => {
+        expect(res.body[0].id).to.exist;
+        done(); 
+      });
+    });
+  });
+
+  it('Should respond with 404 when username and password do not match', (done) => {
+    // Post a user to user table
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/users/clark',
+        json: { username: 'Clark', password: 'insecure', newUser: false }
+      }, (err, res) => {
+        console.log(res.body);
+        expect(res.statusCode).to.equal(404);
+        done();  
+      });
+    });
+  });
+
+
 
 });
