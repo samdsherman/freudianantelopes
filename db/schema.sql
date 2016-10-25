@@ -12,9 +12,10 @@ CREATE TABLE users (
 
 CREATE TABLE groups (
   id int NOT NULL AUTO_INCREMENT,
-  userId int,
+  user_id int,
   name text,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id),
+  FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 CREATE TABLE members (
@@ -24,4 +25,13 @@ CREATE TABLE members (
   instagram text,
   twitter text,
   PRIMARY KEY (id)
+);
+
+CREATE TABLE groups_members (
+  id int NOT NULL AUTO_INCREMENT,
+  group_id int,
+  member_id int,
+  PRIMARY KEY (id),
+  FOREIGN KEY (group_id) REFERENCES groups(id),
+  FOREIGN KEY (member_id) REFERENCES members(id)
 );
