@@ -1,11 +1,13 @@
 var Post = props => (
   <div className='post'>
-    <div className='post-header'>
-      <span className='post-person-name'>Person's Name</span>
-      <span className='post-timestamp'>2 hours ago</span>
-    </div>
-    <div className='post-username'>@stephencurry30</div>
-    <div className='post-content'>I am a really cool person. I love lamp.</div>
+    <img className='post-profile-pic' src={props.post.profilePic} />
+    <a href={props.post.linkToPost} className='post-main'>
+      <div className='post-header'>
+        <span className='post-person-name'>{props.post.name}</span>
+        <span className='post-timestamp'>{props.post.timestamp}</span>
+      </div>
+      <div className='post-content'>{props.post.postContent}</div>
+    </a>
   </div>
 );
 
