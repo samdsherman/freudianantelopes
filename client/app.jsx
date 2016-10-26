@@ -87,6 +87,9 @@ class App extends React.Component {
   render() {
     return (
       <div className='app'>
+        <div className='app-header'>
+          <Header />
+        </div>
         <div className='app-sidebar'>
           <Sidebar groups={this.getGroups()} groupClickHandler={this.setCurrentGroup.bind(this)} />
         </div>
