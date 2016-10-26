@@ -35,7 +35,7 @@ class CreateGroup extends React.Component {
           <div ref='groupMembers'>
             {this.state.memberForms}
           </div>
-          <button className='add-another-member-button' onClick={this.addGroupMember.bind(this)}>Add another member</button>
+          <a href='#' className='add-member-link' onClick={this.addGroupMember.bind(this)}>Add member</a>
         </form>
         <button className='save-group-button' onClick={this.handleSaveGroupClick.bind(this)}>Save Group</button>
       </div>
