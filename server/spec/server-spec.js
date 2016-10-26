@@ -273,10 +273,95 @@ describe('Persistent database and server communication', () => {
     });
   });
 
-  xit('Should update a group name when neccessary', (done) => {
+  // xit('Should update a group name when neccessary', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/will',
+  //     json: { username: 'Will', password: 'abc123', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //       json: specTestData.willWarriors
+  //     }, () => {
+  //       request({
+  //         method: 'PUT',
+  //         uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //         json: specTestData.willWarriorsModify
+  //       }, () => {
+  //         // var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
+
+  //         // dbConnection.query(queryString, (err, results) => {
+  //         //   expect(results).to.be('@StephenCurry30000000');
+  //         //   done();
+  //         });
+  //       });
+  //     });
+  //   });
+  // });
+
+  // xit('Database should reply with all social media accounts for a group when given a GET request', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+  //       json: specTestData.clarkWarriors
+  //     }, () => {
+  //       request({
+  //         method: 'GET',
+  //         uri: 'http://127.0.0.1:8000/pages/clark/warriors'
+  //       }, (err, results) => {
+
+  //         /*
+  //           Not sure how to test this...
+  //         */
+
+  //       });
+  //     });
+  //   });
+  // });
+
+  // xit('Should send data in the correct format to the front-end', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+  //       json: specTestData.clarkWarriors
+  //     }, () => {
+  //       request({
+  //         method: 'GET',
+  //         uri: 'http://127.0.0.1:8000/pages/clark/warriors'
+  //       }, (err, results) => {
+
+  //         /*
+
+  //           expect results.members to be an array
+  //           expect results.members[0] to have own property 'name'
+  //           expect results.members[0] to have own property 'instagram'
+  //           expect results.members[0] to have own property 'facebook'
+  //           expect results.members[0] to have own property 'twitter'
+  //           expect results.members[0].instagram to be an array
+  //           expect results.members[0].facebook to be an array
+  //           expect results.members[0].twitter to be an array
+
+  //         */
+
+  //     });
+  //   });
+  // });
+
+  it('Should send an array of user groups when asked', (done) => {
     request({
       method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/will',
+      uri: 'http://127.0.0.1:8000/users/clark',
       json: { username: 'Will', password: 'abc123', newUser: true }
     }, () => {
       request({
@@ -285,78 +370,24 @@ describe('Persistent database and server communication', () => {
         json: specTestData.willWarriors
       }, () => {
         request({
-          method: 'PUT',
-          uri: 'http://127.0.0.1:8000/pages/will/warriors',
-          json: specTestData.willWarriorsModify
+          method: 'POST',
+          uri: 'http://127.0.0.1:8000/pages/will/bulls',
+          json: specTestData.willBulls
         }, () => {
-          // var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
-
-          // dbConnection.query(queryString, (err, results) => {
-          //   expect(results).to.be('@StephenCurry30000000');
-          //   done();
+          request({
+            method: 'GET',
+            uri: 'http://127.0.0.1:8000/users/will'
+          }, (err, res) => {
+            expect(res.statusCode).to.equal(200);
+            expect(Array.isArray(JSON.parse(res.body))).to.equal(true);
+            expect(JSON.parse(res.body).length).to.equal(2);
+            done();
           });
         });
       });
     });
   });
 
-  xit('Database should reply with all social media accounts for a group when given a GET request', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/pages/clark/warriors',
-        json: specTestData.clarkWarriors
-      }, () => {
-        request({
-          method: 'GET',
-          uri: 'http://127.0.0.1:8000/pages/clark/warriors'
-        }, (err, results) => {
-
-          /*
-            Not sure how to test this...
-          */
-
-        });
-      });
-    });
-  });
-
-  xit('Should send data in the correct format to the front-end', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/pages/clark/warriors',
-        json: specTestData.clarkWarriors
-      }, () => {
-        request({
-          method: 'GET',
-          uri: 'http://127.0.0.1:8000/pages/clark/warriors'
-        }, (err, results) => {
-
-          /*
-
-            expect results.members to be an array
-            expect results.members[0] to have own property 'name'
-            expect results.members[0] to have own property 'instagram'
-            expect results.members[0] to have own property 'facebook'
-            expect results.members[0] to have own property 'twitter'
-            expect results.members[0].instagram to be an array
-            expect results.members[0].facebook to be an array
-            expect results.members[0].twitter to be an array
-
-          */
-
-      });
-    });
-  });
 
 
 });
