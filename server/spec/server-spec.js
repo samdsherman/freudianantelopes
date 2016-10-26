@@ -21,6 +21,7 @@ describe('Persistent database and server communication', () => {
     dbConnection.query('truncate members');
     dbConnection.query('truncate groups');
     dbConnection.query('truncate groups_members', done);
+    // done();
   });
 
   afterEach(() => {
@@ -107,7 +108,7 @@ describe('Persistent database and server communication', () => {
     });
   });
   
-  it('Should write groups to db for a given user', (done) => {
+  xit('Should write groups to db for a given user', (done) => {
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/users/clark',
@@ -127,16 +128,24 @@ describe('Persistent database and server communication', () => {
                                               }
                           }
       }, () => {
-        var queryString = 'SELECT * FROM groups';
 
-        dbConnection.query(queryString, (err, results) => {
-          // Should have one result
+        // dbConnection.query('SELECT * FROM groups', (err, results) => {
+        //   expect(results.length).to.equal(1);
+        // });
+        dbConnection.query('SELECT * FROM members', (err, results) => {
+          if(err) {
+            console.log(err)
+          }
+          console.log('spec results: ', results)
           expect(results.length).to.equal(1);
-
-          done();  
-        });  
+          expect(results[0].twitter).to.equal('@StephenCurry30');
+          done();
+        });
+        // dbConnection.query('SELECT * FROM groups_members', (err, results) => {
+        //   expect(results.length).to.equal(1);
+        // });
       });
     })
-    });
+  });
 
 });
