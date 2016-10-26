@@ -169,7 +169,6 @@ describe('Persistent database and server communication', () => {
         var queryString = 'SELECT name FROM members';
 
         dbConnection.query(queryString, (err, results) => {
-          console.log('results: ', results);
           expect(results.length).to.equal(3);
           expect(results[0].name).to.equal('Stephen Curry');
           expect(results[2].name).to.equal('Other Guy');
@@ -179,7 +178,7 @@ describe('Persistent database and server communication', () => {
     })
   });
 
-  xit('Should not write to database if the user is not in the database', (done) => {
+  it('Should not write to database if the user is not in the database', (done) => {
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:8000/pages/will/warriors',
@@ -190,7 +189,7 @@ describe('Persistent database and server communication', () => {
     });
   });
 
-  xit('Should find all members of a user\'s group', (done) => {
+  it('Should find all members of a user\'s group', (done) => {
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:8000/users/will',
@@ -205,8 +204,8 @@ describe('Persistent database and server communication', () => {
 
         dbConnection.query(queryString, (err, results) => {
           expect(results.length).to.equal(3);
-          expect(results[0].name).to.eqaul('Stephen Curry');
-          expect(results[1].instagram).to.eqaul('Green23');
+          expect(results[0].name).to.equal('Stephen Curry');
+          expect(results[1].instagram).to.equal('Green23');
           expect(results[2].twitter).to.equal('@guy');
           done();
         });
@@ -214,7 +213,7 @@ describe('Persistent database and server communication', () => {
     });
   });
 
-  xit('Should not add new members when supplied with identical information', (done) => {
+  it('Should not add new members when supplied with identical information', (done) => {
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:8000/users/clark',
@@ -247,7 +246,7 @@ describe('Persistent database and server communication', () => {
     });
   });
 
-  xit('Should modify a member\'s information when given a PUT request', (done) => {
+  it('Should modify a member\'s information when given a PUT request', (done) => {
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:8000/users/will',
@@ -266,7 +265,8 @@ describe('Persistent database and server communication', () => {
           var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
 
           dbConnection.query(queryString, (err, results) => {
-            expect(results).to.be('@StephenCurry30000000');
+            console.log('0dfasfdasdfasfd', results)
+            expect(results.twitter).to.equal('@StephenCurry30000000');
             done();
           });
         });

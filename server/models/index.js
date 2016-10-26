@@ -130,52 +130,18 @@ module.exports = {
                 console.log('error finding group id: ', err);
               }
               //remove all groupId rows from join table
-              db.dbConnection.query('DELETE FROM groups_members WHERE group_id = ?', [groupId], function(err) {
+              db.dbConnection.query('DELETE FROM groups_members WHERE group_id = ?', [groupId[0].id], function(err) {
                 if (err) {
                   console.log('error removing group ids: ', err);
                 }
+
                 //for each member in group
+                var memberContainerArray =[]
                 for (var member in req.body.members) {
-                  //find memberId
-                  db.dbConnection.query('SELECT id FROM members WHERE (name, facebook, instagram, twitter) = (?, ?, ?, ?)', [ member, req.body.members[member].facebook, req.body.members[member].instagram, req.body.members[member].twitter ], function(err, memberId) {
-                    var memberId = memberId;
-                    if (err) {
-                      console.log('error in member query', err);
-                    } 
-                    //if no memberId
-                    if (memberId.length === 0) {
-                      //make new member entry
-                      db.dbConnection.query('INSERT INTO members SET ?', { name: member, facebook: req.body.members[member].facebook, instagram: req.body.members[member].instagram, twitter: req.body.members[member].twitter }, function(err) {
-                        if (err) {
-                          console.log('error in members db', err);
-                        } else {
-                        //find memberId
-                        db.dbConnection.query('SELECT id FROM members WHERE (name, facebook, instagram, twitter) = (?, ?, ?, ?)', [ member, req.body.members[member].facebook, req.body.members[member].instagram, req.body.members[member].twitter ], function(err, idForMember) {
-                          if (err) {
-                            console.log('error in members query', err);
-                          }
-                          memberId = idForMember;
-                          //add to join table
-                          db.dbConnection.query('INSERT INTO groups_members SET ?', { group_id: groupId[0].id, member_id: memberId[0].id }, function(err, results) {
-                            if (err) {
-                              console.log('we made it this far, what happened?');
-                            }
-                          });
-                        });          
-                        }
-                      });
-                    //else
-                    } else {
-                      //add to join table
-                      db.dbConnection.query('INSERT INTO groups_members SET ?', { group_id: groupId[0].id, member_id: memberId[0].id }, function(err, results) {
-                        if (err) {
-                          console.log('we made it this far, what happened?');
-                        }
-                      });
-                    }
-                  });
+                  memberContainerArray.push(member);
                 }
-                res.end();
+
+                memberIdFinder(memberContainerArray, 0, req, groupId[0].id, res);
               });
             });
           });
