@@ -8,7 +8,7 @@ var Post = props => (
         <span className='post-timestamp'>{props.post.timeStampAgo}</span>
       </div>
       <div className='post-content'>{props.post.postContent}</div>
-      <img className='post-pic' src={props.post.postPic} />
+      <img classname='post-pic' src={props.post.postPic} />
     </a>
   </div>
 );
