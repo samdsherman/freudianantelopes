@@ -7,6 +7,6 @@ router.post('/pages*', controller.pages.post);
 
 router.put('/pages*', controller.pages.put);
 
-router.get('/users/clark', function() {console.log('hello')});
+router.post('/users*', controller.users.post);
 
 module.exports.router;
