@@ -113,6 +113,7 @@ module.exports = {
     },
     put: function(req, res) {
       //find userId
+      console.log('begiining of put')
       db.dbConnection.query('SELECT id FROM users WHERE username = ?', [req.body.username], function(err, userId) {
         if (err) {
           console.log('error finding user: ', err);
@@ -125,10 +126,11 @@ module.exports = {
               console.log('error updating group name: ', err);
             }
             //find groupId
-            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [req.body.newGroupName], function(err, groupID) {
+            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [req.body.newGroupName], function(err, groupId) {
               if (err) {
                 console.log('error finding group id: ', err);
               }
+              console.log('in the query for id of groups')
               //remove all groupId rows from join table
               db.dbConnection.query('DELETE FROM groups_members WHERE group_id = ?', [groupId[0].id], function(err) {
                 if (err) {

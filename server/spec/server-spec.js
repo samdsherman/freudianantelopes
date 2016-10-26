@@ -265,8 +265,7 @@ describe('Persistent database and server communication', () => {
           var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
 
           dbConnection.query(queryString, (err, results) => {
-            console.log('0dfasfdasdfasfd', results)
-            expect(results.twitter).to.equal('@StephenCurry30000000');
+            expect(results[1].twitter).to.equal('@StephenCurry30000000');
             done();
           });
         });
