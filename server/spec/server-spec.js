@@ -289,7 +289,6 @@ describe('Persistent database and server communication', () => {
           uri: 'http://127.0.0.1:8000/pages/will/warriors',
           json: specTestData.willWarriorsModify
         }, () => {
-          // var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
 
           var queryString = "SELECT members.twitter FROM members WHERE id IN " +
                               "(SELECT member_id FROM groups_members WHERE group_id = " +
@@ -306,7 +305,38 @@ describe('Persistent database and server communication', () => {
     });
   });
 
-  // xit('Database should reply with all social media accounts for a group when given a GET request', (done) => {
+  it('Database should reply with all facebook accounts for a group when given a GET request', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:8000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+        json: specTestData.clarkWarriors
+      }, () => {
+        request({
+          method: 'GET',
+          uri: 'http://127.0.0.1:8000/pages/clark/warriors'
+        }, (err, results) => {
+
+          var queryString = "SELECT members.facebook FROM members WHERE id IN " +
+                              "(SELECT member_id FROM groups_members WHERE group_id = " +
+                              "(SELECT id FROM groups WHERE name = 'Warriors' AND user_id = " +
+                              "(SELECT id FROM users WHERE username = 'Clark')))";
+
+          dbConnection.query(queryString, (err, results) => {
+            expect(results.length).to.equal(3);
+            expect(results[0].facebook).to.equal('@StephenCurry30000000');
+            done();
+          });
+        });
+      });
+    });
+  });
+
+  // xit('Database should reply with all twitter accounts for a group when given a GET request', (done) => {
   //   request({
   //     method: 'POST',
   //     uri: 'http://127.0.0.1:8000/users/clark',
@@ -322,13 +352,50 @@ describe('Persistent database and server communication', () => {
   //         uri: 'http://127.0.0.1:8000/pages/clark/warriors'
   //       }, (err, results) => {
 
-  //         /*
-  //           Not sure how to test this...
-  //         */
+    //       var queryString = "SELECT members.twitter FROM members WHERE id IN " +
+    //                           "(SELECT member_id FROM groups_members WHERE group_id = " +
+    //                           "(SELECT id FROM groups WHERE name = 'Warriors' AND user_id = " +
+    //                           "(SELECT id FROM users WHERE username = 'Clark')))";
 
+    //       dbConnection.query(queryString, (err, results) => {
+    //         expect(results.length).to.equal(3);
+    //         expect(results[0].twitter).to.equal('@StephenCurry30000000');
+    //         done();
+          // });
   //       });
   //     });
   //   });
+  // });
+
+  // xit('Database should reply with all instagram accounts for a group when given a GET request', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+  //       json: specTestData.clarkWarriors
+  //     }, () => {
+  //       request({
+  //         method: 'GET',
+  //         uri: 'http://127.0.0.1:8000/pages/clark/warriors'
+  //       }, (err, results) => {
+
+  //       var queryString = "SELECT members.instagram FROM members WHERE id IN " +
+  //                           "(SELECT member_id FROM groups_members WHERE group_id = " +
+  //                           "(SELECT id FROM groups WHERE name = 'Warriors' AND user_id = " +
+  //                           "(SELECT id FROM users WHERE username = 'Clark')))";
+
+  //       dbConnection.query(queryString, (err, results) => {
+  //         expect(results.length).to.equal(3);
+  //         expect(results[0].instagram).to.equal('@StephenCurry30000000');
+  //         done();
+  //       });
+  //     });
+  //   });
+  // });
   // });
 
   // xit('Should send data in the correct format to the front-end', (done) => {
@@ -364,7 +431,7 @@ describe('Persistent database and server communication', () => {
   //   });
   // });
 
-  xit('Should send an array of user groups when asked', (done) => {
+  it('Should send an array of user groups when asked', (done) => {
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:8000/users/clark',
@@ -395,6 +462,4 @@ describe('Persistent database and server communication', () => {
   });
 
 
-
 });
-

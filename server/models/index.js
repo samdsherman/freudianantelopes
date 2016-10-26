@@ -58,8 +58,25 @@ var memberIdFinder = function(memberArray, index, req, groupId, res) {
 module.exports = {
   pages: {
     get: function(req, res) {
+      var responseObj = {}
 
-      //SELECT * FROM members WHERE id IN (SELECT member_id FROM groups_members WHERE group_id = (SELECT id FROM groups WHERE name = '<groupNameFromReq>' AND user_id = (SELECT id FROM users WHERE username = '<userNameFromReq>')));
+      var url = req.url.slice(7);
+      var username = url.slice(0, url.indexOf('/'));
+      var groupName = url.slice(username.length + 1);
+      responseObj.group = groupName;
+
+      // console.log(responseObj);
+
+      db.dbConnection.query("SELECT * FROM members WHERE id IN (SELECT member_id FROM groups_members WHERE group_id = (SELECT id FROM groups WHERE name = ? AND user_id = (SELECT id FROM users WHERE username = ?)));", [groupName, username], function(err, memberInformation) {
+        if (err) {
+          console.log('could not find the group member names', err);
+        }
+        console.log('member names: ', memberInformation);
+
+        //LEAVING OFF HERE
+
+
+      });
       
     },
     post: function(req, res) {
@@ -115,7 +132,6 @@ module.exports = {
     },
     put: function(req, res) {
       //find userId
-      console.log('begiining of put')
       db.dbConnection.query('SELECT id FROM users WHERE username = ?', [req.body.username], function(err, userId) {
         if (err) {
           console.log('error finding user: ', err);
@@ -132,7 +148,6 @@ module.exports = {
               if (err) {
                 console.log('error finding group id: ', err);
               }
-              console.log('in the query for id of groups')
               //remove all groupId rows from join table
               db.dbConnection.query('DELETE FROM groups_members WHERE group_id = ?', [groupId[0].id], function(err) {
                 if (err) {
