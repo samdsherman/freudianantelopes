@@ -7,6 +7,54 @@ var headers = {
   'Content-Type': 'application/json'
 };
 
+var memberIdFinder = function(memberArray, index, req, groupId, res) {
+  if (index < memberArray.length) {
+    //check if member already in DB
+    db.dbConnection.query('SELECT id FROM members WHERE (name, facebook, instagram, twitter) = (?, ?, ?, ?)', [ memberArray[index], req.body.members[memberArray[index]].facebook, req.body.members[memberArray[index]].instagram, req.body.members[memberArray[index]].twitter ], function(err, memberId) {
+      var memberId = memberId;
+      if (err) {
+        console.log('err in member query', err);
+      } 
+      //member not in DB
+      if (memberId.length === 0) {
+        //insert member into members table
+        db.dbConnection.query('INSERT INTO members SET ?', { name: memberArray[index], facebook: req.body.members[memberArray[index]].facebook, instagram: req.body.members[memberArray[index]].instagram, twitter: req.body.members[memberArray[index]].twitter }, function(err) {
+          if (err) {
+            console.log('err in members db', err);
+          } else {
+            //query for member_id
+            db.dbConnection.query('SELECT id FROM members WHERE (name, facebook, instagram, twitter) = (?, ?, ?, ?)', [ memberArray[index], req.body.members[memberArray[index]].facebook, req.body.members[memberArray[index]].instagram, req.body.members[memberArray[index]].twitter ], function(err, idForMember) {
+              if (err) {
+                console.log('error in members query', err);
+              }
+              memberId = idForMember;
+              //add member and group to join table
+               db.dbConnection.query('INSERT INTO groups_members SET ?', { group_id: groupId, member_id: memberId[0].id }, function(err, results) {
+                 if (err) {
+                   console.log('we made it this far, what happened?');
+                 }
+                 memberIdFinder(memberArray, index + 1, req, groupId, res);
+              });
+            });          
+          }
+        });
+      //member already in DB  
+      } else {
+        //add member and group to join table
+        db.dbConnection.query('INSERT INTO groups_members SET ?', { group_id: groupId, member_id: memberId[0].id }, function(err, results) {
+          if (err) {
+            console.log('we made it this far, what happened?');
+          }
+          memberIdFinder(memberArray, index + 1, req, groupId, res);
+        });
+      }
+    });
+  } else {
+    res.end();
+  }
+};
+
+
 module.exports = {
   pages: {
     get: function(req, res) {
@@ -37,53 +85,22 @@ module.exports = {
                       console.log('error in groups query', err);
                     }
                     groupId = idForGroup;
+
+                    //for each member in group
+                    var memberContainerArray =[]
+                    for (var member in req.body.members) {
+                      memberContainerArray.push(member);
+                    }
+
+                    memberIdFinder(memberContainerArray, 0, req, groupId[0].id, res);
                   });
                 }
               });
-            }
-
-          //for each member in group
-          for (var member in req.body.members) {
-            //check if member already in DB
-            db.dbConnection.query('SELECT id FROM members WHERE (name, facebook, instagram, twitter) = (?, ?, ?, ?)', [ member, req.body.members[member].facebook, req.body.members[member].instagram, req.body.members[member].twitter ], function(err, memberId) {
-              var memberId = memberId;
-              if (err) {
-                console.log('err in member query', err);
-              } 
-              //member not in DB
-              if (memberId.length === 0) {
-                //insert member into members table
-                db.dbConnection.query('INSERT INTO members SET ?', { name: member, facebook: req.body.members[member].facebook, instagram: req.body.members[member].instagram, twitter: req.body.members[member].twitter }, function(err) {
-                  if (err) {
-                    console.log('err in members db', err);
-                  } else {
-                    //query for member_id
-                    db.dbConnection.query('SELECT id FROM members WHERE (name, facebook, instagram, twitter) = (?, ?, ?, ?)', [ member, req.body.members[member].facebook, req.body.members[member].instagram, req.body.members[member].twitter ], function(err, idForMember) {
-                      if (err) {
-                        console.log('error in members query', err);
-                      }
-                      memberId = idForMember;
-                      //add member and group to join table
-                      db.dbConnection.query('INSERT INTO groups_members SET ?', { group_id: groupId[0].id, member_id: memberId[0].id }, function(err, results) {
-                        if (err) {
-                          console.log('we made it this far, what happened?');
-                        }
-                      });
-                    });          
-                  }
-                });
-              //member already in DB  
-              } else {
-                //add member and group to join table
-                db.dbConnection.query('INSERT INTO groups_members SET ?', { group_id: groupId[0].id, member_id: memberId[0].id }, function(err, results) {
-                  if (err) {
-                    console.log('we made it this far, what happened?');
-                  }
-                });
-              }
-            });
-          }
-          res.end();
+            } else {
+              console.log('group already exists');
+              res.writeHead(404, headers);
+              res.end();
+            }   
         })
 
         //username not in DB
@@ -159,7 +176,6 @@ module.exports = {
                   });
                 }
                 res.end();
-                }
               });
             });
           });
@@ -216,3 +232,6 @@ module.exports = {
   }
 
 };
+
+
+
