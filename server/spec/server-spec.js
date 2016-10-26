@@ -49,6 +49,29 @@ describe('Persistent database and server communication', () => {
     });
   });
 
+  xit('Should insert multiple users into the table', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/users/will',
+        json: { username: 'Will', password: 'abc123', newUser: true }
+      }, () => {
+
+        var queryString = 'SELECT * FROM users';
+
+        dbConnection.query(queryString, (err, results) => {
+          expect(results.length).to.equal(2);
+          expect(results[1].username).to.equal('Will');
+          done();
+        });
+      });
+    });
+  });
+
   it('Should not insert duplicate usernames into the users table', (done) => {
     request({
       method: 'POST',
@@ -116,7 +139,7 @@ describe('Persistent database and server communication', () => {
     }, () => {
       request({
         method: 'POST',
-        uri: 'http://127.0.0.1:3000/pages/warriors',
+        uri: 'http://127.0.0.1:3000/pages/clark/warriors',
         json: specTestData.clarkWarriors
     }, () => {
 
@@ -139,11 +162,73 @@ describe('Persistent database and server communication', () => {
     })
   });
 
-  xit('Should not write to database if the user is not in the database', (done) => {});
+  xit('Should not write to database if the user is not in the database', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/pages/will/warriors',
+      json: specTestData.willWarriors
+    }, (err, res) => {
+      expect(res.statusCode).to.equal(404);
+      done();
+    });
+  });
 
-  xit('Should find all members of a user\'s group', (done) => {});
+  xit('Should find all members of a user\'s group', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/will',
+      json: { username: 'Will', password: 'abc123', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/pages/will/warriors',
+        json: specTestData.willWarriors
+      }, () => {
+        var queryString = 'SELECT * FROM members';
 
-  xit('Should not add new members when supplied with identical information', (done) => {});
+        dbConnection.query(queryString, (err, results) => {
+          expect(results.length).to.equal(3);
+          expect(results[0].name).to.eqaul('Stephen Curry');
+          expect(results[1].instagram).to.eqaul('Green23');
+          expect(results[2].twitter).to.equal('@guy');
+          done();
+        });
+      });
+    });
+  });
+
+  xit('Should not add new members when supplied with identical information', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/users/will',
+        json: { username: 'Will', password: 'abc123', newUser: true }
+      }, () => {
+        request({
+          method: 'POST',
+          uri: 'http://127.0.0.1:3000/pages/clark/warriors',
+          json: specTestData.clarkWarriors
+        }, () => {
+          request({
+            method: 'POST',
+            uri: 'http://127.0.0.1:3000/pages/will/warriors',
+            json: specTestData.willWarriors
+          }, () => {
+            var queryString = 'SELECT * FROM members';
+
+            dbConnection.query(queryString, (err, results) => {
+              expect(results.length).to.equal(3);
+              done();
+            });
+          });
+        });
+      });
+    });
+  });
 
   xit('Should modify a member\'s information when given a PUT request', (done) => {});
 
