@@ -60,8 +60,6 @@ class App extends React.Component {
   }
 }
 
-
-
 ReactDOM.render(<App user='sam' group='Warriors' />, document.getElementById('app'));
 
 window.App = App;
