@@ -15,7 +15,7 @@ class Sidebar extends React.Component {
     return (
       <div className='sidebar'>
      
-        <CreateGroupLink createGroupClicked={this.state.createGroupClicked} openCreateGroupForm={this.openCreateGroupForm.bind(this)}/>
+        <CreateGroupButton createGroupClicked={this.state.createGroupClicked} openCreateGroupForm={this.openCreateGroupForm.bind(this)}/>
   
         <div className='sidebar-groups-header'>Your groups:</div>
         <div className='sidebar-groups'>
