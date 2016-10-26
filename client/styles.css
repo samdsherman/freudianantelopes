@@ -11,6 +11,30 @@ body {
   background-color: #99e;
 }
 
+.settings-button {
+  text-decoration: underline;
+  float: left;
+}
+
+.app-header {
+  border-bottom: 1px solid black;
+  overflow: auto;
+}
+
+.title {
+  font-size: 24px;
+  font-style: italic;
+}
+
+.header {
+  text-align: center;
+}
+
+.login-form {
+  float: right;
+  text-align: right;
+}
+
 .post-service {
   float: right;
   margin-left: 5px;
