@@ -1,5 +1,5 @@
 var CreateGroupButton = props => {
-	// shows create group form when clicked
+	// opens form to create a new group when clicked
 
 	if (props.createGroupClicked) {
 
