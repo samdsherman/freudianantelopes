@@ -29,25 +29,25 @@ class CreateGroup extends React.Component {
   saveMember(e) {
   	// add member to groupMembers
   	this.setState({
-  		groupMembers: this.state.groupMembers.concat((e.target.value))
+  		groupMembers: this.state.groupMembers.concat(e.target.value)
   	});
   }
 
   saveInstagram(e) {
   	this.setState({
-  		instagramUsernames: this.state.instagramUsernames.concat((e.target.value))
+  		instagramUsernames: this.state.instagramUsernames.concat(e.target.value)
   	});
   }
 
   saveTwitter(e) {
   	this.setState({
-  		twitterUsernames: this.state.twitterUsernames.concat((e.target.value))
+  		twitterUsernames: this.state.twitterUsernames.concat(e.target.value)
   	});
   }
 
   saveFacebook(e) {
   	this.setState({
-  		facebookUsernames: this.state.facebookUsernames.concat((e.target.value))
+  		facebookUsernames: this.state.facebookUsernames.concat(e.target.value)
   	});
   }
 
