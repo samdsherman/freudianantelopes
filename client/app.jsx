@@ -17,17 +17,22 @@ var convertTimeStampToAgo = function(post) {
   var difference = Math.floor(Date.now() / 1000) - post.timeStamp;
   var timeStamp = '';
   if (difference < 60) {
-    timeStamp = difference + ' seconds ago';
+    timeStamp = difference + ' second' + (difference !== 1 ? 's' : '') + ' ago';
   } else if (difference < 60 * 60) {
-    timeStamp = Math.floor(difference / 60) + ' minutes ago';
+    var minutes = Math.floor(difference / 60);
+    timeStamp = minutes + ' minute' + (minutes !== 1 ? 's' : '') + ' ago';
   } else if (difference < 60 * 60 * 24) {
-    timeStamp = Math.floor(difference / 60 / 60) + ' hours ago';
+    var hours = Math.floor(difference / 60 / 60);
+    timeStamp = hours + ' hour' + (hours !== 1 ? 's' : '') + ' ago';
   } else if (difference < 60 * 60 * 24 * 30) {
-    timeStamp = Math.floor(difference / 60 / 60 / 24) + ' days ago';
+    var days = Math.floor(difference / 60 / 60 / 24);
+    timeStamp = days + ' day' + (days !== 1 ? 's' : '') + ' ago';
   } else if (difference < 60 * 60 * 24 * 30 * 12) {
-    timeStamp = Math.floor(difference / 60 / 60 / 24 / 30) + ' months ago';
+    var months = Math.floor(difference / 60 / 60 / 24 / 30);
+    timeStamp = months + ' month' + (months !== 1 ? 's' : '') + ' ago';
   } else {
-    timeStamp = Math.floor(difference / 60 / 60 / 24 / 30 / 12) + ' years ago';
+    var years = Math.floor(difference / 60 / 60 / 24 / 30 / 12);
+    timeStamp = years + ' year' + (years !== 1 ? 's' : '') + ' ago';
   }
   post.timeStampAgo = timeStamp;
 };
@@ -50,13 +55,13 @@ class App extends React.Component {
     
     var posts = [];
 
-    group.members.forEach(member => { // collect up all the posts and decorate them with the poster's name. TODO: still need to deal with timestamps later.
+    group.members.forEach(member => { // collect up all the posts and decorate them with the poster's name.
       posts = posts.concat((member.twitter || []).map(post => fixTwitterTimestamp(decorateObject('name', post, member.name))))
-                   .concat((member.facebook || []).map(post => decorateObject('name', post, member.name)))
+                   // .concat((member.facebook || []).map(post => decorateObject('name', post, member.name)))
                    .concat((member.instagram || []).map(post => decorateObject('name', post, member.name)));
     });
 
-    posts.sort((a, b) => a.timeStamp < b.timeStamp);
+    posts.sort((a, b) => a.timeStamp < b.timeStamp); // sort posts by newest first
 
     posts.forEach(convertTimeStampToAgo);
 
