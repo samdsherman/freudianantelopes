@@ -58,6 +58,8 @@ var memberIdFinder = function(memberArray, index, req, groupId, res) {
 module.exports = {
   pages: {
     get: function(req, res) {
+
+      //SELECT * FROM members WHERE id IN (SELECT member_id FROM groups_members WHERE group_id = (SELECT id FROM groups WHERE name = '<groupNameFromReq>' AND user_id = (SELECT id FROM users WHERE username = '<userNameFromReq>')));
       
     },
     post: function(req, res) {

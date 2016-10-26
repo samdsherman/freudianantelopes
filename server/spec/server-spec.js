@@ -273,32 +273,38 @@ describe('Persistent database and server communication', () => {
     });
   });
 
-  // xit('Should update a group name when neccessary', (done) => {
-  //   request({
-  //     method: 'POST',
-  //     uri: 'http://127.0.0.1:8000/users/will',
-  //     json: { username: 'Will', password: 'abc123', newUser: true }
-  //   }, () => {
-  //     request({
-  //       method: 'POST',
-  //       uri: 'http://127.0.0.1:8000/pages/will/warriors',
-  //       json: specTestData.willWarriors
-  //     }, () => {
-  //       request({
-  //         method: 'PUT',
-  //         uri: 'http://127.0.0.1:8000/pages/will/warriors',
-  //         json: specTestData.willWarriorsModify
-  //       }, () => {
-  //         // var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
+  it('Should update a group name when neccessary', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:8000/users/will',
+      json: { username: 'Will', password: 'abc123', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:8000/pages/will/warriors',
+        json: specTestData.willWarriors
+      }, () => {
+        request({
+          method: 'PUT',
+          uri: 'http://127.0.0.1:8000/pages/will/warriors',
+          json: specTestData.willWarriorsModify
+        }, () => {
+          // var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
 
-  //         // dbConnection.query(queryString, (err, results) => {
-  //         //   expect(results).to.be('@StephenCurry30000000');
-  //         //   done();
-  //         });
-  //       });
-  //     });
-  //   });
-  // });
+          var queryString = "SELECT members.twitter FROM members WHERE id IN " +
+                              "(SELECT member_id FROM groups_members WHERE group_id = " +
+                              "(SELECT id FROM groups WHERE name = 'BasketballTeam' AND user_id = " +
+                              "(SELECT id FROM users WHERE username = 'Will')))";
+
+          dbConnection.query(queryString, (err, results) => {
+            expect(results.length).to.equal(3);
+            expect(results[0].twitter).to.equal('@StephenCurry30000000');
+            done();
+          });
+        });
+      });
+    });
+  });
 
   // xit('Database should reply with all social media accounts for a group when given a GET request', (done) => {
   //   request({
@@ -358,7 +364,7 @@ describe('Persistent database and server communication', () => {
   //   });
   // });
 
-  it('Should send an array of user groups when asked', (done) => {
+  xit('Should send an array of user groups when asked', (done) => {
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:8000/users/clark',
