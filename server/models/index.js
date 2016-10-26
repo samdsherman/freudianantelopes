@@ -95,7 +95,82 @@ module.exports = {
       });
     },
     put: function(req, res) {
-      
+      //find userId
+      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [req.body.username], function(err, userId) {
+        if (err) {
+          console.log('error finding user: ', err);
+        } 
+        //username in db
+        if (userId.length > 0) {
+          //update groupName
+          db.dbConnection.query('UPDATE groups SET name = ? WHERE name = ?', [req.body.newGroupName, req.body.oldGroupName],function(err) {
+            if (err) {
+              console.log('error updating group name: ', err);
+            }
+            //find groupId
+            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [req.body.newGroupName], function(err, groupID) {
+              if (err) {
+                console.log('error finding group id: ', err);
+              }
+              //remove all groupId rows from join table
+              db.dbConnection.query('DELETE FROM groups_members WHERE group_id = ?', [groupId], function(err) {
+                if (err) {
+                  console.log('error removing group ids: ', err);
+                }
+                //for each member in group
+                for (var member in req.body.members) {
+                  //find memberId
+                  db.dbConnection.query('SELECT id FROM members WHERE (name, facebook, instagram, twitter) = (?, ?, ?, ?)', [ member, req.body.members[member].facebook, req.body.members[member].instagram, req.body.members[member].twitter ], function(err, memberId) {
+                    var memberId = memberId;
+                    if (err) {
+                      console.log('error in member query', err);
+                    } 
+                    //if no memberId
+                    if (memberId.length === 0) {
+                      //make new member entry
+                      db.dbConnection.query('INSERT INTO members SET ?', { name: member, facebook: req.body.members[member].facebook, instagram: req.body.members[member].instagram, twitter: req.body.members[member].twitter }, function(err) {
+                        if (err) {
+                          console.log('error in members db', err);
+                        } else {
+                        //find memberId
+                        db.dbConnection.query('SELECT id FROM members WHERE (name, facebook, instagram, twitter) = (?, ?, ?, ?)', [ member, req.body.members[member].facebook, req.body.members[member].instagram, req.body.members[member].twitter ], function(err, idForMember) {
+                          if (err) {
+                            console.log('error in members query', err);
+                          }
+                          memberId = idForMember;
+                          //add to join table
+                          db.dbConnection.query('INSERT INTO groups_members SET ?', { group_id: groupId[0].id, member_id: memberId[0].id }, function(err, results) {
+                            if (err) {
+                              console.log('we made it this far, what happened?');
+                            }
+                          });
+                        });          
+                        }
+                      });
+                    //else
+                    } else {
+                      //add to join table
+                      db.dbConnection.query('INSERT INTO groups_members SET ?', { group_id: groupId[0].id, member_id: memberId[0].id }, function(err, results) {
+                        if (err) {
+                          console.log('we made it this far, what happened?');
+                        }
+                      });
+                    }
+                  });
+                }
+                res.end();
+                }
+              });
+            });
+          });
+          
+        //username not in db
+        } else {
+          console.log('user does not exist');
+          res.writeHead(404, headers);
+          res.end();
+        }
+      });
     }
   },
 
