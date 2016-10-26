@@ -3,6 +3,7 @@
 var mysql = require('mysql');
 var request = require('request');
 var expect = require('chai').expect;
+var specTestData = require('./spec-test-data.js');
 
 describe('Persistent database and server communication', () => {
   var dbConnection;
@@ -101,14 +102,13 @@ describe('Persistent database and server communication', () => {
         uri: 'http://127.0.0.1:3000/users/clark',
         json: { username: 'Clark', password: 'insecure', newUser: false }
       }, (err, res) => {
-        console.log(res.body);
         expect(res.statusCode).to.equal(404);
         done();  
       });
     });
   });
   
-  xit('Should write groups to db for a given user', (done) => {
+  xit('Should write groups to database for a given user', (done) => {
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:3000/users/clark',
@@ -117,35 +117,38 @@ describe('Persistent database and server communication', () => {
       request({
         method: 'POST',
         uri: 'http://127.0.0.1:3000/pages/warriors',
-        json: { 
-              username: 'Clark', 
-              groupName: 'warriors', 
-              members: {
-                            'Stephen Curry': {
-                                                twitter: '@StephenCurry30', 
-                                                facebook: 'StephenCurryOfficial', 
-                                                instagram: 'stephencurry30'}
-                                              }
-                          }
-      }, () => {
+        json: specTestData.clarkWarriors
+    }, () => {
 
-        // dbConnection.query('SELECT * FROM groups', (err, results) => {
-        //   expect(results.length).to.equal(1);
-        // });
-        dbConnection.query('SELECT * FROM members', (err, results) => {
-          if(err) {
-            console.log(err)
-          }
+        var queryString = 'SELECT * FROM members';
+
+        dbConnection.query(queryString, (err, results) => {
+
           console.log('spec results: ', results)
           expect(results.length).to.equal(1);
           expect(results[0].twitter).to.equal('@StephenCurry30');
           done();
         });
+        // dbConnection.query('SELECT * FROM groups', (err, results) => {
+        //   expect(results.length).to.equal(1);
+        // });
         // dbConnection.query('SELECT * FROM groups_members', (err, results) => {
         //   expect(results.length).to.equal(1);
         // });
       });
     })
   });
+
+  xit('Should not write to database if the user is not in the database', (done) => {});
+
+  xit('Should find all members of a user\'s group', (done) => {});
+
+  xit('Should not add new members when supplied with identical information', (done) => {});
+
+  xit('Should modify a member\'s information when given a PUT request', (done) => {});
+
+  xit('Database should reply with all social media accounts for a group when given a GET request', (done) => {});
+
+  xit('Should send data in the correct format to the front-end', (done) => {});
 
 });
