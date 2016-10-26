@@ -57,11 +57,20 @@ exports.willBulls = {
 
 exports.willWarriorsModify = { 
   username: 'Will', 
-  groupName: 'Warriors', 
+  newGroupName: 'Modified',
+  oldGroupName: 'Warriors',
   members: { 
     'Stephen Curry': {
       twitter: '@StephenCurry30000000', 
       facebook: 'StephenCurryOfficial', 
-      instagram: 'stephencurry30' }
+      instagram: 'stephencurry30' },
+    'Draymond Green': {
+      twitter: '@dray', 
+      facebook: 'notDraymond', 
+      instagram: 'Green23' },
+    'Other Guy': {
+      twitter: '@guy', 
+      facebook: 'notguy', 
+      instagram: 'notguy' }
     }
 };
