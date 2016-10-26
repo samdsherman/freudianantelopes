@@ -143,21 +143,37 @@ describe('Persistent database and server communication', () => {
         json: specTestData.clarkWarriors
     }, () => {
 
+        var queryString = 'SELECT * FROM groups';
+
+        dbConnection.query(queryString, (err, results) => {
+          expect(results.length).to.equal(1);
+          expect(results[0]).to.equal('Warriors');
+          done();
+        });
+      });
+    })
+  });
+
+  xit('Should write members to database when supplied a group', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/pages/clark/warriors',
+        json: specTestData.clarkWarriors
+    }, () => {
+
         var queryString = 'SELECT * FROM members';
 
         dbConnection.query(queryString, (err, results) => {
-
-          console.log('spec results: ', results)
-          expect(results.length).to.equal(1);
-          expect(results[0].twitter).to.equal('@StephenCurry30');
+          expect(results.length).to.equal(3);
+          expect(results[0]).to.equal('Stepen Curry');
+          expect(results[2]).to.equal('Other Guy');
           done();
         });
-        // dbConnection.query('SELECT * FROM groups', (err, results) => {
-        //   expect(results.length).to.equal(1);
-        // });
-        // dbConnection.query('SELECT * FROM groups_members', (err, results) => {
-        //   expect(results.length).to.equal(1);
-        // });
       });
     })
   });
@@ -230,10 +246,81 @@ describe('Persistent database and server communication', () => {
     });
   });
 
-  xit('Should modify a member\'s information when given a PUT request', (done) => {});
+  xit('Should modify a member\'s information when given a PUT request', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/will',
+      json: { username: 'Will', password: 'abc123', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/pages/will/warriors',
+        json: specTestData.willWarriors
+      }, () => {
+        request({
+          method: 'PUT',
+          uri: 'http://127.0.0.1:3000/pages/will/warriors',
+          json: specTestData.willWarriorsModify
+        }, () => {
+          var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
 
-  xit('Database should reply with all social media accounts for a group when given a GET request', (done) => {});
+          dbConnection.query(queryString, (err, results) => {
+            expect(results).to.be('@StephenCurry30000000');
+            done();
+          });
+        });
+      });
+    });
+  });
 
-  xit('Should send data in the correct format to the front-end', (done) => {});
+  xit('Database should reply with all social media accounts for a group when given a GET request', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/pages/clark/warriors',
+        json: specTestData.clarkWarriors
+      }, () => {
+        request({
+          method: 'GET',
+          uri: 'http://127.0.0.1:3000/pages/clark/warriors'
+        }, (err, results) => {
+
+          /*
+            Not sure how to test this...
+          */
+
+        });
+      });
+    });
+  });
+
+  xit('Should send data in the correct format to the front-end', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:3000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:3000/pages/clark/warriors',
+        json: specTestData.clarkWarriors
+      }, () => {
+        request({
+          method: 'GET',
+          uri: 'http://127.0.0.1:3000/pages/clark/warriors'
+        }, (err, results) => {
+
+          /*
+            Not sure how to test this either...
+          */
+
+        });
+      });
+    });
+  });
 
 });
