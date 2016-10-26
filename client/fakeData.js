@@ -66,6 +66,22 @@ var fakeData = {
             likes: 1
           }
         ]
+      }, {
+        name: 'James Stockman',
+        instagram: [
+          {
+            contentType: 'picture',
+            profilePic: 'https://scontent-sjc2-1.cdninstagram.com/t51.2885-19/10693672_1631543083739070_1664798963_a.jpg',
+            postPic: 'https://scontent-sjc2-1.cdninstagram.com/t51.2885-15/e15/11377858_993781180655250_1652239831_n.jpg?ig_cache_key=MTA0NjczMTIwNzY1ODI1NTU3Mw%3D%3D.2',
+            postContent: 'Wazzup',
+            groupMemberName: 'jamesstockman14',
+            timeStamp: 1439000105,
+            service: 'Instagram',
+            linkToPost: 'https://www.instagram.com/p/6GvHzPyTTV/?taken-by=jamesstockman14',
+            likes: 73,
+            comments: 3
+          }
+        ]
       }
     ]
   }, Lakers: {
@@ -75,13 +91,15 @@ var fakeData = {
         name: 'James Stockman',
         instagram: [
           {
-            profilePic: 'https://scontent-sjc2-1.cdninstagram.com/t51.2885-15/e15/11377858_993781180655250_1652239831_n.jpg?ig_cache_key=MTA0NjczMTIwNzY1ODI1NTU3Mw%3D%3D.2',
+            contentType: 'picture',
+            profilePic: 'https://scontent-sjc2-1.cdninstagram.com/t51.2885-19/10693672_1631543083739070_1664798963_a.jpg',
+            postPic: 'https://scontent-sjc2-1.cdninstagram.com/t51.2885-15/e15/11377858_993781180655250_1652239831_n.jpg?ig_cache_key=MTA0NjczMTIwNzY1ODI1NTU3Mw%3D%3D.2',
             postContent: 'Wazzup',
-            groupMember: 'jamesstockman14',
+            groupMemberName: 'jamesstockman14',
             timeStamp: 1439000105,
             service: 'Instagram',
             linkToPost: 'https://www.instagram.com/p/6GvHzPyTTV/?taken-by=jamesstockman14',
-            favoriteCount: 73,
+            likes: 73,
             comments: 3
           }
         ]
