@@ -2,17 +2,69 @@ class CreateGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      memberForms: [<CreateMember />],
-      saveGroupClicked: false
+      memberForms: [
+      	<CreateMember 
+      		saveMember={this.saveMember.bind(this)} 
+      		saveInstagram={this.saveInstagram.bind(this)} 
+      		saveTwitter={this.saveTwitter.bind(this)} 
+      		saveFacebook={this.saveFacebook.bind(this)} 
+      	/>
+      ],
+      saveGroupClicked: false,
+      groupName: '',
+      groupMembers: [],
+      instagramUsernames: [],
+      twitterUsernames: [],
+      facebookUsernames: []
     };
   }
 
+  saveGroupName(e) {
+  	// save group name into state
+  	this.setState({
+  		groupName: e.target.value
+  	});
+  }
+
+  saveMember(e) {
+  	// add member to groupMembers
+  	this.setState({
+  		groupMembers: this.state.groupMembers.concat((e.target.value))
+  	});
+  }
+
+  saveInstagram(e) {
+  	this.setState({
+  		instagramUsernames: this.state.instagramUsernames.concat((e.target.value))
+  	});
+  }
+
+  saveTwitter(e) {
+  	this.setState({
+  		twitterUsernames: this.state.twitterUsernames.concat((e.target.value))
+  	});
+  }
+
+  saveFacebook(e) {
+  	this.setState({
+  		facebookUsernames: this.state.facebookUsernames.concat((e.target.value))
+  	});
+  }
+
+
+  // render another CreateMember form
   addGroupMember(e) {
-    // should render another CreateMember and append to the end
-    // this.setState();
     e.preventDefault();
     this.setState({
-      memberForms: this.state.memberForms.concat((<CreateMember />))
+      memberForms: this.state.memberForms
+      .concat((
+    		<CreateMember 
+      		saveMember={'saved members: ', this.saveMember.bind(this)} 
+      		saveInstagram={'saved IG: ', this.saveInstagram.bind(this)} 
+      		saveTwitter={'saved twitter: ', this.saveTwitter.bind(this)} 
+      		saveFacebook={'saved facebook: ', this.saveFacebook.bind(this)} 
+    		/>
+    	))
     });
   }
 
@@ -22,6 +74,11 @@ class CreateGroup extends React.Component {
       // send POST request to server
 
     // destroy create group form
+    console.log(this.state.groupName)
+    console.log(this.state.groupMembers)
+    console.log(this.state.instagramUsernames)
+    console.log(this.state.twitterUsernames)
+    console.log(this.state.facebookUsernames)
   }
 
 
@@ -31,7 +88,7 @@ class CreateGroup extends React.Component {
       // render on top of groups
       <div className='create-group-form'>
         <form className='add-group'>
-          <input className='group-name' placeholder='Group Name'></input>
+          <input className='group-name' placeholder='Group Name' onBlur={this.saveGroupName.bind(this)}></input>
           <div ref='groupMembers'>
             {this.state.memberForms}
           </div>
