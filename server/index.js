@@ -21,8 +21,8 @@ app.put('/pages*', controller.pages.put);
 app.post('/users*', controller.users.post); //update to POST for front-end integration
 
 
-app.listen(3000, function() {
-	console.log('Listening on 3000');
+app.listen(8000, function() {
+	console.log('Listening on 8000');
 });
 
 
