@@ -3,7 +3,7 @@ var CreateGroupLink = props => {
 
 		return (
 			<div>
-				<button onClick={props.openCreateGroupForm}>Create Group</button>
+				<button onClick={props.openCreateGroupForm}>Create New Group</button>
 				<CreateGroup />
 			</div>
 		);
@@ -12,7 +12,7 @@ var CreateGroupLink = props => {
 	
 		return (
 			<div>
-				<button onClick={props.openCreateGroupForm}>Create Group</button>
+				<button onClick={props.openCreateGroupForm}>Create New Group</button>
 			</div>
 		)
 		
