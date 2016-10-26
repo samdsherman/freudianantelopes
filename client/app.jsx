@@ -3,6 +3,35 @@ var decorateObject = function(fieldName, targetObject, value) {
   return targetObject;
 };
 
+// this function changes a twitter post timestamp from a string to a number of seconds since january 1, 1970.
+var fixTwitterTimestamp = function(post) {
+  var parsed = Math.floor(Date.parse(post.timeStamp) / 1000);
+  if (parsed) {
+    post.timeStamp = parsed;
+  }
+  return post;
+};
+
+// converts post timestamp from a number of seconds since jan 1, 1970 to "3 hours ago" or whatever
+var convertTimeStampToAgo = function(post) {
+  var difference = Math.floor(Date.now() / 1000) - post.timeStamp;
+  var timeStamp = '';
+  if (difference < 60) {
+    timeStamp = difference + ' seconds ago';
+  } else if (difference < 60 * 60) {
+    timeStamp = Math.floor(difference / 60) + ' minutes ago';
+  } else if (difference < 60 * 60 * 24) {
+    timeStamp = Math.floor(difference / 60 / 60) + ' hours ago';
+  } else if (difference < 60 * 60 * 24 * 30) {
+    timeStamp = Math.floor(difference / 60 / 60 / 24) + ' days ago';
+  } else if (difference < 60 * 60 * 24 * 30 * 12) {
+    timeStamp = Math.floor(difference / 60 / 60 / 24 / 30) + ' months ago';
+  } else {
+    timeStamp = Math.floor(difference / 60 / 60 / 24 / 30 / 12) + ' years ago';
+  }
+  post.timeStampAgo = timeStamp;
+};
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,10 +51,14 @@ class App extends React.Component {
     var posts = [];
 
     group.members.forEach(member => { // collect up all the posts and decorate them with the poster's name. TODO: still need to deal with timestamps later.
-      posts = posts.concat((member.twitter || []).map(post => decorateObject('name', post, member.name)))
+      posts = posts.concat((member.twitter || []).map(post => fixTwitterTimestamp(decorateObject('name', post, member.name))))
                    .concat((member.facebook || []).map(post => decorateObject('name', post, member.name)))
                    .concat((member.instagram || []).map(post => decorateObject('name', post, member.name)));
     });
+
+    posts.sort((a, b) => a.timeStamp < b.timeStamp);
+
+    posts.forEach(convertTimeStampToAgo);
 
     return posts;
 
