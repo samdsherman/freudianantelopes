@@ -41,8 +41,9 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentGroup: props.group,
-      currentUser: props.user
+      currentGroup: null,
+      currentUser: null,
+      userGroups: []
     };
   }
 
@@ -74,9 +75,24 @@ class App extends React.Component {
 
   getGroups() {
     if (!this.state.currentUser) {
-      return [];
+      this.setState({
+        userGroups: []
+      });
     }
-    return fakeData.groups; // replace with GET /users/this.props.user
+
+    $.ajax({
+      url: '/users/' + this.state.currentUser,
+      method: 'GET',
+      success: data => {
+        console.log('successful get', data);
+        this.setState({
+          userGroups: data
+        });
+      },
+      error: function(err) {
+        console.log('failed get', err);
+      }
+    });
   }
 
   setCurrentGroup(group) {
@@ -89,6 +105,7 @@ class App extends React.Component {
     this.setState({
       currentUser: user
     });
+    this.getGroups();
   }
 
   render() {
@@ -98,7 +115,7 @@ class App extends React.Component {
           <Header login={this.setCurrentUser.bind(this)}/>
         </div>
         <div className='app-sidebar'>
-          <Sidebar groups={this.getGroups()} groupClickHandler={this.setCurrentGroup.bind(this)} />
+          <Sidebar groups={this.state.userGroups} groupClickHandler={this.setCurrentGroup.bind(this)} />
         </div>
         <div className='app-feed'>
           <Feed group={this.state.currentGroup} posts={this.getPosts()} />
