@@ -29,281 +29,281 @@ describe('Persistent database and server communication', () => {
     dbConnection.end();
   });
 
-  it('Should insert users into the users table', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
+  // it('Should insert users into the users table', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
 
-      var queryString = 'SELECT * FROM users';
+  //     var queryString = 'SELECT * FROM users';
 
-      dbConnection.query(queryString, (err, results) => {
-        // Should have one result
-        expect(results.length).to.equal(1);
-        // Expect username to be Clark
-        expect(results[0].username).to.equal('Clark');
+  //     dbConnection.query(queryString, (err, results) => {
+  //       // Should have one result
+  //       expect(results.length).to.equal(1);
+  //       // Expect username to be Clark
+  //       expect(results[0].username).to.equal('Clark');
 
-        done();
-      });
-    });
-  });
+  //       done();
+  //     });
+  //   });
+  // });
 
-  it('Should insert multiple users into the table', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/users/will',
-        json: { username: 'Will', password: 'abc123', newUser: true }
-      }, () => {
+  // it('Should insert multiple users into the table', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/users/will',
+  //       json: { username: 'Will', password: 'abc123', newUser: true }
+  //     }, () => {
 
-        var queryString = 'SELECT * FROM users';
+  //       var queryString = 'SELECT * FROM users';
 
-        dbConnection.query(queryString, (err, results) => {
-          expect(results.length).to.equal(2);
-          expect(results[1].username).to.equal('Will');
-          done();
-        });
-      });
-    });
-  });
+  //       dbConnection.query(queryString, (err, results) => {
+  //         expect(results.length).to.equal(2);
+  //         expect(results[1].username).to.equal('Will');
+  //         done();
+  //       });
+  //     });
+  //   });
+  // });
 
-  it('Should not insert duplicate usernames into the users table', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/users/clark',
-        json: { username: 'Clark', password: 'insecure', newUser: true }
-      }, () => {
-        var queryString = 'SELECT * FROM users';
+  // it('Should not insert duplicate usernames into the users table', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/users/clark',
+  //       json: { username: 'Clark', password: 'insecure', newUser: true }
+  //     }, () => {
+  //       var queryString = 'SELECT * FROM users';
 
-        dbConnection.query(queryString, (err, results) => {
-          // Should have one result
-          expect(results.length).to.equal(1);
-          // Expect username to be Clark
-          expect(results[0].username).to.equal('Clark');
+  //       dbConnection.query(queryString, (err, results) => {
+  //         // Should have one result
+  //         expect(results.length).to.equal(1);
+  //         // Expect username to be Clark
+  //         expect(results[0].username).to.equal('Clark');
 
-          done();  
-        });
-      });
-    });
-  });
+  //         done();  
+  //       });
+  //     });
+  //   });
+  // });
 
-  it('Should respond with userId when username and password match on login', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/users/clark',
-        json: { username: 'Clark', password: 'secure', newUser: false }
-      }, (err, res) => {
-        expect(res.body[0].id).to.exist;
-        done(); 
-      });
-    });
-  });
+  // it('Should respond with userId when username and password match on login', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/users/clark',
+  //       json: { username: 'Clark', password: 'secure', newUser: false }
+  //     }, (err, res) => {
+  //       expect(res.body[0].id).to.exist;
+  //       done(); 
+  //     });
+  //   });
+  // });
 
-  it('Should respond with 404 when username and password do not match', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/users/clark',
-        json: { username: 'Clark', password: 'insecure', newUser: false }
-      }, (err, res) => {
-        expect(res.statusCode).to.equal(404);
-        done();  
-      });
-    });
-  });
+  // it('Should respond with 404 when username and password do not match', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/users/clark',
+  //       json: { username: 'Clark', password: 'insecure', newUser: false }
+  //     }, (err, res) => {
+  //       expect(res.statusCode).to.equal(404);
+  //       done();  
+  //     });
+  //   });
+  // });
   
-  it('Should write groups to database for a given user', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/pages/clark/warriors',
-        json: specTestData.clarkWarriors
-    }, () => {
+  // it('Should write groups to database for a given user', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+  //       json: specTestData.clarkWarriors
+  //   }, () => {
 
-        var queryString = 'SELECT * FROM groups';
+  //       var queryString = 'SELECT * FROM groups';
 
-        dbConnection.query(queryString, (err, results) => {
-          expect(results.length).to.equal(1);
-          expect(results[0].name).to.equal('Warriors');
-          done();
-        });
-      });
-    })
-  });
+  //       dbConnection.query(queryString, (err, results) => {
+  //         expect(results.length).to.equal(1);
+  //         expect(results[0].name).to.equal('Warriors');
+  //         done();
+  //       });
+  //     });
+  //   })
+  // });
 
-  it('Should write members to database when supplied a group', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/pages/clark/warriors',
-        json: specTestData.clarkWarriors
-    }, () => {
+  // it('Should write members to database when supplied a group', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+  //       json: specTestData.clarkWarriors
+  //   }, () => {
 
-        var queryString = 'SELECT name FROM members';
+  //       var queryString = 'SELECT name FROM members';
 
-        dbConnection.query(queryString, (err, results) => {
-          expect(results.length).to.equal(3);
-          expect(results[0].name).to.equal('Stephen Curry');
-          expect(results[2].name).to.equal('Other Guy');
-          done();
-        });
-      });
-    })
-  });
+  //       dbConnection.query(queryString, (err, results) => {
+  //         expect(results.length).to.equal(3);
+  //         expect(results[0].name).to.equal('Stephen Curry');
+  //         expect(results[2].name).to.equal('Other Guy');
+  //         done();
+  //       });
+  //     });
+  //   })
+  // });
 
-  it('Should not write to database if the user is not in the database', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/pages/will/warriors',
-      json: specTestData.willWarriors
-    }, (err, res) => {
-      expect(res.statusCode).to.equal(404);
-      done();
-    });
-  });
+  // it('Should not write to database if the user is not in the database', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //     json: specTestData.willWarriors
+  //   }, (err, res) => {
+  //     expect(res.statusCode).to.equal(404);
+  //     done();
+  //   });
+  // });
 
-  it('Should find all members of a user\'s group', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/will',
-      json: { username: 'Will', password: 'abc123', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/pages/will/warriors',
-        json: specTestData.willWarriors
-      }, () => {
-        var queryString = 'SELECT * FROM members';
+  // it('Should find all members of a user\'s group', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/will',
+  //     json: { username: 'Will', password: 'abc123', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //       json: specTestData.willWarriors
+  //     }, () => {
+  //       var queryString = 'SELECT * FROM members';
 
-        dbConnection.query(queryString, (err, results) => {
-          expect(results.length).to.equal(3);
-          expect(results[0].name).to.equal('Stephen Curry');
-          expect(results[1].instagram).to.equal('Green23');
-          expect(results[2].twitter).to.equal('@guy');
-          done();
-        });
-      });
-    });
-  });
+  //       dbConnection.query(queryString, (err, results) => {
+  //         expect(results.length).to.equal(3);
+  //         expect(results[0].name).to.equal('Stephen Curry');
+  //         expect(results[1].instagram).to.equal('Green23');
+  //         expect(results[2].twitter).to.equal('@guy');
+  //         done();
+  //       });
+  //     });
+  //   });
+  // });
 
-  it('Should not add new members when supplied with identical information', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/clark',
-      json: { username: 'Clark', password: 'secure', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/users/will',
-        json: { username: 'Will', password: 'abc123', newUser: true }
-      }, () => {
-        request({
-          method: 'POST',
-          uri: 'http://127.0.0.1:8000/pages/clark/warriors',
-          json: specTestData.clarkWarriors
-        }, () => {
-          request({
-            method: 'POST',
-            uri: 'http://127.0.0.1:8000/pages/will/warriors',
-            json: specTestData.willWarriors
-          }, () => {
-            var queryString = 'SELECT * FROM members';
+  // it('Should not add new members when supplied with identical information', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/clark',
+  //     json: { username: 'Clark', password: 'secure', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/users/will',
+  //       json: { username: 'Will', password: 'abc123', newUser: true }
+  //     }, () => {
+  //       request({
+  //         method: 'POST',
+  //         uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+  //         json: specTestData.clarkWarriors
+  //       }, () => {
+  //         request({
+  //           method: 'POST',
+  //           uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //           json: specTestData.willWarriors
+  //         }, () => {
+  //           var queryString = 'SELECT * FROM members';
 
-            dbConnection.query(queryString, (err, results) => {
-              expect(results.length).to.equal(3);
-              done();
-            });
-          });
-        });
-      });
-    });
-  });
+  //           dbConnection.query(queryString, (err, results) => {
+  //             expect(results.length).to.equal(3);
+  //             done();
+  //           });
+  //         });
+  //       });
+  //     });
+  //   });
+  // });
 
-  it('Should modify a member\'s information when given a PUT request', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/will',
-      json: { username: 'Will', password: 'abc123', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/pages/will/warriors',
-        json: specTestData.willWarriors
-      }, () => {
-        request({
-          method: 'PUT',
-          uri: 'http://127.0.0.1:8000/pages/will/warriors',
-          json: specTestData.willWarriorsModify
-        }, () => {
-          var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
+  // it('Should modify a member\'s information when given a PUT request', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/will',
+  //     json: { username: 'Will', password: 'abc123', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //       json: specTestData.willWarriors
+  //     }, () => {
+  //       request({
+  //         method: 'PUT',
+  //         uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //         json: specTestData.willWarriorsModify
+  //       }, () => {
+  //         var queryString = "SELECT twitter FROM members WHERE name = 'Stephen Curry'";
 
-          dbConnection.query(queryString, (err, results) => {
-            expect(results[1].twitter).to.equal('@StephenCurry30000000');
-            done();
-          });
-        });
-      });
-    });
-  });
+  //         dbConnection.query(queryString, (err, results) => {
+  //           expect(results[1].twitter).to.equal('@StephenCurry30000000');
+  //           done();
+  //         });
+  //       });
+  //     });
+  //   });
+  // });
 
-  it('Should update a group name when neccessary', (done) => {
-    request({
-      method: 'POST',
-      uri: 'http://127.0.0.1:8000/users/will',
-      json: { username: 'Will', password: 'abc123', newUser: true }
-    }, () => {
-      request({
-        method: 'POST',
-        uri: 'http://127.0.0.1:8000/pages/will/warriors',
-        json: specTestData.willWarriors
-      }, () => {
-        request({
-          method: 'PUT',
-          uri: 'http://127.0.0.1:8000/pages/will/warriors',
-          json: specTestData.willWarriorsModify
-        }, () => {
+  // it('Should update a group name when neccessary', (done) => {
+  //   request({
+  //     method: 'POST',
+  //     uri: 'http://127.0.0.1:8000/users/will',
+  //     json: { username: 'Will', password: 'abc123', newUser: true }
+  //   }, () => {
+  //     request({
+  //       method: 'POST',
+  //       uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //       json: specTestData.willWarriors
+  //     }, () => {
+  //       request({
+  //         method: 'PUT',
+  //         uri: 'http://127.0.0.1:8000/pages/will/warriors',
+  //         json: specTestData.willWarriorsModify
+  //       }, () => {
 
-          var queryString = "SELECT members.twitter FROM members WHERE id IN " +
-                              "(SELECT member_id FROM groups_members WHERE group_id = " +
-                              "(SELECT id FROM groups WHERE name = 'BasketballTeam' AND user_id = " +
-                              "(SELECT id FROM users WHERE username = 'Will')))";
+  //         var queryString = "SELECT members.twitter FROM members WHERE id IN " +
+  //                             "(SELECT member_id FROM groups_members WHERE group_id = " +
+  //                             "(SELECT id FROM groups WHERE name = 'BasketballTeam' AND user_id = " +
+  //                             "(SELECT id FROM users WHERE username = 'Will')))";
 
-          dbConnection.query(queryString, (err, results) => {
-            expect(results.length).to.equal(3);
-            expect(results[0].twitter).to.equal('@StephenCurry30000000');
-            done();
-          });
-        });
-      });
-    });
-  });
+  //         dbConnection.query(queryString, (err, results) => {
+  //           expect(results.length).to.equal(3);
+  //           expect(results[0].twitter).to.equal('@StephenCurry30000000');
+  //           done();
+  //         });
+  //       });
+  //     });
+  //   });
+  // });
 
   it('Database should reply with all facebook accounts for a group when given a GET request', (done) => {
     request({
@@ -320,7 +320,6 @@ describe('Persistent database and server communication', () => {
           method: 'GET',
           uri: 'http://127.0.0.1:8000/pages/clark/warriors'
         }, (err, results) => {
-
           var queryString = "SELECT members.facebook FROM members WHERE id IN " +
                               "(SELECT member_id FROM groups_members WHERE group_id = " +
                               "(SELECT id FROM groups WHERE name = 'Warriors' AND user_id = " +
