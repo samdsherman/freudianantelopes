@@ -11,6 +11,35 @@ body {
   background-color: #99e;
 }
 
+.settings-button {
+  text-decoration: underline;
+  float: left;
+}
+
+.app-header {
+  border-bottom: 1px solid black;
+  overflow: auto;
+}
+
+.title {
+  font-size: 24px;
+  font-style: italic;
+}
+
+.header {
+  text-align: center;
+}
+
+.login-form, .logged-in-text {
+  float: right;
+  text-align: right;
+}
+
+.post-service {
+  float: right;
+  margin-left: 5px;
+}
+
 .app-feed {
   position: absolute;
   height: 100%;
@@ -21,6 +50,8 @@ body {
 .post-profile-pic {
   float: left;
   margin-right: 10px;
+  height: 48px;
+  width: 48px;
 }
 
 .post-timestamp {
@@ -31,7 +62,7 @@ body {
   clear: left;
   padding: 5px;
   border: 1px solid black;
-  width: 50%;
+  width: 100%;
   overflow: auto;
 }
 

@@ -12,6 +12,7 @@
 </head>
 <body>
   <script type="text/babel" src='fakeData.js'></script>
+  <script type="text/babel" src='header.jsx'></script>
   <script type="text/babel" src='group.jsx'></script>
   <script type="text/babel" src='sidebar.jsx'></script>
   <script type="text/babel" src='createMember.jsx'></script>
@@ -19,7 +20,10 @@
   <script type="text/babel" src='createGroupButton.jsx'></script>
   <script type="text/babel" src='post.jsx'></script>
   <script type="text/babel" src='feed.jsx'></script>
-  <div id="app"></div>
   <script type="text/babel" src="app.jsx"></script>
+  <div id="app"></div>
+  <script type="text/babel">
+    ReactDOM.render(<App user='sam' group='Warriors' />, document.getElementById('app'));
+  </script>
 </body>
 </html>

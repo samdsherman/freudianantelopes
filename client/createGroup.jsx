@@ -7,11 +7,11 @@ class CreateGroup extends React.Component {
     };
   }
 
- 	// save group name into state
+  // save group name into state
   saveGroupName(e) {
-  	this.setState({
-  		groupName: e.target.value
-  	});
+    this.setState({
+      groupName: e.target.value
+    });
   }
 
   // render another CreateMember form
@@ -20,8 +20,8 @@ class CreateGroup extends React.Component {
     this.setState({
       memberForms: this.state.memberForms
       .concat((
-    		<CreateMember groupMembers={this.state.groupMembers} />
-    	))
+        <CreateMember groupMembers={this.state.groupMembers} />
+      ))
     });
   }
 
@@ -39,7 +39,7 @@ class CreateGroup extends React.Component {
         console.log('POST REQUEST SUCCEEDED');
       },
       error: (err) => {
-        console.log('POST REQUEST FAILED')
+        console.log('POST REQUEST FAILED');
         console.log(err);
       }
     });

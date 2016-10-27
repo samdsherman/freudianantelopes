@@ -1,24 +1,24 @@
 var CreateGroupButton = props => {
-	// opens form to create a new group when clicked
+  // opens form to create a new group when clicked
 
-	if (props.createGroupClicked) {
+  if (props.createGroupClicked) {
 
-		return (
-			<div>
-				<button onClick={props.openCreateGroupForm}>Create New Group</button>
-				<CreateGroup openCreateGroupForm={props.openCreateGroupForm}/>
-			</div>
-		);
+    return (
+      <div>
+        <button onClick={props.openCreateGroupForm}>Create New Group</button>
+        <CreateGroup openCreateGroupForm={props.openCreateGroupForm}/>
+      </div>
+    );
 
-	} else {
-	
-		return (
-			<div>
-				<button onClick={props.openCreateGroupForm}>Create New Group</button>
-			</div>
-		)
-		
-	}
+  } else {
+  
+    return (
+      <div>
+        <button onClick={props.openCreateGroupForm}>Create New Group</button>
+      </div>
+    );
+    
+  }
 
 };
 

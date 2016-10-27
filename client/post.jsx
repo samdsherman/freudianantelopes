@@ -4,9 +4,11 @@ var Post = props => (
     <a href={props.post.linkToPost} className='post-main'>
       <div className='post-header'>
         <span className='post-person-name'>{props.post.name}</span>
-        <span className='post-timestamp'>{props.post.timeStamp}</span>
+        <img className='post-service' src={'assets/' + props.post.service + '.png'} />
+        <span className='post-timestamp'>{props.post.timeStampAgo}</span>
       </div>
       <div className='post-content'>{props.post.postContent}</div>
+      <img className='post-pic' src={props.post.postPic} />
     </a>
   </div>
 );
