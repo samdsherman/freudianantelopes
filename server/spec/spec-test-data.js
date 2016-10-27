@@ -57,7 +57,7 @@ exports.willBulls = {
 
 exports.willWarriorsModify = { 
   username: 'Will', 
-  newGroupName: 'Modified',
+  newGroupName: 'BasketballTeam',
   oldGroupName: 'Warriors',
   members: { 
     'Stephen Curry': {

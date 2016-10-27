@@ -58,6 +58,25 @@ var memberIdFinder = function(memberArray, index, req, groupId, res) {
 module.exports = {
   pages: {
     get: function(req, res) {
+      var responseObj = {}
+
+      var url = req.url.slice(7);
+      var username = url.slice(0, url.indexOf('/'));
+      var groupName = url.slice(username.length + 1);
+      responseObj.group = groupName;
+
+      // console.log(responseObj);
+
+      db.dbConnection.query("SELECT * FROM members WHERE id IN (SELECT member_id FROM groups_members WHERE group_id = (SELECT id FROM groups WHERE name = ? AND user_id = (SELECT id FROM users WHERE username = ?)));", [groupName, username], function(err, memberInformation) {
+        if (err) {
+          console.log('could not find the group member names', err);
+        }
+        console.log('member names: ', memberInformation);
+
+        //LEAVING OFF HERE
+
+
+      });
       
     },
     post: function(req, res) {
@@ -125,7 +144,7 @@ module.exports = {
               console.log('error updating group name: ', err);
             }
             //find groupId
-            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [req.body.newGroupName], function(err, groupID) {
+            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [req.body.newGroupName], function(err, groupId) {
               if (err) {
                 console.log('error finding group id: ', err);
               }
@@ -194,8 +213,26 @@ module.exports = {
           }
         });
       }
+    },
+
+    get: function(req, res) {
+      var username = req.url.slice(7);
+      db.dbConnection.query('SELECT name FROM groups WHERE user_id = (SELECT id FROM users WHERE username = ?);', [username], function(err, results) {
+        if (err) {
+          console.log('could not find user\'s groups', err);
+          res.writeHead(404, headers);
+          res.end();
+        } else {
+          for (var i = 0; i < results.length; i++) {
+            results[i] = results[i].name;
+          }
+          res.writeHead(200, headers);
+          res.end(JSON.stringify(results));
+        }
+      });
     }
   }
+
 
 };
 

@@ -17,6 +17,9 @@ module.exports = {
   users: {
     post: function(req, res) {
       models.users.post(req, res);
+    },
+    get: function(req, res) {
+      models.users.get(req, res);
     }
   }
 };
