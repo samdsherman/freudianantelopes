@@ -121,7 +121,7 @@ class EditGroup extends React.Component {
 		return (
 			<div className='edit-group-form'>
 	        <form className='edit-group'>
-	          <input className='edit-group-name' placeholder='Group Name'></input>
+	          <input className='edit-group-name' placeholder='Group Name' defaultValue={props.groupName}></input>
 	          <div ref='groupMembers'>
 	            {this.state.memberForms}
 	          </div>

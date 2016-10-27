@@ -14,11 +14,11 @@ class Group extends React.Component {
 		// we know a form should be generated after the click so we set the new state
 		if (!this.state.editGroupClicked) {
 			this.setState({
-				editGroupForm: <EditGroup handleEditClick={this.handleEditClick.bind(this)}/>,
+				editGroupForm: <EditGroup groupName={this.props.name} handleEditClick={this.handleEditClick.bind(this)}/>,
 				editGroupClicked: true
 			})
 		} else {
-			// if clicked again, the form would hides from view
+			// if clicked again, the form hides from view
 			this.setState({
 				editGroupForm: null,
 				editGroupClicked: false
