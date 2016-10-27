@@ -35,10 +35,10 @@ class CreateGroup extends React.Component {
         user: 'Ker', // <================================================= NEED TO UPDATE
         members: members
       },
-      success: function(data) {
+      success: (data) => {
         console.log('POST REQUEST SUCCEEDED');
       },
-      error: function(err) {
+      error: (err) => {
         console.log('POST REQUEST FAILED')
         console.log(err);
       }
