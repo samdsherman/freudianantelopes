@@ -2,16 +2,31 @@ class EditGroup extends React.Component {
 	constructor(props) {
     super(props);
     this.state = {
-      memberForms: null
+      memberForms: []
     };
   }
 
   // component will fetch group data before mounting
   componentWillMount() {
+  	
+  // 	// ============= WORKING EXAMPLE ============
+  // 	this.setState({
+		// 	memberForms: this.state.memberForms[0] =
+		// 		<EditMember 
+		// 			name={'Ker'}
+		// 			instagram={'ker-ig'}
+		// 			twitter={'ker-twitter'}
+		// 			facebook={'ker-fb'}
+		// 		/>
+			
+		// });
+		// // ==========================================
+
   	this.getGroup((data) => {
 
   		// loop through data
   			// for each member, render a pre-populated EditMember component (use defaultValue=)
+  				// first component will not be able to be concatenated--must add to array[0]
   				// concat EditMember component to this.state.memberForms
 
   		//=====NEED TO EDIT: where in data is members array?=======	
@@ -25,7 +40,7 @@ class EditGroup extends React.Component {
   		// 				twitter={}
   		// 				facebook={}
   		// 			/>
-  		// 		));
+  		// 		))
   		// 	});
   		// });
   	});	
@@ -121,7 +136,7 @@ class EditGroup extends React.Component {
 		return (
 			<div className='edit-group-form'>
 	        <form className='edit-group'>
-	          <input className='edit-group-name' placeholder='Group Name' defaultValue={props.groupName}></input>
+	          <input className='edit-group-name' placeholder='Group Name' defaultValue={this.props.groupName}></input>
 	          <div ref='groupMembers'>
 	            {this.state.memberForms}
 	          </div>
