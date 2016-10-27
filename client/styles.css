@@ -11,13 +11,9 @@ body {
   background-color: #99e;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> add decent looking header to main page
-.settings-button {
-  text-decoration: underline;
-  float: left;
+.logout-button {
+  float: right;
+  margin-left: 5px;
 }
 
 .app-header {

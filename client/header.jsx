@@ -74,8 +74,8 @@ class Header extends React.Component {
   render() {
     return (
       <div className='header'>
-        <button className='settings-button'>=</button>
         <span className='title'>Freudian Antelopes</span>
+        <button className='logout-button' style={{display: this.state.user ? 'inline' : 'none'}}>Log out</button>
         {this.getLoginForm()}
       </div>
     );
