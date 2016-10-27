@@ -42,6 +42,25 @@ class EditGroup extends React.Component {
   	});
   }
 
+  sendChanges(members) {
+  	$.ajax({
+  		url: '/path',
+  		method: 'PUT',
+  		data: {
+  			group: 'Warriors', // <============================= NEED UPDATE
+  			user: 'Ker', // <================================== NEED UPDATE
+  			members: members
+  		},
+  		sucess: (data) => {
+  			console.log('Successful PUT request');
+  		},
+  		error: (err) => {
+  			console.log('PUT request failed');
+  			console.log(err);
+  		}
+  	});
+  }
+
   addGroupMember(e) {
     // render a new member form if user wants to add to current group
     e.preventDefault();
@@ -50,8 +69,10 @@ class EditGroup extends React.Component {
     });
   }
 
+
   handleSaveChangesClick (e) {
 		// make PUT request to server with values from all inputs
+		this.sendChanges();
 
   	this.props.handleEditClick(e);
   }
