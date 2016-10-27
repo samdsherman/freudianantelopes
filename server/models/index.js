@@ -24,8 +24,6 @@ var parseInstagramHTML = function(username, callback) {
     html = html.slice(index2, index - 1);
     html = JSON.parse(html)
 
-    // console.log('html: ', html);
-
     html.entry_data.ProfilePage[0].user.media.nodes.forEach(function(post) {
       var obj = {};
       obj.contentType = 'picture';
@@ -280,7 +278,6 @@ module.exports = {
                 res.writeHead(404, headers);
                 res.end();
               } else {
-                console.log('user added');
                 res.writeHead(200, headers);
                 res.end(JSON.stringify(req.body.username));
               }
