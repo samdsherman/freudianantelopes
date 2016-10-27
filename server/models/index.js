@@ -187,7 +187,7 @@ module.exports = {
               } else {
                 console.log('user added');
                 res.writeHead(200, headers);
-                res.end();
+                res.end(JSON.stringify(req.body.username));
               }
             })
           } else {

@@ -41,7 +41,8 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentGroup: props.group
+      currentGroup: props.group,
+      currentUser: props.user
     };
   }
 
@@ -72,7 +73,7 @@ class App extends React.Component {
 
 
   getGroups() {
-    if (!this.props.user) {
+    if (!this.state.currentUser) {
       return [];
     }
     return fakeData.groups; // replace with GET /users/this.props.user
@@ -84,11 +85,17 @@ class App extends React.Component {
     });
   }
 
+  setCurrentUser(user) {
+    this.setState({
+      currentUser: user
+    });
+  }
+
   render() {
     return (
       <div className='app'>
         <div className='app-header'>
-          <Header />
+          <Header login={this.setCurrentUser.bind(this)}/>
         </div>
         <div className='app-sidebar'>
           <Sidebar groups={this.getGroups()} groupClickHandler={this.setCurrentGroup.bind(this)} />

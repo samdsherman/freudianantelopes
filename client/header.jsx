@@ -35,13 +35,15 @@ class Header extends React.Component {
       contentType: 'application/json',
       success: (data) => {
         console.log('successful login: ', data);
+        var user = $('.login-form-username').val();
+        this.setState({user: user});
+        this.props.login(user);
       },
       error: (err) => {
         console.error('login failed: ', err);
       }
     });
 
-    // this.setState({user: $('.login-form-username').val()});
   }
 
   signUp(e) {
@@ -58,6 +60,9 @@ class Header extends React.Component {
       contentType: 'application/json',
       success: (data) => {
         console.log('successful signup: ', data);
+        var user = $('.login-form-username').val();
+        this.setState({user: user});
+        this.props.login(user);
       },
       error: (err) => {
         console.error('signup failed: ', err);
