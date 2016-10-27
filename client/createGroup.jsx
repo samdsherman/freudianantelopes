@@ -28,13 +28,14 @@ class CreateGroup extends React.Component {
   // send created group to server
   sendGroup(members) {
     $.ajax({
-      url: '/pages/',
+      url: '/pages/' + this.props.currentUser + '/' + this.state.groupName,
       method: 'POST',
-      data: {
-        group: this.state.groupName,
-        user: 'Ker', // <================================================= NEED TO UPDATE
+      data: JSON.stringify({
+        groupName: this.state.groupName,
+        username: this.props.currentUser,
         members: members
-      },
+      }),
+      contentType: 'application/json',
       success: (data) => {
         console.log('POST REQUEST SUCCEEDED');
       },
@@ -83,6 +84,9 @@ class CreateGroup extends React.Component {
 
     // close form after 'save group' is clicked
     this.props.openCreateGroupForm();
+
+    // add new group to group list in sidebar
+    this.props.addToGroups(this.state.groupName);
   }
 
 
