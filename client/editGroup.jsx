@@ -51,6 +51,7 @@ class EditGroup extends React.Component {
   }
 
   handleSaveChangesClick (e) {
+		// make PUT request to server with values from all inputs
 
   	this.props.handleEditClick(e);
   }
