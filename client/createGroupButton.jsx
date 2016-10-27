@@ -6,7 +6,7 @@ var CreateGroupButton = props => {
 		return (
 			<div>
 				<button onClick={props.openCreateGroupForm}>Create New Group</button>
-				<CreateGroup />
+				<CreateGroup openCreateGroupForm={props.openCreateGroupForm}/>
 			</div>
 		);
 

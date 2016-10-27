@@ -3,13 +3,12 @@ class CreateGroup extends React.Component {
     super(props);
     this.state = {
       memberForms: [ <CreateMember /> ],
-      saveGroupClicked: false,
       groupName: ''
     };
   }
 
+ 	// save group name into state
   saveGroupName(e) {
-  	// save group name into state
   	this.setState({
   		groupName: e.target.value
   	});
@@ -26,6 +25,7 @@ class CreateGroup extends React.Component {
     });
   }
 
+  // send created group to server
   handleSaveGroupClick() {
     // grab input values from all fields
       // format into an object
@@ -33,6 +33,9 @@ class CreateGroup extends React.Component {
 
     // destroy create group form
 
+    /*
+		========= CREATE MEMBER OBJECTS TO BE SENT =============
+    */
     var groupMemberNodes = ReactDOM.findDOMNode(this.refs.groupMembers).children;
 
   	var allAccounts = []; // accounts for all members in the group
@@ -60,14 +63,36 @@ class CreateGroup extends React.Component {
     	allAccounts.push(memberObj);
     }
 
-    console.log(allAccounts)
+    /*
+		========== SEND NEW GROUP TO SERVER ==============
+    */
+
+    $.ajax({
+    	url: '/pages/',
+    	method: 'POST',
+    	data: {
+    		group: this.state.groupName,
+    		user: 'Ker', // <================================================= NEED TO UPDATE
+    		members: allAccounts
+    	},
+    	success: function(data) {
+    		console.log('POST REQUEST SUCCEEDED');
+    	},
+    	error: function(err) {
+    		console.log('POST REQUEST FAILED')
+    		console.log(err);
+    	}
+    });
+
+    // close form after 'save group' is clicked
+    this.props.openCreateGroupForm();
   }
 
 
 
+  // render on top of groups
   render() {
     return (
-      // render on top of groups
       <div className='create-group-form'>
         <form className='add-group'>
           <input className='group-name' placeholder='Group Name' onBlur={this.saveGroupName.bind(this)}></input>
