@@ -1,3 +1,4 @@
+var request = require('request');
 var db = require('../../db');
 var headers = {
   'access-control-allow-origin': '*',
@@ -5,6 +6,46 @@ var headers = {
   'access-control-allow-headers': 'content-type, accept',
   'access-control-max-age': 10, // Seconds.
   'Content-Type': 'application/json'
+};
+
+var parseInstagramHTML = function(username, callback) {
+  console.log('username: ', username);
+  var link = 'https://www.instagram.com/' + username + '/?hl=en';
+  var parsedData = [];
+  request({ uri: link}, function(error, response, html) {
+    if(error) {
+      console.log(error)
+    }
+
+    var index = html.indexOf('window._sharedData'), index2;
+    html = html.slice(index, html.length);
+    index = html.indexOf('<');
+    index2 = html.indexOf('{')
+    html = html.slice(index2, index - 1);
+    html = JSON.parse(html)
+
+    // console.log('html: ', html);
+
+    html.entry_data.ProfilePage[0].user.media.nodes.forEach(function(post) {
+      var obj = {};
+      obj.contentType = 'picture';
+      obj.profilePic = html.entry_data.ProfilePage[0].user.profile_pic_url;
+      obj.postPic = post.display_src;
+      obj.postContent = post.caption;
+      obj.groupMemberName = html.entry_data.ProfilePage[0].user.username;
+      obj.timeStamp = post.date;
+      obj.service = 'Instagram';
+      obj.linkToPost = 'https://www.instagram.com/p/' + post.code + '/?taken-by=' + html.entry_data.ProfilePage[0].user.username
+      obj.likes = post.likes.count;
+      obj.numberComments = post.comments.count;
+      parsedData.push(obj)
+    })
+
+    // console.log('resp', parsedData);
+    callback(parsedData);
+  })
+  // console.log(parsedData);
+  // // return 'hello';
 };
 
 var memberIdFinder = function(memberArray, index, req, groupId, res) {
@@ -64,20 +105,38 @@ module.exports = {
       var username = url.slice(0, url.indexOf('/'));
       var groupName = url.slice(username.length + 1);
       responseObj.group = groupName;
-
-      // console.log(responseObj);
+      responseObj.members = [];
 
       db.dbConnection.query("SELECT * FROM members WHERE id IN (SELECT member_id FROM groups_members WHERE group_id = (SELECT id FROM groups WHERE name = ? AND user_id = (SELECT id FROM users WHERE username = ?)));", [groupName, username], function(err, memberInformation) {
         if (err) {
           console.log('could not find the group member names', err);
         }
-        console.log('member names: ', memberInformation);
 
-        //LEAVING OFF HERE
+        var socialMediaCompiler = function(memberInformation, index, req, res) {
+          if (index < memberInformation.length) {
+            var memberObj = {};
+            memberObj.name = memberInformation[index].name;
 
+            // call to instagram
+            parseInstagramHTML(memberInformation[index].instagram, function(data) {
+              memberObj.instagram = data;
 
+              responseObj.members.push(memberObj);
+              socialMediaCompiler(memberInformation, index + 1, req, res);
+            })
+              // call to twitter
+                  // call to facebook
+                    // recursive call to socialMediaCompiler
+          }
+
+          else {
+            console.log('responseObj', responseObj.members[0].instagram);
+            res.end(JSON.stringify(responseObj));
+          }
+        }
+
+        socialMediaCompiler(memberInformation, 0, req, res)
       });
-      
     },
     post: function(req, res) {
       //check if username in DB
