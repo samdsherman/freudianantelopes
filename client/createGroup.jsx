@@ -26,63 +26,62 @@ class CreateGroup extends React.Component {
   }
 
   // send created group to server
-  handleSaveGroupClick() {
-    // grab input values from all fields
-      // format into an object
-      // send POST request to server
+  sendGroup(members) {
+    $.ajax({
+      url: '/pages/',
+      method: 'POST',
+      data: {
+        group: this.state.groupName,
+        user: 'Ker', // <================================================= NEED TO UPDATE
+        members: members
+      },
+      success: function(data) {
+        console.log('POST REQUEST SUCCEEDED');
+      },
+      error: function(err) {
+        console.log('POST REQUEST FAILED')
+        console.log(err);
+      }
+    });
+  }
 
-    // destroy create group form
-
-    /*
-		========= CREATE MEMBER OBJECTS TO BE SENT =============
-    */
+  // retrieve group member accounts from input fields
+  getMembers() {
     var groupMemberNodes = ReactDOM.findDOMNode(this.refs.groupMembers).children;
 
-  	var allAccounts = []; // accounts for all members in the group
+    var allAccounts = []; // accounts for all members in the group
 
     for (var i = 0; i < groupMemberNodes.length; i++) {
-    	var inputNodes = groupMemberNodes[i].children;
+      var inputNodes = groupMemberNodes[i].children;
 
-    	var memberObj = {};
+      var memberObj = {};
 
-    	for (var j = 0; j < inputNodes.length; j++) {
-    		var inputField = inputNodes[j].className;
-    		var inputValue = inputNodes[j].value;
+      for (var j = 0; j < inputNodes.length; j++) {
+        var inputField = inputNodes[j].className;
+        var inputValue = inputNodes[j].value;
 
-    		if (inputField === 'member-name') {
-    			memberObj.name = inputValue;
-    		} else if (inputField === 'ig-username') {
-    			memberObj.instagram = inputValue;
-    		} else if (inputField === 'twitter-username') {
-    			memberObj.twitter = inputValue;
-    		} else if (inputField === 'facebook-username') {
-    			memberObj.facebook = inputValue;
-    		}
-    	}
+        if (inputField === 'member-name') {
+          memberObj.name = inputValue;
+        } else if (inputField === 'ig-username') {
+          memberObj.instagram = inputValue;
+        } else if (inputField === 'twitter-username') {
+          memberObj.twitter = inputValue;
+        } else if (inputField === 'facebook-username') {
+          memberObj.facebook = inputValue;
+        }
+      }
 
-    	allAccounts.push(memberObj);
+      allAccounts.push(memberObj);
     }
 
-    /*
-		========== SEND NEW GROUP TO SERVER ==============
-    */
+    return allAccounts;
+  }
 
-    $.ajax({
-    	url: '/pages/',
-    	method: 'POST',
-    	data: {
-    		group: this.state.groupName,
-    		user: 'Ker', // <================================================= NEED TO UPDATE
-    		members: allAccounts
-    	},
-    	success: function(data) {
-    		console.log('POST REQUEST SUCCEEDED');
-    	},
-    	error: function(err) {
-    		console.log('POST REQUEST FAILED')
-    		console.log(err);
-    	}
-    });
+
+  handleSaveGroupClick() {
+    var members = this.getMembers();
+  
+    this.sendGroup(members);  
 
     // close form after 'save group' is clicked
     this.props.openCreateGroupForm();
