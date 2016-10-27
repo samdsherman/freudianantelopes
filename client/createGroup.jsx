@@ -30,11 +30,12 @@ class CreateGroup extends React.Component {
     $.ajax({
       url: '/pages/' + this.props.currentUser + '/' + this.state.groupName,
       method: 'POST',
-      data: {
-        group: this.state.groupName,
-        user: this.props.currentUser,
+      data: JSON.stringify({
+        groupName: this.state.groupName,
+        username: this.props.currentUser,
         members: members
-      },
+      }),
+      contentType: 'application/json',
       success: (data) => {
         console.log('POST REQUEST SUCCEEDED');
       },
