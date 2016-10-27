@@ -84,6 +84,9 @@ class CreateGroup extends React.Component {
 
     // close form after 'save group' is clicked
     this.props.openCreateGroupForm();
+
+    // add new group to group list in sidebar
+    this.props.addToGroups(this.state.groupName);
   }
 
 

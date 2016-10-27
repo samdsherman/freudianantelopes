@@ -43,8 +43,7 @@ class App extends React.Component {
     this.state = {
       groups: [],
       currentGroup: props.group,
-      currentUser: props.user,
-      newGroupAdded: false
+      currentUser: props.user
     };
   }
 
@@ -93,6 +92,12 @@ class App extends React.Component {
     });
   }
 
+  addToGroups(group) {
+    this.setState({
+      groups: this.state.groups.concat(group)
+    });
+  }
+
   setCurrentGroup(group) {
     this.setState({
       currentGroup: group
@@ -112,7 +117,7 @@ class App extends React.Component {
           <Header getGroups={this.getGroups.bind(this)} login={this.setCurrentUser.bind(this)}/>
         </div>
         <div className='app-sidebar'>
-          <Sidebar newGroupAdded={this.state.newGroupAdded} currentUser={this.state.currentUser} groups={this.state.groups} groupClickHandler={this.setCurrentGroup.bind(this)} />
+          <Sidebar addToGroups={this.addToGroups.bind(this)} currentUser={this.state.currentUser} groups={this.state.groups} groupClickHandler={this.setCurrentGroup.bind(this)} />
         </div>
         <div className='app-feed'>
           <Feed group={this.state.currentGroup} posts={this.getPosts()} />
