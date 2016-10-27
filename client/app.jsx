@@ -67,7 +67,6 @@ class App extends React.Component {
                          // .concat((member.facebook || []).map(post => decorateObject('name', post, member.name)))
                          .concat((member.instagram || []).map(post => decorateObject('name', post, member.name)));
           });
-          debugger;
           posts.sort((a, b) => b.timeStamp - a.timeStamp); // sort posts by newest first
 
           posts.forEach(convertTimeStampToAgo);
