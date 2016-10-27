@@ -14,13 +14,11 @@ var headers = {
 module.exports = {
   pages: {
     get: function(req, res) {
-      var responseObj = {}
 
       var parsedURL = Parse.parseURL(req.url);
       var username = parsedURL.username;
       var groupName = parsedURL.groupName;
-      responseObj.group = groupName;
-      responseObj.members = [];
+      var responseObj = { group: groupName, members: [] };
 
       db.dbConnection.query("SELECT * FROM members WHERE id IN (SELECT member_id FROM groups_members WHERE group_id = (SELECT id FROM groups WHERE name = ? AND user_id = (SELECT id FROM users WHERE username = ?)));", [groupName, username], function(err, groupMemberAccountInformation) {
         if (err) {
@@ -61,8 +59,10 @@ module.exports = {
       db.dbConnection.query('SELECT id FROM users WHERE username = ?', [req.body.username], function(err, userId) {
         //username in DB
         if (userId.length > 0) {
+          //decode groupName
+          var groupName = decodeURI(req.body.groupName)
           //query for group_id
-          db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, req.body.groupName ], function(err, groupId) {
+          db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, groupName ], function(err, groupId) {
             var groupId = groupId;
             if (err) {
               console.log('error in group query', err);
@@ -70,12 +70,12 @@ module.exports = {
 
             if (groupId.length === 0) {
               //insert group into groups table
-              db.dbConnection.query('INSERT INTO groups SET ?', { user_id: userId[0].id, name: req.body.groupName }, function(err) {
+              db.dbConnection.query('INSERT INTO groups SET ?', { user_id: userId[0].id, name: groupName }, function(err) {
                 if (err) {
                   console.log('err in groups db', err);
                 } else {
                   //query for group_id
-                  db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, req.body.groupName ], function(err, idForGroup) {
+                  db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, groupName ], function(err, idForGroup) {
                     if (err) {
                       console.log('error in groups query', err);
                     }
@@ -114,13 +114,16 @@ module.exports = {
         } 
         //username in db
         if (userId.length > 0) {
+          //decode groupName
+          var newGroupName = decodeURI(req.body.newGroupName);
+          var oldGroupName = decodeURI(req.body.oldGroupName);
           //update groupName
-          db.dbConnection.query('UPDATE groups SET name = ? WHERE name = ?', [req.body.newGroupName, req.body.oldGroupName],function(err) {
+          db.dbConnection.query('UPDATE groups SET name = ? WHERE name = ?', [newGroupName, oldGroupName],function(err) {
             if (err) {
               console.log('error updating group name: ', err);
             }
             //find groupId
-            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [req.body.newGroupName], function(err, groupId) {
+            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [newGroupName], function(err, groupId) {
               if (err) {
                 console.log('error finding group id: ', err);
               }

@@ -154,6 +154,29 @@ describe('Persistent database and server communication', () => {
     })
   });
 
+  it('Should accomodate spaces in group names', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:8000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+        json: specTestData.clarkEncoded
+    }, () => {
+
+        var queryString = 'SELECT * FROM groups';
+
+        dbConnection.query(queryString, (err, results) => {
+          expect(results.length).to.equal(1);
+          expect(results[0].name).to.equal('Warrior$ Basketball');
+          done();
+        });
+      });
+    })
+  });
+
   it('Should write members to database when supplied a group', (done) => {
     request({
       method: 'POST',
