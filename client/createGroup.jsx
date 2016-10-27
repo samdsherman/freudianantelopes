@@ -49,7 +49,7 @@ class CreateGroup extends React.Component {
   getMembers() {
     var groupMemberNodes = ReactDOM.findDOMNode(this.refs.groupMembers).children;
 
-    var allAccounts = []; // accounts for all members in the group
+    var allAccounts = {}; // accounts for all members in the group
 
     for (var i = 0; i < groupMemberNodes.length; i++) {
       var inputNodes = groupMemberNodes[i].children;
@@ -61,7 +61,7 @@ class CreateGroup extends React.Component {
         var inputValue = inputNodes[j].value;
 
         if (inputField === 'member-name') {
-          memberObj.name = inputValue;
+          allAccounts[inputValue] = memberObj;
         } else if (inputField === 'ig-username') {
           memberObj.instagram = inputValue;
         } else if (inputField === 'twitter-username') {
@@ -70,8 +70,6 @@ class CreateGroup extends React.Component {
           memberObj.facebook = inputValue;
         }
       }
-
-      allAccounts.push(memberObj);
     }
 
     return allAccounts;
