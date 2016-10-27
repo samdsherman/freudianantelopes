@@ -24,13 +24,50 @@ class Header extends React.Component {
 
   login(e) {
     e.preventDefault();
-    // get request to verify username/password combination
-    this.setState({user: $('.login-form-username').val()});
+    // post request to verify username/password combination
+    $.ajax({
+      url: '/users',
+      method: 'POST',
+      data: JSON.stringify({
+        username: $('.login-form-username').val(),
+        password: $('.login-form-password').val()
+      }),
+      contentType: 'application/json',
+      success: (data) => {
+        console.log('successful login: ', data);
+        var user = $('.login-form-username').val();
+        this.setState({user: user});
+        this.props.login(user);
+      },
+      error: (err) => {
+        console.error('login failed: ', err);
+      }
+    });
+
   }
 
   signUp(e) {
     e.preventDefault();
     // post request to sign up new user
+    $.ajax({
+      url: '/users',
+      method: 'POST',
+      data: JSON.stringify({
+        username: $('.login-form-username').val(),
+        password: $('.login-form-password').val(),
+        newUser: true
+      }),
+      contentType: 'application/json',
+      success: (data) => {
+        console.log('successful signup: ', data);
+        var user = $('.login-form-username').val();
+        this.setState({user: user});
+        this.props.login(user);
+      },
+      error: (err) => {
+        console.error('signup failed: ', err);
+      }
+    });
   }
 
   render() {
