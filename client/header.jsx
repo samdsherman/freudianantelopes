@@ -71,11 +71,18 @@ class Header extends React.Component {
     });
   }
 
+  logout() {
+    this.props.logout();
+    this.setState({
+      user: null
+    });
+  }
+
   render() {
     return (
       <div className='header'>
         <span className='title'>Freudian Antelopes</span>
-        <button className='logout-button' style={{display: this.state.user ? 'inline' : 'none'}}>Log out</button>
+        <button onClick={this.logout.bind(this)} className='logout-button' style={{display: this.state.user ? 'inline' : 'none'}}>Log out</button>
         {this.getLoginForm()}
       </div>
     );
