@@ -40,12 +40,44 @@ var parseInstagramHTML = function(username, callback) {
       obj.numberComments = post.comments.count;
       parsedData.push(obj)
     })
-
-    // console.log('resp', parsedData);
     callback(parsedData);
   })
-  // console.log(parsedData);
-  // // return 'hello';
+};
+
+var parseTwitterAPI = function(twitterHandle, callback) {
+  if (twitterHandle.charAt(0) === '@') {
+    twitterHandle = twitterHandle.slice(1);
+  }
+  var link = 'https://api.twitter.com/1.1/statuses/user_timeline.json\?count\=3\&screen_name\=' + twitterHandle;
+  // For security, we should clean this up later
+  request({
+    method: 'GET',
+    uri: link,
+    headers: {Authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAABJLxgAAAAAAaKdnMoTibNMo2hcO%2BgAc07BbXDc%3DZ39HjkTrdPf7H3EHVeH6x8XKNKJiFAxJmvqaNMhzQDyK64vJNC'}
+  }, function(err, apiResponse) {
+    if (err) {
+      console.log('could not call twitter api', err);
+    }
+    apiResponse = JSON.parse(apiResponse.body);
+
+    var parsedResponses = [];
+
+    for (var i = 0; i < apiResponse.length; i++) {
+      parsedResponses[i] = {};
+
+      parsedResponses[i].profilePic = apiResponse[i].user.profile_image_url_https;
+      parsedResponses[i].postContent = apiResponse[i].text;
+      parsedResponses[i].contentType;
+      parsedResponses[i].groupMemberName = '<user defined name for group member>';
+      parsedResponses[i].timeStamp = apiResponse[i].created_at;
+      parsedResponses[i].service = 'Twitter';
+      parsedResponses[i].linkToPost = 'https://twitter.com/' + apiResponse[i].user.screen_name + '/status/' + apiResponse[i].id_str;
+      parsedResponses[i].retweetCount = apiResponse[i].retweet_count;
+      parsedResponses[i].likes = apiResponse[i].favorite_count;
+      parsedResponses[i].numberComments;
+    }
+    callback(parsedResponses);
+  });
 };
 
 var memberIdFinder = function(memberArray, index, req, groupId, res) {
@@ -118,19 +150,23 @@ module.exports = {
             memberObj.name = memberInformation[index].name;
 
             // call to instagram
-            parseInstagramHTML(memberInformation[index].instagram, function(data) {
-              memberObj.instagram = data;
+            parseInstagramHTML(memberInformation[index].instagram, function(instagramData) {
+              memberObj.instagram = instagramData;
 
-              responseObj.members.push(memberObj);
-              socialMediaCompiler(memberInformation, index + 1, req, res);
-            })
               // call to twitter
+              parseTwitterAPI(memberInformation[index].twitter, function(twitterData) {
+                memberObj.twitter = twitterData;
+      
+                responseObj.members.push(memberObj);
+                socialMediaCompiler(memberInformation, index + 1, req, res);
+              });
+            })
                   // call to facebook
                     // recursive call to socialMediaCompiler
           }
 
           else {
-            console.log('responseObj', responseObj.members[0].instagram);
+            console.log('responseObj', responseObj.members[0].twitter);
             res.end(JSON.stringify(responseObj));
           }
         }

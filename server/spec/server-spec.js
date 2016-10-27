@@ -320,6 +320,8 @@ describe('Persistent database and server communication', () => {
           method: 'GET',
           uri: 'http://127.0.0.1:8000/pages/clark/warriors'
         }, (err, results) => {
+
+          console.log('the big daddy: ', results.body);
           var queryString = "SELECT members.facebook FROM members WHERE id IN " +
                               "(SELECT member_id FROM groups_members WHERE group_id = " +
                               "(SELECT id FROM groups WHERE name = 'Warriors' AND user_id = " +
