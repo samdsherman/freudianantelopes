@@ -98,7 +98,7 @@ class App extends React.Component {
           <Header login={this.setCurrentUser.bind(this)}/>
         </div>
         <div className='app-sidebar'>
-          <Sidebar groups={this.getGroups()} groupClickHandler={this.setCurrentGroup.bind(this)} />
+          <Sidebar currentUser={this.state.currentUser} groups={this.getGroups()} groupClickHandler={this.setCurrentGroup.bind(this)} />
         </div>
         <div className='app-feed'>
           <Feed group={this.state.currentGroup} posts={this.getPosts()} />

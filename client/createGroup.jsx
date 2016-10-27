@@ -28,11 +28,11 @@ class CreateGroup extends React.Component {
   // send created group to server
   sendGroup(members) {
     $.ajax({
-      url: '/pages/',
+      url: '/pages/' + this.props.currentUser + '/' + this.state.groupName,
       method: 'POST',
       data: {
         group: this.state.groupName,
-        user: 'Ker', // <================================================= NEED TO UPDATE
+        user: this.props.currentUser,
         members: members
       },
       success: (data) => {
