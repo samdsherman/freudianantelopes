@@ -2,20 +2,9 @@ class CreateGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      memberForms: [
-      	<CreateMember 
-      		saveMember={this.saveMember.bind(this)} 
-      		saveInstagram={this.saveInstagram.bind(this)} 
-      		saveTwitter={this.saveTwitter.bind(this)} 
-      		saveFacebook={this.saveFacebook.bind(this)} 
-      	/>
-      ],
+      memberForms: [ <CreateMember /> ],
       saveGroupClicked: false,
-      groupName: '',
-      groupMembers: [],
-      instagramUsernames: [],
-      twitterUsernames: [],
-      facebookUsernames: []
+      groupName: ''
     };
   }
 
@@ -26,44 +15,13 @@ class CreateGroup extends React.Component {
   	});
   }
 
-  saveMember(e) {
-  	// add member to groupMembers
-  	this.setState({
-  		groupMembers: this.state.groupMembers.concat(e.target.value)
-  	});
-  }
-
-  saveInstagram(e) {
-  	this.setState({
-  		instagramUsernames: this.state.instagramUsernames.concat(e.target.value)
-  	});
-  }
-
-  saveTwitter(e) {
-  	this.setState({
-  		twitterUsernames: this.state.twitterUsernames.concat(e.target.value)
-  	});
-  }
-
-  saveFacebook(e) {
-  	this.setState({
-  		facebookUsernames: this.state.facebookUsernames.concat(e.target.value)
-  	});
-  }
-
-
   // render another CreateMember form
-  addGroupMember(e) {
+  addMemberForm(e) {
     e.preventDefault();
     this.setState({
       memberForms: this.state.memberForms
       .concat((
-    		<CreateMember 
-      		saveMember={'saved members: ', this.saveMember.bind(this)} 
-      		saveInstagram={'saved IG: ', this.saveInstagram.bind(this)} 
-      		saveTwitter={'saved twitter: ', this.saveTwitter.bind(this)} 
-      		saveFacebook={'saved facebook: ', this.saveFacebook.bind(this)} 
-    		/>
+    		<CreateMember groupMembers={this.state.groupMembers} />
     	))
     });
   }
@@ -74,11 +32,35 @@ class CreateGroup extends React.Component {
       // send POST request to server
 
     // destroy create group form
-    console.log(this.state.groupName)
-    console.log(this.state.groupMembers)
-    console.log(this.state.instagramUsernames)
-    console.log(this.state.twitterUsernames)
-    console.log(this.state.facebookUsernames)
+
+    var groupMemberNodes = ReactDOM.findDOMNode(this.refs.groupMembers).children;
+
+  	var allAccounts = []; // accounts for all members in the group
+
+    for (var i = 0; i < groupMemberNodes.length; i++) {
+    	var inputNodes = groupMemberNodes[i].children;
+
+    	var memberObj = {};
+
+    	for (var j = 0; j < inputNodes.length; j++) {
+    		var inputField = inputNodes[j].className;
+    		var inputValue = inputNodes[j].value;
+
+    		if (inputField === 'member-name') {
+    			memberObj.name = inputValue;
+    		} else if (inputField === 'ig-username') {
+    			memberObj.instagram = inputValue;
+    		} else if (inputField === 'twitter-username') {
+    			memberObj.twitter = inputValue;
+    		} else if (inputField === 'facebook-username') {
+    			memberObj.facebook = inputValue;
+    		}
+    	}
+
+    	allAccounts.push(memberObj);
+    }
+
+    console.log(allAccounts)
   }
 
 
@@ -92,7 +74,7 @@ class CreateGroup extends React.Component {
           <div ref='groupMembers'>
             {this.state.memberForms}
           </div>
-          <a href='#' className='add-member-link' onClick={this.addGroupMember.bind(this)}>Add member</a>
+          <a href='#' className='add-member-link' onClick={this.addMemberForm.bind(this)}>Add member</a>
         </form>
         <button className='save-group-button' onClick={this.handleSaveGroupClick.bind(this)}>Save Group</button>
       </div>
