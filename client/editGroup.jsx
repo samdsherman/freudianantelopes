@@ -1,27 +1,33 @@
 class EditGroup extends React.Component {
-
-// on click of 'edit..'
-	// send a GET request to the server for specific information about group clicked
-	// upon success
-		// render create group form
-			// pre-populate with information received from server
-
 	constructor(props) {
     super(props);
     this.state = {
-      memberForms: null,
-      members: null
+      memberForms: null
     };
   }
 
   // component will fetch group data before mounting
   componentWillMount() {
   	this.getGroup((data) => {
-  		this.setState({members: data});
 
   		// loop through data
-  			// for each member, render a pre-populated EditMember component
+  			// for each member, render a pre-populated EditMember component (use defaultValue=)
   				// concat EditMember component to this.state.memberForms
+
+  		//=====NEED TO EDIT: where in data is members array?=======	
+  		// data.members.forEach((member) => {
+  		// 	this.setState({
+  		// 		memberForms: this.state.memberForms
+  		// 		.concat((
+  		// 			<EditMember 
+  		// 				name={}
+  		// 				instagram={}
+  		// 				twitter={}
+  		// 				facebook={}
+  		// 			/>
+  		// 		));
+  		// 	});
+  		// });
   	});	
   }
 
