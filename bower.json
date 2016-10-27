@@ -1,0 +1,21 @@
+{
+  "name": "freudianantelopes",
+  "description": "Greenfield Project",
+  "main": "index.js",
+  "authors": [
+    "Sam Sherman, Ker Moua, Clark Downer, Will Stockman"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/freudianantelopes/freudianantelopes",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1"
+  }
+}
