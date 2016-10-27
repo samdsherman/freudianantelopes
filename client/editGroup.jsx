@@ -9,12 +9,41 @@ class EditGroup extends React.Component {
 	constructor(props) {
     super(props);
     this.state = {
-      memberForms: [<CreateMember />]
+      memberForms: null,
+      members: null
     };
   }
 
+  // component will fetch group data before mounting
+  componentWillMount() {
+  	this.getGroup((data) => {
+  		this.setState({members: data});
+
+  		// loop through data
+  			// for each member, render a pre-populated EditMember component
+  				// concat EditMember component to this.state.memberForms
+  	});	
+  }
+
+  getGroup(cb) {
+  	$.ajax({
+  		url: '/path',
+  		method: 'GET',
+  		success: (data) => {
+  			console.log('Successful GET request for group info');
+  			console.log(data);
+  			cb(data);
+  		},
+  		error: (err) => {
+  			console.log('Failed to GET group info');
+  			console.log(err);
+  			cb(err);
+  		}
+  	});
+  }
+
   addGroupMember(e) {
-    // should render another CreateMember form
+    // render a new member form if user wants to add to current group
     e.preventDefault();
     this.setState({
       memberForms: this.state.memberForms.concat((<CreateMember />))
