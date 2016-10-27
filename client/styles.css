@@ -30,7 +30,7 @@ body {
   text-align: center;
 }
 
-.login-form {
+.login-form, .logged-in-text {
   float: right;
   text-align: right;
 }
