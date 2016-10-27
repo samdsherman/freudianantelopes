@@ -125,7 +125,7 @@ class EditGroup extends React.Component {
 
   handleSaveChangesClick (e) {
 		// make PUT request to server with values from all inputs
-		var members = getMembers();
+		var members = this.getMembers();
 
 		this.sendChanges(members);
 
