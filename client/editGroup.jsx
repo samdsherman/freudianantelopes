@@ -47,7 +47,8 @@ class EditGroup extends React.Component {
   		url: '/path',
   		method: 'PUT',
   		data: {
-  			group: 'Warriors', // <============================= NEED UPDATE
+  			newGroupName: 'Warriors', // <============================= NEED UPDATE
+  			oldGroupName: 'Warriors', // <============================= NEED UPDATE
   			user: 'Ker', // <================================== NEED UPDATE
   			members: members
   		},
@@ -69,10 +70,43 @@ class EditGroup extends React.Component {
     });
   }
 
+  // get accounts for all members
+  getMembers() {
+    var groupMemberNodes = ReactDOM.findDOMNode(this.refs.groupMembers).children;
+
+    var allAccounts = []; // accounts for all members in the group
+
+    for (var i = 0; i < groupMemberNodes.length; i++) {
+      var inputNodes = groupMemberNodes[i].children;
+
+      var memberObj = {};
+
+      for (var j = 0; j < inputNodes.length; j++) {
+        var inputField = inputNodes[j].className;
+        var inputValue = inputNodes[j].value;
+
+        if (inputField === 'member-name') {
+          memberObj.name = inputValue;
+        } else if (inputField === 'ig-username') {
+          memberObj.instagram = inputValue;
+        } else if (inputField === 'twitter-username') {
+          memberObj.twitter = inputValue;
+        } else if (inputField === 'facebook-username') {
+          memberObj.facebook = inputValue;
+        }
+      }
+
+      allAccounts.push(memberObj);
+    }
+
+    return allAccounts;
+  }
 
   handleSaveChangesClick (e) {
 		// make PUT request to server with values from all inputs
-		this.sendChanges();
+		var members = getMembers();
+
+		this.sendChanges(members);
 
   	this.props.handleEditClick(e);
   }
