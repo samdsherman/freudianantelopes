@@ -393,7 +393,7 @@ describe('Persistent database and server communication', () => {
     }, () => {
       request({
         method: 'POST',
-        uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+        uri: 'http://127.0.0.1:8000/pages/clark/Warrior$%20Basketball',
         json: specTestData.clarkBadInstagram
       }, () => {
         request({
