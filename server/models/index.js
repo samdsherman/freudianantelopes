@@ -55,8 +55,9 @@ module.exports = {
       });
     },
     post: function(req, res) {
+      var username = decodeURI(req.body.username);
       //check if username in DB
-      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [req.body.username], function(err, userId) {
+      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [username], function(err, userId) {
         //username in DB
         if (userId.length > 0) {
           //decode groupName
@@ -84,7 +85,7 @@ module.exports = {
                     //for each member in group
                     var memberContainerArray =[]
                     for (var member in req.body.members) {
-                      memberContainerArray.push(member);
+                      memberContainerArray.push(decodeURI(member));
                     }
 
                     Queries.memberIdFinder(memberContainerArray, 0, groupId[0].id, req, res);
@@ -107,8 +108,9 @@ module.exports = {
       });
     },
     put: function(req, res) {
+      var username = decodeURI(req.body.username);
       //find userId
-      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [req.body.username], function(err, userId) {
+      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [username], function(err, userId) {
         if (err) {
           console.log('error finding user: ', err);
         } 
@@ -136,7 +138,7 @@ module.exports = {
                 //for each member in group
                 var memberContainerArray =[]
                 for (var member in req.body.members) {
-                  memberContainerArray.push(member);
+                  memberContainerArray.push(decodeURI(member));
                 }
 
                 Queries.memberIdFinder(memberContainerArray, 0, groupId[0].id, req, res);
@@ -156,16 +158,18 @@ module.exports = {
 
   users: {
     post: function(req, res) {
+      var username = decodeURI(req.body.username);
+      var password = decodeURI(req.body.password);
       if (req.body.newUser === true) {
-        db.dbConnection.query('SELECT * FROM users WHERE username = ?', [req.body.username], function(err, results) {
+        db.dbConnection.query('SELECT * FROM users WHERE username = ?', [username], function(err, results) {
           if (results.length === 0) {
-            db.dbConnection.query("INSERT INTO users SET ?", { username: req.body.username, password: req.body.password }, function(err) {
+            db.dbConnection.query("INSERT INTO users SET ?", { username: username, password: password }, function(err) {
               if (err) {
                 res.writeHead(404, headers);
                 res.end();
               } else {
                 res.writeHead(200, headers);
-                res.end(JSON.stringify(req.body.username));
+                res.end(JSON.stringify(username));
               }
             })
           } else {
@@ -176,7 +180,7 @@ module.exports = {
           }
         });
       } else {
-        db.dbConnection.query("SELECT id FROM users WHERE username = '" + req.body.username + "' &&  password = '" + req.body.password + "';", function(err, results) {
+        db.dbConnection.query("SELECT id FROM users WHERE username = '" + username + "' &&  password = '" + password + "';", function(err, results) {
           if (err) {
             console.log('error finding user: ', err);
             res.writeHead(404, headers);
