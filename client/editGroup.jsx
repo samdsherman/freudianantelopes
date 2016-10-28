@@ -27,7 +27,7 @@ class EditGroup extends React.Component {
 
   getGroup(cb) {
   	$.ajax({
-  		url: '/pages/' + this.props.currentUser + '/' + this.props.oldGroupName,
+  		url: '/pages/' + encodeURI(this.props.currentUser) + '/' + encodeURI(this.props.oldGroupName),
   		method: 'GET',
       contentType: 'application/json',
   		success: (data) => {
@@ -45,7 +45,7 @@ class EditGroup extends React.Component {
 
   sendChanges(newGroupName, members) {
   	$.ajax({
-  		url: '/pages/' + this.props.currentUser + '/' + this.props.oldGroupName,
+  		url: '/pages/' + encodeURI(this.props.currentUser) + '/' + encodeURI(this.props.oldGroupName),
   		method: 'PUT',
   		data: JSON.stringify({
   			newGroupName: newGroupName,

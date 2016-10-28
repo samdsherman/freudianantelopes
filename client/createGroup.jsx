@@ -28,7 +28,7 @@ class CreateGroup extends React.Component {
   // send created group to server
   sendGroup(members) {
     $.ajax({
-      url: '/pages/' + this.props.currentUser + '/' + this.state.groupName,
+      url: '/pages/' + encodeURI(this.props.currentUser) + '/' + encodeURI(this.state.groupName),
       method: 'POST',
       data: JSON.stringify({
         groupName: this.state.groupName,
