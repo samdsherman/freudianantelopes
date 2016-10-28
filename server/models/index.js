@@ -199,7 +199,7 @@ module.exports = {
     },
 
     get: function(req, res) {
-      var username = req.url.slice(7);
+      var username = decodeURI(req.url.slice(7));
       db.dbConnection.query('SELECT name FROM groups WHERE user_id = (SELECT id FROM users WHERE username = ?);', [username], function(err, results) {
         if (err) {
           console.log('could not find user\'s groups', err);
