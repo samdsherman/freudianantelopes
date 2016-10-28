@@ -157,8 +157,8 @@ module.exports = {
 
   users: {
     post: function(req, res) {
-      var username = decodeURI(req.body.username);
-      var password = decodeURI(req.body.password);
+      var username = req.body.username;
+      var password = req.body.password;
       if (req.body.newUser === true) {
         db.dbConnection.query('SELECT * FROM users WHERE username = ?', [username], function(err, results) {
           if (results.length === 0) {
