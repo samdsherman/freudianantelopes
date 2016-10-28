@@ -42,40 +42,50 @@ class App extends React.Component {
     super(props);
     this.state = {
       groups: [],
-      currentGroup: props.group,
-      currentUser: props.user
+      currentGroup: null,
+      currentUser: null,
+      posts: []
     };
   }
 
   getPosts() {
-    // GET /pages/this.props.user/this.state.currentGroup
-    var group = fakeData[this.state.currentGroup];
+    $.ajax({
+      url: '/pages/' + this.state.currentUser + '/' + this.state.currentGroup,
+      method: 'GET',
+      success: (data) => {
+        console.log('successful pages/user/group get');
+        var group = JSON.parse(data);
+        if (!group) { // the group doesn't exist
+          this.setState({
+            posts: []
+          });
+        } else {
+          var posts = [];
+          group.members.forEach(member => { // collect up all the posts and decorate them with the poster's name.
+            posts = posts.concat((member.twitter || []).map(post => fixTwitterTimestamp(decorateObject('name', post, member.name))))
+                         // .concat((member.facebook || []).map(post => decorateObject('name', post, member.name)))
+                         .concat((member.instagram || []).map(post => decorateObject('name', post, member.name)));
+          });
+          posts.sort((a, b) => b.timeStamp - a.timeStamp); // sort posts by newest first
 
-    if (!group) { // the group doesn't exist
-      return [];
-    }
-    
-    var posts = [];
+          posts.forEach(convertTimeStampToAgo);
 
-    group.members.forEach(member => { // collect up all the posts and decorate them with the poster's name.
-      posts = posts.concat((member.twitter || []).map(post => fixTwitterTimestamp(decorateObject('name', post, member.name))))
-                   // .concat((member.facebook || []).map(post => decorateObject('name', post, member.name)))
-                   .concat((member.instagram || []).map(post => decorateObject('name', post, member.name)));
+          this.setState({
+            posts: posts
+          });
+        }
+      }
     });
-
-    posts.sort((a, b) => a.timeStamp < b.timeStamp); // sort posts by newest first
-
-    posts.forEach(convertTimeStampToAgo);
-
-    return posts;
-
   }
 
 
 
   getGroups() {
     if (!this.state.currentUser) {
-      return [];
+      this.setState({
+        groups: [],
+      });
+      return;
     }
 
     $.ajax({
@@ -83,7 +93,11 @@ class App extends React.Component {
       method: 'GET',
       success: (data) => {
         console.log('Successfully GET groups');
-        this.setState({groups: data});
+        this.setState({
+          groups: data,
+          currentGroup: data[0]
+        });
+        this.getPosts();
       },
       error: (err) => {
         console.log('Failed to GET groups');
@@ -102,11 +116,22 @@ class App extends React.Component {
     this.setState({
       currentGroup: group
     });
+    this.getPosts();
   }
 
   setCurrentUser(user) {
     this.setState({
       currentUser: user
+    });
+    this.getGroups();
+  }
+
+  logout() {
+    this.setState({
+      currentUser: null,
+      currentGroup: null,
+      groups: [],
+      posts: []
     });
   }
 
@@ -114,13 +139,13 @@ class App extends React.Component {
     return (
       <div className='app'>
         <div className='app-header'>
-          <Header getGroups={this.getGroups.bind(this)} login={this.setCurrentUser.bind(this)}/>
+          <Header login={this.setCurrentUser.bind(this)} logout={this.logout.bind(this)}/>
         </div>
         <div className='app-sidebar'>
           <Sidebar addToGroups={this.addToGroups.bind(this)} currentUser={this.state.currentUser} groups={this.state.groups} groupClickHandler={this.setCurrentGroup.bind(this)} />
         </div>
         <div className='app-feed'>
-          <Feed group={this.state.currentGroup} posts={this.getPosts()} />
+          <Feed group={this.state.currentGroup} posts={this.state.posts} />
         </div>
       </div>
     );

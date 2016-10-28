@@ -164,7 +164,6 @@ module.exports = {
           }
 
           else {
-            console.log('responseObj', responseObj.members[0].twitter);
             res.end(JSON.stringify(responseObj));
           }
         }
