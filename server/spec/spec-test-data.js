@@ -74,3 +74,41 @@ exports.willWarriorsModify = {
       instagram: 'notguy' }
     }
 };
+
+exports.clarkEncoded = { 
+  username: 'Clark', 
+  groupName: 'Warrior$%20Basketball', 
+  members: { 
+    'Stephen Curry': {
+      twitter: '@StephenCurry30', 
+      facebook: 'StephenCurryOfficial', 
+      instagram: 'stephencurry30' },
+    'Draymond Green': {
+      twitter: '@dray', 
+      facebook: 'notDraymond', 
+      instagram: 'Green23' },
+    'Other Guy': {
+      twitter: '@guy', 
+      facebook: 'notguy', 
+      instagram: 'notguy' }
+    }
+};
+
+exports.clarkBadInstagram = { 
+  username: 'Clark', 
+  groupName: 'Warrior$%20Basketball', 
+  members: { 
+    'Stephen Curry': {
+      twitter: '@StephenCurry30', 
+      facebook: 'StephenCurryOfficial', 
+      instagram: 'stephencurry30' },
+    'Draymond Green': {
+      twitter: '@dray', 
+      facebook: 'notDraymond', 
+      instagram: '' },
+    'Other Guy': {
+      twitter: '@guy', 
+      facebook: 'notguy', 
+      instagram: 'asdfasfasfafasdfasfasfasf' }
+    }
+};

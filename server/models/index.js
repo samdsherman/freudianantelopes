@@ -14,13 +14,10 @@ var headers = {
 module.exports = {
   pages: {
     get: function(req, res) {
-      var responseObj = {}
-
       var parsedURL = Parse.parseURL(req.url);
-      var username = parsedURL.username;
-      var groupName = parsedURL.groupName;
-      responseObj.group = groupName;
-      responseObj.members = [];
+      var username = decodeURI(parsedURL.username);
+      var groupName = decodeURI(parsedURL.groupName);
+      var responseObj = { group: groupName, members: [] };
 
       db.dbConnection.query("SELECT * FROM members WHERE id IN (SELECT member_id FROM groups_members WHERE group_id = (SELECT id FROM groups WHERE name = ? AND user_id = (SELECT id FROM users WHERE username = ?)));", [groupName, username], function(err, groupMemberAccountInformation) {
         if (err) {
@@ -30,14 +27,15 @@ module.exports = {
         var socialMediaCompiler = function(groupMemberAccountInformation, index, req, res) {
           if (index < groupMemberAccountInformation.length) {
             var memberObj = {};
-            memberObj.name = groupMemberAccountInformation[index].name;
+            var groupMemberName = groupMemberAccountInformation[index].name
+            memberObj.name = groupMemberName;
 
             // call to instagram
-            Parse.parseInstagramHTML(groupMemberAccountInformation[index].instagram, function(instagramData) {
+            Parse.parseInstagramHTML(groupMemberAccountInformation[index].instagram, groupMemberName, function(instagramData) {
               memberObj.instagram = instagramData;
 
               // call to twitter
-              Parse.parseTwitterAPI(groupMemberAccountInformation[index].twitter, function(twitterData) {
+              Parse.parseTwitterAPI(groupMemberAccountInformation[index].twitter, groupMemberName, function(twitterData) {
                 memberObj.twitter = twitterData;
       
                 responseObj.members.push(memberObj);
@@ -46,23 +44,24 @@ module.exports = {
             })
                   // call to facebook
                     // recursive call to socialMediaCompiler
-          }
-
-          else {
+          } else {
             res.end(JSON.stringify(responseObj));
           }
         }
-
         socialMediaCompiler(groupMemberAccountInformation, 0, req, res)
       });
     },
+
     post: function(req, res) {
+      var username = decodeURI(req.body.username);
       //check if username in DB
-      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [req.body.username], function(err, userId) {
+      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [username], function(err, userId) {
         //username in DB
         if (userId.length > 0) {
+          //decode groupName
+          var groupName = decodeURI(req.body.groupName)
           //query for group_id
-          db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, req.body.groupName ], function(err, groupId) {
+          db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, groupName ], function(err, groupId) {
             var groupId = groupId;
             if (err) {
               console.log('error in group query', err);
@@ -70,12 +69,12 @@ module.exports = {
 
             if (groupId.length === 0) {
               //insert group into groups table
-              db.dbConnection.query('INSERT INTO groups SET ?', { user_id: userId[0].id, name: req.body.groupName }, function(err) {
+              db.dbConnection.query('INSERT INTO groups SET ?', { user_id: userId[0].id, name: groupName }, function(err) {
                 if (err) {
                   console.log('err in groups db', err);
                 } else {
                   //query for group_id
-                  db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, req.body.groupName ], function(err, idForGroup) {
+                  db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, groupName ], function(err, idForGroup) {
                     if (err) {
                       console.log('error in groups query', err);
                     }
@@ -84,7 +83,7 @@ module.exports = {
                     //for each member in group
                     var memberContainerArray =[]
                     for (var member in req.body.members) {
-                      memberContainerArray.push(member);
+                      memberContainerArray.push(decodeURI(member));
                     }
 
                     Queries.memberIdFinder(memberContainerArray, 0, groupId[0].id, req, res);
@@ -106,21 +105,26 @@ module.exports = {
         }
       });
     },
+
     put: function(req, res) {
+      var username = decodeURI(req.body.username);
       //find userId
-      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [req.body.username], function(err, userId) {
+      db.dbConnection.query('SELECT id FROM users WHERE username = ?', [username], function(err, userId) {
         if (err) {
           console.log('error finding user: ', err);
         } 
         //username in db
         if (userId.length > 0) {
+          //decode groupName
+          var newGroupName = decodeURI(req.body.newGroupName);
+          var oldGroupName = decodeURI(req.body.oldGroupName);
           //update groupName
-          db.dbConnection.query('UPDATE groups SET name = ? WHERE name = ?', [req.body.newGroupName, req.body.oldGroupName],function(err) {
+          db.dbConnection.query('UPDATE groups SET name = ? WHERE name = ?', [newGroupName, oldGroupName],function(err) {
             if (err) {
               console.log('error updating group name: ', err);
             }
             //find groupId
-            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [req.body.newGroupName], function(err, groupId) {
+            db.dbConnection.query('SELECT id FROM groups WHERE name = ?', [newGroupName], function(err, groupId) {
               if (err) {
                 console.log('error finding group id: ', err);
               }
@@ -133,7 +137,7 @@ module.exports = {
                 //for each member in group
                 var memberContainerArray =[]
                 for (var member in req.body.members) {
-                  memberContainerArray.push(member);
+                  memberContainerArray.push(decodeURI(member));
                 }
 
                 Queries.memberIdFinder(memberContainerArray, 0, groupId[0].id, req, res);
@@ -153,16 +157,18 @@ module.exports = {
 
   users: {
     post: function(req, res) {
+      var username = decodeURI(req.body.username);
+      var password = decodeURI(req.body.password);
       if (req.body.newUser === true) {
-        db.dbConnection.query('SELECT * FROM users WHERE username = ?', [req.body.username], function(err, results) {
+        db.dbConnection.query('SELECT * FROM users WHERE username = ?', [username], function(err, results) {
           if (results.length === 0) {
-            db.dbConnection.query("INSERT INTO users SET ?", { username: req.body.username, password: req.body.password }, function(err) {
+            db.dbConnection.query("INSERT INTO users SET ?", { username: username, password: password }, function(err) {
               if (err) {
                 res.writeHead(404, headers);
                 res.end();
               } else {
                 res.writeHead(200, headers);
-                res.end(JSON.stringify(req.body.username));
+                res.end(JSON.stringify(username));
               }
             })
           } else {
@@ -173,7 +179,7 @@ module.exports = {
           }
         });
       } else {
-        db.dbConnection.query("SELECT id FROM users WHERE username = '" + req.body.username + "' &&  password = '" + req.body.password + "';", function(err, results) {
+        db.dbConnection.query("SELECT id FROM users WHERE username = '" + username + "' &&  password = '" + password + "';", function(err, results) {
           if (err) {
             console.log('error finding user: ', err);
             res.writeHead(404, headers);
