@@ -14,10 +14,9 @@ var headers = {
 module.exports = {
   pages: {
     get: function(req, res) {
-
       var parsedURL = Parse.parseURL(req.url);
-      var username = parsedURL.username;
-      var groupName = parsedURL.groupName;
+      var username = decodeURI(parsedURL.username);
+      var groupName = decodeURI(parsedURL.groupName);
       var responseObj = { group: groupName, members: [] };
 
       db.dbConnection.query("SELECT * FROM members WHERE id IN (SELECT member_id FROM groups_members WHERE group_id = (SELECT id FROM groups WHERE name = ? AND user_id = (SELECT id FROM users WHERE username = ?)));", [groupName, username], function(err, groupMemberAccountInformation) {
@@ -28,14 +27,15 @@ module.exports = {
         var socialMediaCompiler = function(groupMemberAccountInformation, index, req, res) {
           if (index < groupMemberAccountInformation.length) {
             var memberObj = {};
-            memberObj.name = groupMemberAccountInformation[index].name;
+            var groupMemberName = groupMemberAccountInformation[index].name
+            memberObj.name = groupMemberName;
 
             // call to instagram
-            Parse.parseInstagramHTML(groupMemberAccountInformation[index].instagram, function(instagramData) {
+            Parse.parseInstagramHTML(groupMemberAccountInformation[index].instagram, groupMemberName, function(instagramData) {
               memberObj.instagram = instagramData;
 
               // call to twitter
-              Parse.parseTwitterAPI(groupMemberAccountInformation[index].twitter, groupMemberAccountInformation[index].name, function(twitterData) {
+              Parse.parseTwitterAPI(groupMemberAccountInformation[index].twitter, groupMemberName, function(twitterData) {
                 memberObj.twitter = twitterData;
       
                 responseObj.members.push(memberObj);
@@ -44,13 +44,10 @@ module.exports = {
             })
                   // call to facebook
                     // recursive call to socialMediaCompiler
-          }
-
-          else {
+          } else {
             res.end(JSON.stringify(responseObj));
           }
         }
-
         socialMediaCompiler(groupMemberAccountInformation, 0, req, res)
       });
     },

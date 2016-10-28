@@ -1,10 +1,13 @@
 var request = require('request');
 
-var parseInstagramHTML = function(instagramHandle, callback) {
+var parseInstagramHTML = function(instagramHandle, groupMemberName, callback) {
+  if (instagramHandle.charAt(0) === '@') {
+    instagramHandle = instagramHandle.slice(1);
+  }
   var link = 'https://www.instagram.com/' + instagramHandle + '/?hl=en';
   var parsedData = [];
   request({ uri: link}, function(err, response, html) {
-    if(err) {
+    if (err) {
       console.log(err)
     }
 
@@ -15,20 +18,23 @@ var parseInstagramHTML = function(instagramHandle, callback) {
     html = html.slice(index2, index - 1);
     html = JSON.parse(html)
 
-    html.entry_data.ProfilePage[0].user.media.nodes.forEach(function(post) {
-      var obj = {};
-      obj.contentType = 'picture';
-      obj.profilePic = html.entry_data.ProfilePage[0].user.profile_pic_url;
-      obj.postPic = post.display_src;
-      obj.postContent = post.caption;
-      obj.groupMemberName = html.entry_data.ProfilePage[0].user.instagramHandle;
-      obj.timeStamp = post.date;
-      obj.service = 'Instagram';
-      obj.linkToPost = 'https://www.instagram.com/p/' + post.code + '/?taken-by=' + html.entry_data.ProfilePage[0].user.instagramHandle
-      obj.likes = post.likes.count;
-      obj.numberComments = post.comments.count;
-      parsedData.push(obj)
-    })
+    if (html.entry_data.ProfilePage) {
+      
+      html.entry_data.ProfilePage[0].user.media.nodes.forEach(function(post) {
+        var obj = {};
+        obj.contentType = 'picture';
+        obj.profilePic = html.entry_data.ProfilePage[0].user.profile_pic_url;
+        obj.postPic = post.display_src;
+        obj.postContent = post.caption;
+        obj.groupMemberName = groupMemberName;
+        obj.timeStamp = post.date;
+        obj.service = 'Instagram';
+        obj.linkToPost = 'https://www.instagram.com/p/' + post.code + '/?taken-by=' + html.entry_data.ProfilePage[0].user.instagramHandle
+        obj.likes = post.likes.count;
+        obj.numberComments = post.comments.count;
+        parsedData.push(obj)
+      })
+    }
     callback(parsedData);
   })
 };
@@ -48,7 +54,6 @@ var parseTwitterAPI = function(twitterHandle, groupMemberName, callback) {
       console.log('could not call twitter api', err);
     }
     apiResponse = JSON.parse(apiResponse.body);
-
     var parsedResponses = [];
 
     for (var i = 0; i < apiResponse.length; i++) {
@@ -70,7 +75,6 @@ var parseTwitterAPI = function(twitterHandle, groupMemberName, callback) {
 };
 
 var parseURL = function(url) {
-
   var url = url.slice(7);
   var username = url.slice(0, url.indexOf('/'));
   var groupName = url.slice(username.length + 1);

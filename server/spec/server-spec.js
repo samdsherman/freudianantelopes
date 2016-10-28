@@ -359,7 +359,6 @@ describe('Persistent database and server communication', () => {
   });
 
   it('Should send data in the correct format to the front-end', (done) => {
-    // this.timeout(4000);
     request({
       method: 'POST',
       uri: 'http://127.0.0.1:8000/users/clark',
@@ -380,6 +379,31 @@ describe('Persistent database and server communication', () => {
           expect(Array.isArray(results.members[0].instagram)).to.equal(true);
           // expect(Array.isArray(results.members[0].facebook)).to.equal(true);
           expect(Array.isArray(results.members[0].twitter)).to.equal(true);
+          done();
+        });
+      });
+    });
+  });
+
+  it('Should send empty data to front-end when given bad instagram handle instead of erroring', (done) => {
+    request({
+      method: 'POST',
+      uri: 'http://127.0.0.1:8000/users/clark',
+      json: { username: 'Clark', password: 'secure', newUser: true }
+    }, () => {
+      request({
+        method: 'POST',
+        uri: 'http://127.0.0.1:8000/pages/clark/warriors',
+        json: specTestData.clarkBadInstagram
+      }, () => {
+        request({
+          method: 'GET',
+          uri: 'http://127.0.0.1:8000/pages/clark/Warrior$%20Basketball'
+        }, (err, results) => {
+          results = JSON.parse(results.body);
+          expect(Array.isArray(results.members)).to.equal(true);
+          expect(JSON.stringify(results.members[1].instagram)).to.equal('[]');
+          expect(JSON.stringify(results.members[2].instagram)).to.equal('[]');
           done();
         });
       });
