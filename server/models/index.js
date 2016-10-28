@@ -55,13 +55,13 @@ module.exports = {
     },
 
     post: function(req, res) {
-      var username = decodeURI(req.body.username);
+      var username = req.body.username;
       //check if username in DB
       db.dbConnection.query('SELECT id FROM users WHERE username = ?', [username], function(err, userId) {
         //username in DB
         if (userId.length > 0) {
           //decode groupName
-          var groupName = decodeURI(req.body.groupName)
+          var groupName = req.body.groupName;
           //query for group_id
           db.dbConnection.query('SELECT id FROM groups WHERE (user_id, name) = (?, ?)', [ userId[0].id, groupName ], function(err, groupId) {
             var groupId = groupId;
@@ -85,7 +85,7 @@ module.exports = {
                     //for each member in group
                     var memberContainerArray =[]
                     for (var member in req.body.members) {
-                      memberContainerArray.push(decodeURI(member));
+                      memberContainerArray.push(member);
                     }
 
                     Queries.memberIdFinder(memberContainerArray, 0, groupId[0].id, req, res);
@@ -109,7 +109,7 @@ module.exports = {
     },
 
     put: function(req, res) {
-      var username = decodeURI(req.body.username);
+      var username = req.body.username;
       //find userId
       db.dbConnection.query('SELECT id FROM users WHERE username = ?', [username], function(err, userId) {
         if (err) {
@@ -118,8 +118,8 @@ module.exports = {
         //username in db
         if (userId.length > 0) {
           //decode groupName
-          var newGroupName = decodeURI(req.body.newGroupName);
-          var oldGroupName = decodeURI(req.body.oldGroupName);
+          var newGroupName = req.body.newGroupName;
+          var oldGroupName = req.body.oldGroupName;
           //update groupName
           db.dbConnection.query('UPDATE groups SET name = ? WHERE name = ?', [newGroupName, oldGroupName],function(err) {
             if (err) {
@@ -139,7 +139,7 @@ module.exports = {
                 //for each member in group
                 var memberContainerArray =[]
                 for (var member in req.body.members) {
-                  memberContainerArray.push(decodeURI(member));
+                  memberContainerArray.push(member);
                 }
 
                 Queries.memberIdFinder(memberContainerArray, 0, groupId[0].id, req, res);
@@ -159,8 +159,8 @@ module.exports = {
 
   users: {
     post: function(req, res) {
-      var username = decodeURI(req.body.username);
-      var password = decodeURI(req.body.password);
+      var username = req.body.username;
+      var password = req.body.password;
       if (req.body.newUser === true) {
         db.dbConnection.query('SELECT * FROM users WHERE username = ?', [username], function(err, results) {
           if (results.length === 0) {
@@ -199,7 +199,7 @@ module.exports = {
     },
 
     get: function(req, res) {
-      var username = req.url.slice(7);
+      var username = decodeURI(req.url.slice(7));
       db.dbConnection.query('SELECT name FROM groups WHERE user_id = (SELECT id FROM users WHERE username = ?);', [username], function(err, results) {
         if (err) {
           console.log('could not find user\'s groups', err);

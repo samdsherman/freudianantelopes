@@ -38,7 +38,6 @@ class Header extends React.Component {
         var user = $('.login-form-username').val();
         this.setState({user: user});
         this.props.login(user);
-        this.props.getGroups(); // get user's groups
       },
       error: (err) => {
         console.error('login failed: ', err);

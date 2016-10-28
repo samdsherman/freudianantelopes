@@ -50,10 +50,10 @@ class App extends React.Component {
 
   getPosts() {
     $.ajax({
-      url: '/pages/' + this.state.currentUser + '/' + this.state.currentGroup,
+      url: '/pages/' + encodeURI(this.state.currentUser) + '/' + encodeURI(this.state.currentGroup),
       method: 'GET',
       success: (data) => {
-        console.log('successful pages/user/group get');
+        console.log('successful pages/user/group get', this.state.currentUser, this.state.currentGroup);
         var group = JSON.parse(data);
         if (!group) { // the group doesn't exist
           this.setState({
@@ -89,7 +89,7 @@ class App extends React.Component {
     }
 
     $.ajax({
-      url: '/users/' + this.state.currentUser,
+      url: '/users/' + encodeURI(this.state.currentUser),
       method: 'GET',
       success: (data) => {
         console.log('Successfully GET groups');

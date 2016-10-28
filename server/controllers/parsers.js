@@ -43,7 +43,7 @@ var parseTwitterAPI = function(twitterHandle, groupMemberName, callback) {
   if (twitterHandle.charAt(0) === '@') {
     twitterHandle = twitterHandle.slice(1);
   }
-  var link = 'https://api.twitter.com/1.1/statuses/user_timeline.json\?count\=3\&screen_name\=' + twitterHandle;
+  var link = 'https://api.twitter.com/1.1/statuses/user_timeline.json\?count\=10\&screen_name\=' + twitterHandle;
   // For security, we should clean this up later
   request({
     method: 'GET',
