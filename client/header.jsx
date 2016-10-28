@@ -80,7 +80,7 @@ class Header extends React.Component {
   render() {
     return (
       <div className='header'>
-        <span className='title'>Freudian Antelopes</span>
+        <span className='title'>pheed</span>
         <button onClick={this.logout.bind(this)} className='logout-button' style={{display: this.state.user ? 'inline' : 'none'}}>Log out</button>
         {this.getLoginForm()}
       </div>
