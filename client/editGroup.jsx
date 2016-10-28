@@ -115,8 +115,17 @@ class EditGroup extends React.Component {
 
 		this.sendChanges(newGroupName, members);
     
+    // setting the current group updates the feed--
+    // this updates the feed if the group being edited is currently
+    // the group being displayed
+    if (this.props.currentGroup === this.props.currentGroupName) {
+      this.props.setCurrentGroup(newGroupName);
+    }
+    
+    // fetches groups with changes for sidebar
     this.props.getGroups();
 
+    // closes the edit form
   	this.props.handleEditClick(e);
   }
 
