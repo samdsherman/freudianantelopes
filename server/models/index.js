@@ -29,6 +29,8 @@ module.exports = {
             var memberObj = {};
             var groupMemberName = groupMemberAccountInformation[index].name
             memberObj.name = groupMemberName;
+            memberObj.instagramHandle = groupMemberAccountInformation[index].instagram;
+            memberObj.twitterHandle = groupMemberAccountInformation[index].twitter;
 
             // call to instagram
             Parse.parseInstagramHTML(groupMemberAccountInformation[index].instagram, groupMemberName, function(instagramData) {

@@ -29,7 +29,7 @@ class Group extends React.Component {
 	render() {
 		return (
 	  <div className='group'>
-	    <span className='group-name' onClick={() => this.props.clickHandler(this.props.name)}>{this.props.name}</span>
+	    <span><a href='#' className='group-name' onClick={() => this.props.clickHandler(this.props.name)}>{this.props.name}</a></span>
 	    <a href='#' className='group-edit' onClick={this.handleEditClick.bind(this)}>Edit...</a>
 	    {this.state.editGroupForm}
 	  </div>
