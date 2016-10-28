@@ -19,7 +19,7 @@ class Sidebar extends React.Component {
   
         <div className='sidebar-groups-header'>Your groups:</div>
         <div className='sidebar-groups'>
-          {this.props.groups.map(groupName => <Group getGroups={this.props.getGroups} currentUser={this.props.currentUser} name={groupName} clickHandler={this.props.groupClickHandler} />)}
+          {this.props.groups.map(groupName => <Group getGroups={this.props.getGroups} currentUser={this.props.currentUser} currentGroup={this.props.currentGroup} name={groupName} setCurrentGroup={this.props.setCurrentGroup} />)}
         </div>
       </div>
     );
