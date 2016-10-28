@@ -1,0 +1,1 @@
+node server/index.js | mysql.server start | mysql -u root -p '' < db/schema.sql
