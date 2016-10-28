@@ -98,9 +98,7 @@ class EditGroup extends React.Component {
           memberObj.instagram = inputValue;
         } else if (inputField === 'twitter-username') {
           memberObj.twitter = inputValue;
-        } else if (inputField === 'facebook-username') {
-          memberObj.facebook = inputValue;
-        }
+        } 
       }
     }
 
