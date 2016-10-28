@@ -55,6 +55,7 @@ class App extends React.Component {
       success: (data) => {
         console.log('successful pages/user/group get', this.state.currentUser, this.state.currentGroup);
         var group = JSON.parse(data);
+        console.log(group);
         if (!group) { // the group doesn't exist
           this.setState({
             posts: []
@@ -96,8 +97,7 @@ class App extends React.Component {
         this.setState({
           groups: data,
           currentGroup: data[0]
-        });
-        this.getPosts();
+        }, this.getPosts.bind(this));
       },
       error: (err) => {
         console.log('Failed to GET groups');
@@ -115,15 +115,13 @@ class App extends React.Component {
   setCurrentGroup(group) {
     this.setState({
       currentGroup: group
-    });
-    this.getPosts();
+    }, this.getPosts.bind(this));
   }
 
   setCurrentUser(user) {
     this.setState({
       currentUser: user
-    });
-    this.getGroups();
+    }, this.getGroups.bind(this));
   }
 
   logout() {
