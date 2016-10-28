@@ -8,52 +8,30 @@ class EditGroup extends React.Component {
 
   // component will fetch group data before mounting
   componentWillMount() {
-  	
-  // 	// ============= WORKING EXAMPLE ============
-  // 	this.setState({
-		// 	memberForms: this.state.memberForms[0] =
-		// 		<EditMember 
-		// 			name={'Ker'}
-		// 			instagram={'ker-ig'}
-		// 			twitter={'ker-twitter'}
-		// 			facebook={'ker-fb'}
-		// 		/>
-			
-		// });
-		// // ==========================================
-
-  	this.getGroup((data) => {
-
-  		// loop through data
-  			// for each member, render a pre-populated EditMember component (use defaultValue=)
-  				// first component will not be able to be concatenated--must add to array[0]
-  				// concat EditMember component to this.state.memberForms
-
-  		//=====NEED TO EDIT: where in data is members array?=======	
-  		// data.members.forEach((member) => {
-  		// 	this.setState({
-  		// 		memberForms: this.state.memberForms
-  		// 		.concat((
-  		// 			<EditMember 
-  		// 				name={}
-  		// 				instagram={}
-  		// 				twitter={}
-  		// 				facebook={}
-  		// 			/>
-  		// 		))
-  		// 	});
-  		// });
-  	});	
+    this.getGroup((members) => {
+      for (var i = 0; i < members.length; i++) {
+        this.setState({
+          memberForms: this.state.memberForms.concat(( 
+            <EditMember
+              name={members[i].name}
+              instagram={members[i].instagram[0].groupMemberName}
+              twitter={members[i].twitter[0].groupMemberName}
+            />
+          ))
+        });
+      }
+    });
   }
 
   getGroup(cb) {
   	$.ajax({
-  		url: '/path',
+  		url: '/pages/' + this.props.currentUser + '/' + this.props.oldGroupName,
   		method: 'GET',
+      contentType: 'application/json',
   		success: (data) => {
+        data = JSON.parse(data);
   			console.log('Successful GET request for group info');
-  			console.log(data);
-  			cb(data);
+  			cb(data.members);
   		},
   		error: (err) => {
   			console.log('Failed to GET group info');
