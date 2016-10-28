@@ -114,6 +114,8 @@ class EditGroup extends React.Component {
     var newGroupName = this.getNewGroupName();
 
 		this.sendChanges(newGroupName, members);
+    
+    this.props.getGroups();
 
   	this.props.handleEditClick(e);
   }

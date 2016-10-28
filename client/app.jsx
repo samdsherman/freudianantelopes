@@ -96,7 +96,7 @@ class App extends React.Component {
         console.log('Successfully GET groups');
         this.setState({
           groups: data,
-          currentGroup: data[0]
+          currentGroup: this.state.currentGroup || data[0]
         }, this.getPosts.bind(this));
       },
       error: (err) => {
@@ -140,7 +140,7 @@ class App extends React.Component {
           <Header login={this.setCurrentUser.bind(this)} logout={this.logout.bind(this)}/>
         </div>
         <div className='app-sidebar'>
-          <Sidebar addToGroups={this.addToGroups.bind(this)} currentUser={this.state.currentUser} groups={this.state.groups} groupClickHandler={this.setCurrentGroup.bind(this)} />
+          <Sidebar addToGroups={this.addToGroups.bind(this)} currentUser={this.state.currentUser} getGroups={this.getGroups.bind(this)} groups={this.state.groups} groupClickHandler={this.setCurrentGroup.bind(this)} />
         </div>
         <div className='app-feed'>
           <Feed group={this.state.currentGroup} posts={this.state.posts} />
