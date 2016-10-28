@@ -9,13 +9,15 @@ class EditGroup extends React.Component {
   // component will fetch group data before mounting
   componentWillMount() {
     this.getGroup((members) => {
+      console.log(members)
+
       for (var i = 0; i < members.length; i++) {
         this.setState({
           memberForms: this.state.memberForms.concat(( 
             <EditMember
               name={members[i].name}
-              instagram={members[i].instagram[0].groupMemberName}
-              twitter={members[i].twitter[0].groupMemberName}
+              instagram={members[i].instagramHandle}
+              twitter={members[i].twitterHandle}
             />
           ))
         });
