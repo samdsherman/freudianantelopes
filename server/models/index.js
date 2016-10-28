@@ -35,7 +35,7 @@ module.exports = {
               memberObj.instagram = instagramData;
 
               // call to twitter
-              Parse.parseTwitterAPI(groupMemberAccountInformation[index].twitter, function(twitterData) {
+              Parse.parseTwitterAPI(groupMemberAccountInformation[index].twitter, groupMemberAccountInformation[index].name, function(twitterData) {
                 memberObj.twitter = twitterData;
       
                 responseObj.members.push(memberObj);
@@ -54,6 +54,7 @@ module.exports = {
         socialMediaCompiler(groupMemberAccountInformation, 0, req, res)
       });
     },
+
     post: function(req, res) {
       var username = decodeURI(req.body.username);
       //check if username in DB
@@ -107,6 +108,7 @@ module.exports = {
         }
       });
     },
+
     put: function(req, res) {
       var username = decodeURI(req.body.username);
       //find userId

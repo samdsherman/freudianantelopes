@@ -33,7 +33,7 @@ var parseInstagramHTML = function(instagramHandle, callback) {
   })
 };
 
-var parseTwitterAPI = function(twitterHandle, callback) {
+var parseTwitterAPI = function(twitterHandle, groupMemberName, callback) {
   if (twitterHandle.charAt(0) === '@') {
     twitterHandle = twitterHandle.slice(1);
   }
@@ -57,7 +57,7 @@ var parseTwitterAPI = function(twitterHandle, callback) {
       parsedResponses[i].profilePic = apiResponse[i].user.profile_image_url_https;
       parsedResponses[i].postContent = apiResponse[i].text;
       parsedResponses[i].contentType;
-      parsedResponses[i].groupMemberName = '<user defined name for group member>';
+      parsedResponses[i].groupMemberName = groupMemberName;
       parsedResponses[i].timeStamp = apiResponse[i].created_at;
       parsedResponses[i].service = 'Twitter';
       parsedResponses[i].linkToPost = 'https://twitter.com/' + apiResponse[i].user.screen_name + '/status/' + apiResponse[i].id_str;
