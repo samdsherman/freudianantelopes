@@ -1,14 +1,10 @@
-body {
-  background-color: #aaf;
-}
-
 .app-sidebar {
   width: 15%;
   float: left;
   position: absolute;
   height: 100%;
   border-right: 1px solid black;
-  background-color: #99e;
+  background-color: #dff6b5;
 }
 
 .logout-button {
@@ -19,11 +15,15 @@ body {
 .app-header {
   border-bottom: 1px solid black;
   overflow: auto;
+  background-color: #65ae84;
 }
 
 .title {
-  font-size: 24px;
-  font-style: italic;
+  margin: 10px 0 0 5px;
+  font-size: 50px;
+  font-style: oblique;
+  font-family: "Times New Roman", Times, serif;
+  color: white;
 }
 
 .header {
@@ -31,6 +31,8 @@ body {
 }
 
 .login-form, .logged-in-text {
+  color: white;
+  font-size: 16px;
   float: right;
   text-align: right;
 }
@@ -87,7 +89,45 @@ a.post-main {
   text-decoration: none;
 }
 
-.group-member {
-  margin-top: 5px;
-  margin-left: 5px;
+.btn-sm {
+  margin: 4px 4px 6px 0;
+}
+
+.createGroupButton {
+  margin: 4px 0 15px 20px;
+  border-radius: 50px;
+}
+
+.sidebar-groups-header {
+  font-size: 17px;
+  text-decoration: underline;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.save-group-button {
+  margin: 4px 0 0 37px;
+}
+
+.add-member-link {
+  margin-left: 48px;
+}
+
+.login-form-username, .login-form-password {
+  margin: 4px 4px 0 0;
+}
+
+.group-name, .member-name, .ig-username, .twitter-username, .facebook-username {
+  margin: 6px 0 0 15px;
+}
+
+.picture {
+  filter: brightness(4000%);
+  margin: 10px 0 10px 35px;
+  float: left;
+}
+
+.sidebar-groups-header {
+  color: #65ae84 ;
+  font-family: "Arial Black", Gadget, sans-serif;
 }
