@@ -37,6 +37,11 @@
   text-align: right;
 }
 
+.login-form-username, .login-form-password {
+  color: black;
+  margin: 4px 4px 0 0;
+}
+
 .post-service {
   float: right;
   margin-left: 5px;
@@ -80,6 +85,10 @@
   padding: 5px;
 }
 
+.group-member {
+  margin: 0 auto;
+}
+
 .group-edit {
   margin-left: 10px;
 }
@@ -94,7 +103,7 @@ a.post-main {
 }
 
 .createGroupButton {
-  margin: 4px 0 15px 20px;
+  margin: 0% 15%;
   border-radius: 50px;
 }
 
@@ -106,16 +115,13 @@ a.post-main {
 }
 
 .save-group-button {
-  margin: 4px 0 0 37px;
+  margin: 0% 15%;
 }
 
 .add-member-link {
   margin-left: 48px;
 }
 
-.login-form-username, .login-form-password {
-  margin: 4px 4px 0 0;
-}
 
 .group-name, .member-name, .ig-username, .twitter-username, .facebook-username {
   margin: 6px 0 0 15px;

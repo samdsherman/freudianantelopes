@@ -15,12 +15,12 @@ class Sidebar extends React.Component {
     return (
       <div className='sidebar'>
      
-        <CreateGroupButton addToGroups={this.props.addToGroups} currentUser={this.props.currentUser} createGroupClicked={this.state.createGroupClicked} openCreateGroupForm={this.openCreateGroupForm.bind(this)}/>
   
         <div className='sidebar-groups-header'>Your groups:</div>
         <div className='sidebar-groups'>
           {this.props.groups.map(groupName => <Group getGroups={this.props.getGroups} currentUser={this.props.currentUser} currentGroup={this.props.currentGroup} name={groupName} setCurrentGroup={this.props.setCurrentGroup} />)}
         </div>
+        <CreateGroupButton addToGroups={this.props.addToGroups} currentUser={this.props.currentUser} createGroupClicked={this.state.createGroupClicked} openCreateGroupForm={this.openCreateGroupForm.bind(this)}/>
       </div>
     );
   }
