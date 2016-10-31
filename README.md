@@ -37,6 +37,15 @@ From within the root directory:
 ```sh
 npm install
 ```
+### Create Twitter bearer token 
+
+Go [here](https://dev.twitter.com/oauth/application-only).
+
+Create db/config.js with 'module.exports = "Bearer <your-bearer-token-here>"'
+
+### Update db/index.js file 
+
+Edit the file with your local mysql username and password
 
 ### Roadmap
 
