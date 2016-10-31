@@ -41,11 +41,13 @@ module.exports = {
                 memberObj.twitter = twitterData;
       
                 responseObj.members.push(memberObj);
+                // recursive call to socialMediaCompiler
                 socialMediaCompiler(groupMemberAccountInformation, index + 1, req, res);
               });
             })
-                  // call to facebook
-                    // recursive call to socialMediaCompiler
+                  // Steps to add facebook:
+                  // 1. call to facebook
+                  // 2. move recursive call to socialMediaCompiler here
           } else {
             res.end(JSON.stringify(responseObj));
           }
@@ -158,11 +160,14 @@ module.exports = {
   },
 
   users: {
+    // login and signup functionality
     post: function(req, res) {
       var username = req.body.username;
       var password = req.body.password;
+      // new user sign up
       if (req.body.newUser === true) {
         db.dbConnection.query('SELECT * FROM users WHERE username = ?', [username], function(err, results) {
+          // unique username
           if (results.length === 0) {
             db.dbConnection.query("INSERT INTO users SET ?", { username: username, password: password }, function(err) {
               if (err) {
@@ -173,6 +178,7 @@ module.exports = {
                 res.end(JSON.stringify(username));
               }
             })
+          // username already exists  
           } else {
             console.log('user already exists');
             // add logic for notifying user later
@@ -180,12 +186,14 @@ module.exports = {
             res.end();
           }
         });
+      // existing user login
       } else {
         db.dbConnection.query("SELECT id FROM users WHERE username = '" + username + "' &&  password = '" + password + "';", function(err, results) {
           if (err) {
             console.log('error finding user: ', err);
             res.writeHead(404, headers);
             res.end();
+          // could not find user with matching username and password  
           } else if (results.length === 0) {
             res.writeHead(404, headers);
             res.end();
@@ -198,6 +206,7 @@ module.exports = {
       }
     },
 
+    // find a user's groups
     get: function(req, res) {
       var username = decodeURI(req.url.slice(7));
       db.dbConnection.query('SELECT name FROM groups WHERE user_id = (SELECT id FROM users WHERE username = ?);', [username], function(err, results) {
