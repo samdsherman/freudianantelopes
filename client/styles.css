@@ -7,17 +7,6 @@ input {
   border-radius: 5px;
 }
 
-.app-sidebar {
-  width: 15%;
-  float: left;
-  position: absolute;
-  height: 80%;
-  border-right: 1px solid darkgrey;
-  border-radius: 5px;
-  background-color: white;
-  font-family: 'Scope One', serif;
-  overflow: auto;
-}
 
 .logout-button {
   float: right;
@@ -45,12 +34,13 @@ input {
 }
 
 .hackreactor-tag {
-  position: fixed; 
+  position: relative; 
   top: 0; 
   left: 0; 
   border: 0; 
   transform: rotate(-90deg);
-  height: 15%
+  height: 105px;
+  float: left;
 }
 
 .login-form, .logged-in-text {
@@ -65,6 +55,18 @@ input {
 .login-form-username, .login-form-password {
   color: black;
   margin: 4px 4px 0 0;
+}
+
+.app-sidebar {
+  width: 15%;
+  float: left;
+  position: absolute;
+  height: 80%;
+  border-right: 1px solid darkgrey;
+  border-radius: 5px;
+  background-color: white;
+  font-family: 'Scope One', serif;
+  overflow: auto;
 }
 
 .post-service {
