@@ -1,29 +1,41 @@
+body {
+  font-family: 'Scope One', serif;
+}
+
+input {
+  border: solid 1px lightgrey;
+  border-radius: 5px;
+}
+
 .app-sidebar {
   width: 15%;
   float: left;
   position: absolute;
   height: 100%;
-  border-right: 1px solid black;
-  background-color: #dff6b5;
+  border-right: 1px solid darkgrey;
+  border-radius: 5px;
+  background-color: white;
+  font-family: 'Scope One', serif;
 }
 
 .logout-button {
   float: right;
   margin-left: 5px;
+  font-family: 'Scope One', serif;
 }
 
 .app-header {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid darkgrey;
+  border-radius: 5px;
   overflow: auto;
-  background-color: #65ae84;
+  background-color: white;
 }
 
 .title {
   margin: 10px 0 0 5px;
-  font-size: 50px;
-  font-style: oblique;
-  font-family: "Times New Roman", Times, serif;
-  color: white;
+  font-size: 70px;
+  font-family: 'Fredericka the Great', cursive;
+  color: #337ab7;
 }
 
 .header {
@@ -31,10 +43,12 @@
 }
 
 .login-form, .logged-in-text {
-  color: white;
+  color: black;
   font-size: 16px;
   float: right;
   text-align: right;
+  font-family: 'Scope One', serif;
+  margin-top: 10px;
 }
 
 .login-form-username, .login-form-password {
@@ -55,8 +69,15 @@
   overflow: auto;
 }
 
+.feed-header {
+  font-family: 'Scope One', serif;
+  font-size: 20px;
+  font-weight: bold;
+}
+
 .post-timestamp {
   float: right;
+  font-family: 'Scope One', serif;
 }
 
 .post {
@@ -66,14 +87,18 @@
   overflow: auto;
 }
 
+.img-circle {
+  border: solid 2px lightgrey;
+}
+
 /*.feed-posts .post:nth-child(even) {
   background-color: rgba(255, 255, 255, .93);
   border-radius: 20px;
   text-align: center;
   padding-top: 10px;
-}*/
+}
 
-/*.feed-posts .post:nth-child(odd) {
+.feed-posts .post:nth-child(odd) {
   background-color: rgba(255, 255, 255, .93);
 }*/
 
@@ -86,7 +111,7 @@
 }
 
 .group-edit {
-  margin-left: 10px;
+  float: right;
 }
 
 a.post-main {
@@ -103,9 +128,14 @@ a.post-main {
   border-radius: 50px;
 }
 
+.create-group-form {
+  margin-top: 10px;
+  margin-left: 5px;
+}
+
 .sidebar-groups-header {
   font-size: 17px;
-  text-decoration: underline;
+  font-family: 'Scope One', serif;
   text-align: center;
   margin-bottom: 5px;
 }
@@ -114,13 +144,30 @@ a.post-main {
   margin: 0% 15%;
 }
 
+.save-changes-button {
+  margin: 0% 15%;
+}
+
 .add-member-link {
-  margin-left: 48px;
+  float: right;
 }
 
 
 .group-name, .member-name, .ig-username, .twitter-username, .facebook-username {
   margin: 6px 0 0 15px;
+  font-color: black;
+}
+
+.group-name {
+  color: black;
+  font-size: 20px;
+  font-family: 'Fredericka the Great', cursive;
+}
+
+.group-name:hover {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .picture {
@@ -129,10 +176,10 @@ a.post-main {
   float: left;
 }
 
-.sidebar-groups-header {
+/*.sidebar-groups-header {
   color: #65ae84 ;
   font-family: "Arial Black", Gadget, sans-serif;
-}
+}*/
 
 .post-link:hover {
   text-decoration: none;
@@ -166,10 +213,21 @@ a.post-main {
   border: solid 1px lightgrey;
 }
 
+.panel-body {
+  font-family: 'Scope One', serif;
+  font-size: 25px;
+}
+
 .panel-info {
   border-radius: 24px;
 }
 
+.post-groupmember-name {
+  font-family: 'Fredericka the Great', cursive;
+  font-size: 20px;
+  font-weight: bold;
+  color: #337ab7;
+}
 
 #talkbubble {
   position: relative;
@@ -190,9 +248,9 @@ a.post-main {
   width: 0;
   height: 0;
   
-  border-top: 13px solid transparent;
-  border-right: 26px solid lightblue;
-  border-bottom: 13px solid transparent;
+  border-top: 10px solid transparent;
+  border-right: 13px solid lightblue;
+  border-bottom: 10px solid transparent;
 }
 
 #talkbubble textarea {

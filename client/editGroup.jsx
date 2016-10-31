@@ -137,7 +137,7 @@ class EditGroup extends React.Component {
 	          <div ref='groupMembers'>
 	            {this.state.memberForms}
 	          </div>
-	          <button className='add-another-member-button btn btn-primary' onClick={this.addGroupMember.bind(this)}>Add another member</button>
+	          <a href='#' className='add-member-link' onClick={this.addGroupMember.bind(this)}>add another member</a>
 	        </form>
 	        <button className='save-changes-button btn btn-primary' onClick={this.handleSaveChangesClick.bind(this)}>Save Changes</button>
 	      </div>

@@ -8,7 +8,7 @@ var Post = props => (
           <a className='post-link' href={props.post.linkToPost} target="_blank">
             <div className='panel-heading'>
                 
-              <span>{props.post.name}</span>
+              <span className='post-groupmember-name'>{props.post.name}</span>
               <img className='post-service' src={'assets/' + props.post.service + '.png'} />
               <span className='post-timestamp'>{props.post.timeStampAgo}</span>
                 
