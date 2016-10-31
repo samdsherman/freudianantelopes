@@ -20,7 +20,7 @@ class CreateGroup extends React.Component {
     this.setState({
       memberForms: this.state.memberForms
       .concat((
-        <CreateMember groupMembers={this.state.groupMembers} />
+        <CreateMember />
       ))
     });
   }
@@ -109,5 +109,11 @@ class CreateGroup extends React.Component {
     );
   }
 }
+
+CreateGroup.propTypes = {
+  addToGroups: React.PropTypes.func, 
+  currentUser: React.PropTypes.string, 
+  openCreateGroupForm: React.PropTypes.func
+};
 
 window.CreateGroup = CreateGroup;

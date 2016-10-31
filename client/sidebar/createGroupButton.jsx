@@ -26,4 +26,11 @@ var CreateGroupButton = props => {
 
 };
 
+CreateGroupButton.propTypes = {
+  addToGroups: React.PropTypes.func, 
+  currentUser: React.PropTypes.string, 
+  createGroupClicked: React.PropTypes.bool, 
+  openCreateGroupForm: React.PropTypes.func
+};
+
 window.CreateGroupButton = CreateGroupButton;
