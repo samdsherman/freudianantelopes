@@ -1,4 +1,5 @@
 var request = require('request');
+var bearerToken = require('../config.js');
 
 var parseInstagramHTML = function(instagramHandle, groupMemberName, callback) {
   if (instagramHandle.charAt(0) === '@') {
@@ -48,7 +49,7 @@ var parseTwitterAPI = function(twitterHandle, groupMemberName, callback) {
   request({
     method: 'GET',
     uri: link,
-    headers: {Authorization: 'Bearer AAAAAAAAAAAAAAAAAAAAABJLxgAAAAAAaKdnMoTibNMo2hcO%2BgAc07BbXDc%3DZ39HjkTrdPf7H3EHVeH6x8XKNKJiFAxJmvqaNMhzQDyK64vJNC'}
+    headers: {Authorization: bearerToken}
   }, function(err, apiResponse) {
     if (err) {
       console.log('could not call twitter api', err);
