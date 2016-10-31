@@ -6,5 +6,8 @@ var CreateMember = props => (
 	</div>
 );
 
+CreateMember.propTypes = {
+	// none
+};
 
 window.CreateMember = CreateMember;

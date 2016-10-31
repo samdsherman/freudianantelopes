@@ -4,7 +4,8 @@
   "description": "> Pithy project description",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./server/index.js | mysql.server start | mysql -u root -p '' < db/schema.sql"
+    "start": "nodemon ./server/index.js | mysql.server start | mysql -u root -p '' < db/schema.sql",
+    "test": "mocha -t 4000 server/spec/server-spec.js"
   },
   "repository": {
     "type": "git",

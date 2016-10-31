@@ -20,7 +20,7 @@ class CreateGroup extends React.Component {
     this.setState({
       memberForms: this.state.memberForms
       .concat((
-        <CreateMember groupMembers={this.state.groupMembers} />
+        <CreateMember />
       ))
     });
   }
@@ -94,16 +94,26 @@ class CreateGroup extends React.Component {
     return (
       <div className='create-group-form'>
         <form className='add-group'>
-          <input className='group-name' placeholder='Group Name' onBlur={this.saveGroupName.bind(this)}></input>
+          <input className='group-name-input' placeholder='Group Name' onBlur={this.saveGroupName.bind(this)}></input>
           <div ref='groupMembers'>
             {this.state.memberForms}
           </div>
-          <a href='#' className='add-member-link' onClick={this.addMemberForm.bind(this)}>Add member</a>
+          <div className='add-member-link'>
+            <a href='#' onClick={this.addMemberForm.bind(this)}>add another member</a>
+          </div>
         </form>
-        <button className='save-group-button' onClick={this.handleSaveGroupClick.bind(this)}>Save Group</button>
+        <div className='button-container'>
+          <button className='save-group-button btn btn-primary' onClick={this.handleSaveGroupClick.bind(this)}>Save Group</button>
+        </div>
       </div>
     );
   }
 }
+
+CreateGroup.propTypes = {
+  addToGroups: React.PropTypes.func, 
+  currentUser: React.PropTypes.string, 
+  openCreateGroupForm: React.PropTypes.func
+};
 
 window.CreateGroup = CreateGroup;

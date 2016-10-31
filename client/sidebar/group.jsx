@@ -30,11 +30,19 @@ class Group extends React.Component {
 		return (
 	  <div className='group'>
 	    <span><a href='#' className='group-name' onClick={() => this.props.setCurrentGroup(this.props.name)}>{this.props.name}</a></span>
-	    <a href='#' className='group-edit' onClick={this.handleEditClick.bind(this)}>Edit...</a>
+	    <a href='#' className='group-edit' onClick={this.handleEditClick.bind(this)}>edit</a>
 	    {this.state.editGroupForm}
 	  </div>
 		);
 	}
 }
+
+Group.propTypes = {
+  currentUser: React.PropTypes.string,
+  getGroups: React.PropTypes.func,
+  setCurrentGroup: React.PropTypes.func,
+  currentGroup: React.PropTypes.string,
+  name: React.PropTypes.string
+};
 
 window.Group = Group;

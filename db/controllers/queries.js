@@ -1,6 +1,7 @@
 var request = require('request');
-var db = require('../../db');
+var db = require('../index.js');
 
+// Query for group member ids for POST and PUT requests to '/pages'
 var memberIdFinder = function(groupMembers, index, groupId, req, res) {
   if (index < groupMembers.length) {
     var facebookHandle = decodeURI(req.body.members[groupMembers[index]].facebook);

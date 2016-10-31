@@ -137,12 +137,25 @@ class EditGroup extends React.Component {
 	          <div ref='groupMembers'>
 	            {this.state.memberForms}
 	          </div>
-	          <button className='add-another-member-button' onClick={this.addGroupMember.bind(this)}>Add another member</button>
+            <div className='add-member-link'>
+	           <a href='#' onClick={this.addGroupMember.bind(this)}>add another member</a>
+            </div>
 	        </form>
-	        <button className='save-changes-button' onClick={this.handleSaveChangesClick.bind(this)}>Save Changes</button>
+          <div className='button-container'>
+	        <button className='save-changes-button btn btn-primary' onClick={this.handleSaveChangesClick.bind(this)}>Save Changes</button>
+          </div>
 	      </div>
 		);
 	}
+};
+
+EditGroup.propTypes = {
+  currentUser: React.PropTypes.string,
+  getGroups: React.PropTypes.func,
+  setCurrentGroup: React.PropTypes.func,
+  currentGroup: React.PropTypes.string,
+  currentGroupName: React.PropTypes.string,
+  handleEditClick: React.PropTypes.func
 };
 
 window.EditGroup = EditGroup;

@@ -143,11 +143,15 @@ class App extends React.Component {
           <Sidebar addToGroups={this.addToGroups.bind(this)} currentUser={this.state.currentUser} getGroups={this.getGroups.bind(this)} groups={this.state.groups} setCurrentGroup={this.setCurrentGroup.bind(this)} currentGroup={this.state.currentGroup} />
         </div>
         <div className='app-feed'>
-          <Feed group={this.state.currentGroup} posts={this.state.posts} />
+          <Feed currentUser={this.state.currentUser} group={this.state.currentGroup} posts={this.state.posts} />
         </div>
       </div>
     );
   }
 }
+
+App.propTypes = {
+  // none
+};
 
 window.App = App;
