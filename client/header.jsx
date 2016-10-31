@@ -82,6 +82,9 @@ class Header extends React.Component {
   render() {
     return (
       <div className='header'>
+        <a href="http://hackreactor.com">
+        <img className='hackreactor-tag' src="http://i.imgur.com/x86kKmF.png" alt="Built at Hack Reactor" />
+        </a>
         <button className='btn btn-primary logout-button' onClick={this.logout.bind(this)} style={{display: this.state.user ? 'inline' : 'none'}}>Log out</button>
         {this.getLoginForm()}
         <span className='title'>pheed.</span>

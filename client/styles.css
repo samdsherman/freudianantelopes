@@ -42,6 +42,15 @@ input {
   text-align: center;
 }
 
+.hackreactor-tag {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  border: 0; 
+  transform: rotate(-90deg);
+  height: 115px;
+}
+
 .login-form, .logged-in-text {
   color: black;
   font-size: 16px;
