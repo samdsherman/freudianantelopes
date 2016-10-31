@@ -1,6 +1,8 @@
 var request = require('request');
+// Make sure to get a bearer token and export it in config.js
 var bearerToken = require('../config.js');
 
+// Scrape user's instagram page and parse html
 var parseInstagramHTML = function(instagramHandle, groupMemberName, callback) {
   if (instagramHandle.charAt(0) === '@') {
     instagramHandle = instagramHandle.slice(1);
@@ -40,12 +42,12 @@ var parseInstagramHTML = function(instagramHandle, groupMemberName, callback) {
   })
 };
 
+// Call twitter api and parse returned object
 var parseTwitterAPI = function(twitterHandle, groupMemberName, callback) {
   if (twitterHandle.charAt(0) === '@') {
     twitterHandle = twitterHandle.slice(1);
   }
   var link = 'https://api.twitter.com/1.1/statuses/user_timeline.json\?count\=10\&screen_name\=' + twitterHandle;
-  // For security, we should clean this up later
   request({
     method: 'GET',
     uri: link,
@@ -74,6 +76,7 @@ var parseTwitterAPI = function(twitterHandle, groupMemberName, callback) {
   });
 };
 
+// Parse urls from post requests to use in db queries
 var parseURL = function(url) {
   var url = url.slice(7);
   var username = url.slice(0, url.indexOf('/'));

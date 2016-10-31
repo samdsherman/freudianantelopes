@@ -22,7 +22,6 @@ describe('Persistent database and server communication', () => {
     dbConnection.query('truncate members');
     dbConnection.query('truncate groups');
     dbConnection.query('truncate groups_members', done);
-    // done();
   });
 
   afterEach(() => {
