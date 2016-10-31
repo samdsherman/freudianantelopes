@@ -4,7 +4,7 @@ var Feed = props => {
 			<div className='feed'>
 				<h1><b>What is Pheed?</b></h1>
 				<div>
-					<h3>A service to compile all the social media content of different people you want to follow in one place. <br />
+					<h3>A service to compile all the social media content of different people you want to follow in one place.
 					You can create different groups to follow and it takes just one click to see all the latest updates.</h3>
 				</div>
 				<h1><b>How to use Pheed:</b></h1>
