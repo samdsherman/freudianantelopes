@@ -6,7 +6,7 @@ var db = new Sequelize('antelopes', 'root', '');
 var dbConnection = mysql.createConnection({
 	host: 'localhost',
 	user: 'root',
-	password: 'antelopes',
+	password: '',
 	database: 'antelopes'
 });
 
