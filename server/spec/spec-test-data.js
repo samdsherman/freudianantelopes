@@ -77,7 +77,7 @@ exports.willWarriorsModify = {
 
 exports.clarkEncoded = { 
   username: 'Clark', 
-  groupName: 'Warrior$%20Basketball', 
+  groupName: 'Warrior$ Basketball', 
   members: { 
     'Stephen Curry': {
       twitter: '@StephenCurry30', 
@@ -96,7 +96,7 @@ exports.clarkEncoded = {
 
 exports.clarkBadInstagram = { 
   username: 'Clark', 
-  groupName: 'Warrior$%20Basketball', 
+  groupName: 'Warrior$ Basketball', 
   members: { 
     'Stephen Curry': {
       twitter: '@StephenCurry30', 

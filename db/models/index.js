@@ -1,5 +1,5 @@
 var request = require('request');
-var db = require('../../db');
+var db = require('../index.js');
 var Parse = require('../controllers/parsers.js');
 var Queries = require('../controllers/queries.js');
 
@@ -217,6 +217,3 @@ module.exports = {
   }
 
 };
-
-
-
