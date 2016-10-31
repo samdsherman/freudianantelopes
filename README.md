@@ -1,6 +1,6 @@
-# Project Name
+# Pheed
 
-> Pithy project description
+> Create custom groups to follow your favorite people on Twitter and Instagram in one place!
 
 ## Team
 
@@ -20,15 +20,13 @@
 
 ## Usage
 
-> Some usage instructions
+> Log in or sign up, create a group, and add any Twitter or Instagram handle to show their social media posts in your pheed.
 
 ## Requirements
 
-- Node 0.10.x
-- Redis 2.6.x
-- Postgresql 9.1.x
-- etc
-- etc
+- Node ^6.6.0
+- npm ^3.10.3
+- MySQL ^5.7.11
 
 ## Development
 
@@ -37,14 +35,12 @@
 From within the root directory:
 
 ```sh
-sudo npm install -g bower
 npm install
-bower install
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View the project roadmap [here](https://github.com/freudianantelopes/freudianantelopes/issues)
 
 
 ## Contributing
