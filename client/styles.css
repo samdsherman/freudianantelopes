@@ -1,5 +1,5 @@
 body {
-  font-family: 'Scope One', serif;
+  overflow: auto;
 }
 
 input {
@@ -11,11 +11,12 @@ input {
   width: 15%;
   float: left;
   position: absolute;
-  height: 100%;
+  height: 80%;
   border-right: 1px solid darkgrey;
   border-radius: 5px;
   background-color: white;
   font-family: 'Scope One', serif;
+  overflow: auto;
 }
 
 .logout-button {
@@ -27,6 +28,7 @@ input {
 .app-header {
   border-bottom: 1px solid darkgrey;
   border-radius: 5px;
+  height: 20%;
   overflow: auto;
   background-color: white;
 }
@@ -72,7 +74,7 @@ input {
 
 .app-feed {
   position: absolute;
-  height: 100%;
+  height: 80%;
   padding-left: 20px;
   margin-left: 15%;
   overflow: auto;
@@ -132,9 +134,8 @@ a.post-main {
   margin: 4px 4px 6px 0;
 }
 
-.createGroupButton {
-  margin: 0% 15%;
-  border-radius: 50px;
+.button-container {
+  text-align: center;
 }
 
 .create-group-form {
@@ -149,16 +150,8 @@ a.post-main {
   margin-bottom: 5px;
 }
 
-.save-group-button {
-  margin: 0% 15%;
-}
-
-.save-changes-button {
-  margin: 0% 15%;
-}
-
 .add-member-link {
-  float: right;
+  text-align: right;
 }
 
 
