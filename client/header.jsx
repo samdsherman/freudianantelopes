@@ -12,12 +12,14 @@ class Header extends React.Component {
       return (<span className='logged-in-text'>Logged in as {this.state.user}</span>);
     } else {
       return (
+        <span>
         <form className='login-form'>
           Username: <input className='login-form-username' type='text' name='username' /><br/>
           Password: <input className='login-form-password' type='password' name='password' /><br/>
-          <button onClick={this.login.bind(this)}>Login</button>
-          <button onClick={this.signUp.bind(this)}>Sign up</button>
+          <button className='btn btn-primary' onClick={this.login.bind(this)}>Login</button>
+          <button className='btn btn-primary' onClick={this.signUp.bind(this)}>Sign up</button>
         </form>
+        </span>
       );
     }
   }
@@ -80,9 +82,12 @@ class Header extends React.Component {
   render() {
     return (
       <div className='header'>
-        <span className='title'>pheed</span>
-        <button onClick={this.logout.bind(this)} className='logout-button' style={{display: this.state.user ? 'inline' : 'none'}}>Log out</button>
+        <a href="http://hackreactor.com">
+        <img className='hackreactor-tag' src="http://i.imgur.com/x86kKmF.png" alt="Built at Hack Reactor" />
+        </a>
+        <button className='btn btn-primary logout-button' onClick={this.logout.bind(this)} style={{display: this.state.user ? 'inline' : 'none'}}>Log out</button>
         {this.getLoginForm()}
+        <span className='title'>pheed.</span>
       </div>
     );
   }

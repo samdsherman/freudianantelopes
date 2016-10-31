@@ -1,38 +1,70 @@
 body {
-  background-color: #aaf;
+  overflow: auto;
+}
+
+input {
+  border: solid 1px lightgrey;
+  border-radius: 5px;
 }
 
 .app-sidebar {
   width: 15%;
   float: left;
   position: absolute;
-  height: 100%;
-  border-right: 1px solid black;
-  background-color: #99e;
+  height: 80%;
+  border-right: 1px solid darkgrey;
+  border-radius: 5px;
+  background-color: white;
+  font-family: 'Scope One', serif;
+  overflow: auto;
 }
 
 .logout-button {
   float: right;
   margin-left: 5px;
+  font-family: 'Scope One', serif;
 }
 
 .app-header {
-  border-bottom: 1px solid black;
+  border-bottom: 1px solid darkgrey;
+  border-radius: 5px;
+  height: 20%;
   overflow: auto;
+  background-color: white;
 }
 
 .title {
-  font-size: 24px;
-  font-style: italic;
+  margin: 10px 0 0 5px;
+  font-size: 70px;
+  font-family: 'Fredericka the Great', cursive;
+  color: #337ab7;
 }
 
 .header {
   text-align: center;
 }
 
+.hackreactor-tag {
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  border: 0; 
+  transform: rotate(-90deg);
+  height: 115px;
+}
+
 .login-form, .logged-in-text {
+  color: black;
+  font-size: 16px;
   float: right;
   text-align: right;
+  font-family: 'Scope One', serif;
+  margin-top: 10px;
+}
+
+.login-form-username, .login-form-password {
+  color: black;
+  margin: 4px 4px 0 0;
 }
 
 .post-service {
@@ -42,44 +74,55 @@ body {
 
 .app-feed {
   position: absolute;
-  height: 100%;
+  height: 80%;
   padding-left: 20px;
   margin-left: 15%;
+  overflow: auto;
 }
 
-.post-profile-pic {
-  float: left;
-  margin-right: 10px;
-  height: 48px;
-  width: 48px;
+.feed-header {
+  font-family: 'Scope One', serif;
+  font-size: 20px;
+  font-weight: bold;
 }
 
 .post-timestamp {
   float: right;
+  font-family: 'Scope One', serif;
 }
 
 .post {
   clear: left;
   padding: 5px;
-  border: 1px solid black;
   width: 100%;
   overflow: auto;
 }
 
-.feed-posts .post:nth-child(even) {
-  background-color: #ccf;
+.img-circle {
+  border: solid 2px lightgrey;
+}
+
+/*.feed-posts .post:nth-child(even) {
+  background-color: rgba(255, 255, 255, .93);
+  border-radius: 20px;
+  text-align: center;
+  padding-top: 10px;
 }
 
 .feed-posts .post:nth-child(odd) {
-  background-color: #bbf;
-}
+  background-color: rgba(255, 255, 255, .93);
+}*/
 
 .group {
   padding: 5px;
 }
 
+.group-member {
+  margin: 0 auto;
+}
+
 .group-edit {
-  margin-left: 10px;
+  float: right;
 }
 
 a.post-main {
@@ -87,7 +130,140 @@ a.post-main {
   text-decoration: none;
 }
 
-.group-member {
-  margin-top: 5px;
+.btn-sm {
+  margin: 4px 4px 6px 0;
+}
+
+.button-container {
+  text-align: center;
+}
+
+.create-group-form {
+  margin-top: 10px;
   margin-left: 5px;
+}
+
+.sidebar-groups-header {
+  font-size: 17px;
+  font-family: 'Scope One', serif;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.add-member-link {
+  text-align: right;
+}
+
+
+.group-name, .member-name, .ig-username, .twitter-username, .facebook-username {
+  margin: 6px 0 0 15px;
+  font-color: black;
+}
+
+.group-name {
+  color: black;
+  font-size: 20px;
+  font-family: 'Fredericka the Great', cursive;
+}
+
+.group-name:hover {
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.picture {
+  filter: brightness(4000%);
+  margin: 10px 0 10px 35px;
+  float: left;
+}
+
+/*.sidebar-groups-header {
+  color: #65ae84 ;
+  font-family: "Arial Black", Gadget, sans-serif;
+}*/
+
+.post-link:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.post-link {
+  text-decoration: none;
+  color: black;
+}
+
+.post-container {
+  position: relative;
+}
+
+.prof-pic, .post-content {
+  display: inline-block;
+}
+
+.prof-pic {
+  position: absolute;
+  margin-top: 15px;
+}
+
+.post-content {
+  width: 70%;
+  margin-left: 60px;
+}
+
+.panel-heading, .panel-body {
+  border: solid 1px lightgrey;
+}
+
+.panel-body {
+  font-family: 'Scope One', serif;
+  font-size: 25px;
+}
+
+.panel-info {
+  border-radius: 24px;
+}
+
+.post-groupmember-name {
+  font-family: 'Fredericka the Great', cursive;
+  font-size: 20px;
+  font-weight: bold;
+  color: #337ab7;
+}
+
+#talkbubble {
+  position: relative;
+  
+  padding: 10px;
+  border-radius: 5px;
+  border: solid lightblue;
+  background: lightblue;
+  margin-left: 80px;
+  margin-bottom: 20px;
+}
+
+#talkbubble:before {
+  content:"";
+  position: absolute;
+  right: 100%;
+  top: 26px;
+  width: 0;
+  height: 0;
+  
+  border-top: 10px solid transparent;
+  border-right: 13px solid lightblue;
+  border-bottom: 10px solid transparent;
+}
+
+#talkbubble textarea {
+  position: inherit;
+  width: inherit;
+  height: inherit;
+  background: inherit;
+  
+  margin: 0;
+  padding: 0;
+  
+  border: none;
+  resize: none;
 }
