@@ -52,13 +52,7 @@
   height: 100%;
   padding-left: 20px;
   margin-left: 15%;
-}
-
-.post-profile-pic {
-  float: left;
-  margin-right: 10px;
-  height: 48px;
-  width: 48px;
+  overflow: auto;
 }
 
 .post-timestamp {
@@ -68,18 +62,20 @@
 .post {
   clear: left;
   padding: 5px;
-  border: 1px solid black;
   width: 100%;
   overflow: auto;
 }
 
-.feed-posts .post:nth-child(even) {
-  background-color: #ccf;
-}
+/*.feed-posts .post:nth-child(even) {
+  background-color: rgba(255, 255, 255, .93);
+  border-radius: 20px;
+  text-align: center;
+  padding-top: 10px;
+}*/
 
-.feed-posts .post:nth-child(odd) {
-  background-color: #bbf;
-}
+/*.feed-posts .post:nth-child(odd) {
+  background-color: rgba(255, 255, 255, .93);
+}*/
 
 .group {
   padding: 5px;
@@ -136,4 +132,78 @@ a.post-main {
 .sidebar-groups-header {
   color: #65ae84 ;
   font-family: "Arial Black", Gadget, sans-serif;
+}
+
+.post-link:hover {
+  text-decoration: none;
+  color: black;
+}
+
+.post-link {
+  text-decoration: none;
+  color: black;
+}
+
+.post-container {
+  position: relative;
+}
+
+.prof-pic, .post-content {
+  display: inline-block;
+}
+
+.prof-pic {
+  position: absolute;
+  margin-top: 15px;
+}
+
+.post-content {
+  width: 70%;
+  margin-left: 60px;
+}
+
+.panel-heading, .panel-body {
+  border: solid 1px lightgrey;
+}
+
+.panel-info {
+  border-radius: 24px;
+}
+
+
+#talkbubble {
+  position: relative;
+  
+  padding: 10px;
+  border-radius: 5px;
+  border: solid lightblue;
+  background: lightblue;
+  margin-left: 80px;
+  margin-bottom: 20px;
+}
+
+#talkbubble:before {
+  content:"";
+  position: absolute;
+  right: 100%;
+  top: 26px;
+  width: 0;
+  height: 0;
+  
+  border-top: 13px solid transparent;
+  border-right: 26px solid lightblue;
+  border-bottom: 13px solid transparent;
+}
+
+#talkbubble textarea {
+  position: inherit;
+  width: inherit;
+  height: inherit;
+  background: inherit;
+  
+  margin: 0;
+  padding: 0;
+  
+  border: none;
+  resize: none;
 }
