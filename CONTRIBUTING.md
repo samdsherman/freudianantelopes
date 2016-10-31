@@ -16,7 +16,7 @@
   - (cleanup) ...
   - (test) ...
   - (doc) ...
-1. When you've finished with your fix or feature, Rebase upstream changes into your branch. submit a [pull request][]
+1. When you've finished with your fix or feature, Rebase upstream changes into your branch. submit a [pull request](https://help.github.com/articles/creating-a-pull-request/)
    directly to master. Include a description of your changes.
 1. Your pull request will be reviewed by another maintainer. The point of code
    reviews is to help keep the codebase clean and of high quality and, equally
@@ -141,13 +141,13 @@ Thanks for contributing!
 ### Guidelines
 
 1. Uphold the current code standard:
-    - Keep your code [DRY][].
-    - Apply the [boy scout rule][].
+    - Keep your code [DRY](https://en.wikipedia.org/wiki/Don%27t_repeat_yourself).
+    - Apply the [boy scout rule](http://deviq.com/boy-scout-rule/).
     - Follow [STYLE-GUIDE.md](STYLE-GUIDE.md)
-1. Run the [tests][] before submitting a pull request.
+1. Run the [tests][run npm test in terminal] before submitting a pull request.
 1. Tests are very, very important. Submit tests if your pull request contains
    new, testable behavior.
-1. Your pull request is comprised of a single ([squashed][]) commit.
+1. Your pull request is comprised of a single ([squashed](http://gitready.com/advanced/2009/02/10/squashing-commits-with-rebase.html) commit.
 
 ## Checklist:
 

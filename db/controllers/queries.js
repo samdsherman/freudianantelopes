@@ -1,5 +1,5 @@
 var request = require('request');
-var db = require('../../db');
+var db = require('../index.js');
 
 var memberIdFinder = function(groupMembers, index, groupId, req, res) {
   if (index < groupMembers.length) {
