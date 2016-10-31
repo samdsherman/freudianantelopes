@@ -30,4 +30,10 @@ var Feed = props => {
 
 }
 
+Feed.propTypes = {
+	currentUser: React.PropTypes.string, 
+	group: React.PropTypes.string, 
+	posts: React.PropTypes.array
+};
+
 window.Feed = Feed;

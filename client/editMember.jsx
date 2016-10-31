@@ -6,4 +6,10 @@ var EditMember = props => (
 	</div>
 );
 
+EditMember.propTypes = {
+	name: React.PropTypes.string,
+  instagram: React.PropTypes.string,
+  twitter: React.PropTypes.string
+};
+
 window.EditMember = EditMember;

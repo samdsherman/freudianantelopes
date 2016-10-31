@@ -149,4 +149,13 @@ class EditGroup extends React.Component {
 	}
 };
 
+EditGroup.propTypes = {
+  currentUser: React.PropTypes.string,
+  getGroups: React.PropTypes.func,
+  setCurrentGroup: React.PropTypes.func,
+  currentGroup: React.PropTypes.string,
+  currentGroupName: React.PropTypes.string,
+  handleEditClick: React.PropTypes.func
+};
+
 window.EditGroup = EditGroup;

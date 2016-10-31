@@ -37,4 +37,12 @@ class Group extends React.Component {
 	}
 }
 
+Group.propTypes = {
+  currentUser: React.PropTypes.string,
+  getGroups: React.PropTypes.func,
+  setCurrentGroup: React.PropTypes.func,
+  currentGroup: React.PropTypes.string,
+  name: React.PropTypes.string
+};
+
 window.Group = Group;

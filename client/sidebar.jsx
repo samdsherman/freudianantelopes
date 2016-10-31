@@ -26,4 +26,13 @@ class Sidebar extends React.Component {
   }
 }
 
+Sidebar.propTypes = {
+  currentUser: React.PropTypes.string,
+  getGroups: React.PropTypes.func,
+  groups: React.PropTypes.array,
+  addToGroups: React.PropTypes.func,
+  setCurrentGroup: React.PropTypes.func,
+  currentGroup: React.PropTypes.string
+};
+
 window.Sidebar = Sidebar;

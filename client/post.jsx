@@ -23,4 +23,8 @@ var Post = props => (
   </div>
 );
 
+Post.propTypes = {
+  post: React.PropTypes.object
+}
+
 window.Post = Post;
