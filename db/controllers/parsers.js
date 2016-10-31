@@ -59,7 +59,6 @@ var parseTwitterAPI = function(twitterHandle, groupMemberName, callback) {
 
     for (var i = 0; i < apiResponse.length; i++) {
       parsedResponses[i] = {};
-
       parsedResponses[i].profilePic = apiResponse[i].user.profile_image_url_https;
       parsedResponses[i].postContent = apiResponse[i].text;
       parsedResponses[i].contentType;
